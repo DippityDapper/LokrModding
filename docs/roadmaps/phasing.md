@@ -47,9 +47,8 @@ order — [priorities.md](completed/full-port/priorities.md) gives its own prior
    Sandbox is done.
 
 8. **Vanilla asset edit** — before Custom Adventures.
-   [vanilla-character-edit.md](started/vanilla-character-edit.md) is
-   **started** (Phase 2 confirmed in-game; extract mints slug_token +
-   reconstructed rig in LokrLab 0.12.106).
+   [vanilla-character-edit.md](completed/vanilla-character-edit.md) is
+   **complete** (Phases 1–5 all confirmed in-game 2026-08-17).
    Ability and encounter stay research:
    [vanilla-ability-edit.md](not-started/vanilla-ability-edit.md),
    [vanilla-encounter-edit.md](not-started/vanilla-encounter-edit.md).

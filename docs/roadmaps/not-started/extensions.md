@@ -22,7 +22,7 @@ complete (Lua card + `RegisterActionCard`). It is a later plugin on
 top of that card, not a rewrite of Ability Lab.
 
 Before Adventures, research vanilla edit for all three labs:
-[vanilla-character-edit.md](../started/vanilla-character-edit.md),
+[vanilla-character-edit.md](../completed/vanilla-character-edit.md),
 [vanilla-ability-edit.md](vanilla-ability-edit.md),
 [vanilla-encounter-edit.md](vanilla-encounter-edit.md).
 

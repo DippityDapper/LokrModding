@@ -11,7 +11,7 @@ Old-system authors often change **shipped skills** (`gerald_swing`,
 ability in the card editor and choosing **override** (same id, global)
 vs **fork** (new id, vanilla untouched).
 
-Sibling tracks: [vanilla-character-edit.md](../started/vanilla-character-edit.md),
+Sibling tracks: [vanilla-character-edit.md](../completed/vanilla-character-edit.md),
 [vanilla-encounter-edit.md](vanilla-encounter-edit.md). Catalog already
 exists from the [Ability Lab overhaul](../completed/ability-lab-overhaul.md)
 Phase 1 extract.
@@ -80,8 +80,8 @@ delete — and wiring `AbilityLibraryProjectType` (or the per-ability
 delete path inside the library, if deletion is node-level rather than
 project-level for this type) to reload merged ability content the same
 way `CharacterProjectType.OnCharacterDeleted` does. See
-[vanilla-character-edit.md](../started/vanilla-character-edit.md) Phase
-5 and [character-close-lab-crash-after-deleting-open-project.md](../../issues/unresolved/character-close-lab-crash-after-deleting-open-project.md)
+[vanilla-character-edit.md](../completed/vanilla-character-edit.md) Phase
+5 and [character-close-lab-crash-after-deleting-open-project.md](../../issues/resolved/character-close-lab-crash-after-deleting-open-project.md)
 for a follow-on bug to watch for: also clear any stale "currently
 open" session state that still points at the deleted folder, or Lab
 close can crash trying to persist into a folder that no longer exists.

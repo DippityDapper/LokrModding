@@ -5,7 +5,7 @@ Area: LokrLab Character (`CharacterLabScene`, `HomeWorkstationScene` /
 Status: resolved
 
 As of 2026-08-17 (LokrLab, after the vanilla-override delete-reload fix
-in [vanilla-character-edit.md](../../roadmaps/started/vanilla-character-edit.md)
+in [vanilla-character-edit.md](../../roadmaps/completed/vanilla-character-edit.md)
 Phase 5): delete the **currently open** Character project from the
 Project Browser (e.g. a vanilla-override folder like `gerald_s9abm9`),
 then close the Lab. Auto-reload on Lab close throws and the console

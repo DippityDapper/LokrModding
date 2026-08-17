@@ -21,7 +21,7 @@ hook (only when a Lab project claims that template name) is in scope
 here. [Custom Adventures](extensions.md) is still quest chains / maps,
 not “one room override.”
 
-Sibling tracks: [vanilla-character-edit.md](../started/vanilla-character-edit.md),
+Sibling tracks: [vanilla-character-edit.md](../completed/vanilla-character-edit.md),
 [vanilla-ability-edit.md](vanilla-ability-edit.md). Builds on
 [encounter-creator.md](../started/encounter-creator.md) Phases 1–17
 (confirmed in-game 2026-08-17).
@@ -152,9 +152,9 @@ Design then implement. When a Lab override claims `combat_banditambush`:
   the per-project-type post-delete hook added for the Character track —
   do not rely on the Project Browser's `Refresh()` alone, it only
   rebuilds the browser's own row list and does not touch runtime
-  content state. See [vanilla-character-edit.md](../started/vanilla-character-edit.md)
+  content state. See [vanilla-character-edit.md](../completed/vanilla-character-edit.md)
   Phase 5 (`CharacterProjectType.OnCharacterDeleted`) for the reference
-  implementation, and [character-close-lab-crash-after-deleting-open-project.md](../../issues/unresolved/character-close-lab-crash-after-deleting-open-project.md)
+  implementation, and [character-close-lab-crash-after-deleting-open-project.md](../../issues/resolved/character-close-lab-crash-after-deleting-open-project.md)
   for a follow-on bug to watch for: also clear any stale "currently
   open" session state pointing at the deleted folder, or Lab close can
   crash trying to persist into it.

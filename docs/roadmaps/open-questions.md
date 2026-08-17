@@ -15,8 +15,8 @@ See [phasing.md](phasing.md) — core v1 (items 1–5) is complete. **Item 6:
 (LokrLab 0.12.34; Lua card confirmed in-game 2026-08-16). **Item 7:
 [Encounter Creator](started/encounter-creator.md)** Phases 1–17 are
 confirmed in-game 2026-08-17. **Item 8:** vanilla asset edit.
-[Character](started/vanilla-character-edit.md) is started (Phase 2
-confirmed; extract mints slug_token + reconstructed rig in 0.12.106).
+[Character](completed/vanilla-character-edit.md) is complete (Phases
+1–5 all confirmed in-game 2026-08-17).
 [Ability](not-started/vanilla-ability-edit.md) and
 [encounter](not-started/vanilla-encounter-edit.md) stay research.
 Custom scripting (later plugin) and Custom Adventures stay on
