@@ -359,7 +359,7 @@ need a comment on the same commit, not a later pass.
 | LokrModAPI | Stable | Foundation; changes rarely |
 | LokrCharacterLoader | Stable (1.1.17) | Core system; CharacterAPI is frozen public API; unit-def / roster last-wins (vanilla override); Lab scan dedupes by folder name |
 | LokrLabApi | Stable (1.5.3) | Editor contracts; Host + StartEmbeddedScene / StartEmbeddedFight; `EncounterTypeId`; persistent `Scrollable` |
-| **LokrLab** | Evolving (0.12.110) | Suite: host + Character + Ability + Encounter; File → Edit Vanilla Hero (slug_token folder + Model-prefab combat rig); Close Lab flushes Description loc and always reloads content; Sandbox Stop restores camera ortho; File → Save / Ctrl+S / dirty `*` / close prompt; Animator feel; Ability overhaul; hover coverage; Encounter visual catalogues + camera bounds; Setup auto-load + Restart board + catalogue drag-to-place; prop snap or free-move. [Encounter Creator](docs/roadmaps/started/encounter-creator.md) Phases 1-16b all confirmed in-game as of 2026-08-16. Phase 17: one Sandbox workspace; Sandbox Level is always 1-3 |
+| **LokrLab** | Evolving (0.12.111) | Suite: host + Character + Ability + Encounter; File → Edit Vanilla Hero (slug_token folder + Model-prefab combat rig); Close Lab flushes Description loc and always reloads content; Sandbox Stop restores camera ortho; File → Save / Ctrl+S / dirty `*` / close prompt; Animator feel; Ability overhaul; hover coverage; Encounter visual catalogues + camera bounds; Setup auto-load + Restart board + catalogue drag-to-place; prop snap or free-move. [Encounter Creator](docs/roadmaps/started/encounter-creator.md) Phases 1-16b all confirmed in-game as of 2026-08-16. Phase 17: one Sandbox workspace; Sandbox Level is always 1-3. [Vanilla Encounter Edit](docs/roadmaps/started/vanilla-encounter-edit.md) Phase 1 import spike: floor/walkable defaults, spawn hex math, camera bounds, and prop import fixed after first in-game test; re-confirm pending |
 | SimpleUI | Stable (1.2.11) | UI library + docking + UiFileBrowser + UiCatalogue (scroll batches + drag-out drop + cursor ghost) |
 | LokrEncyclopedia | Stable | One patch; no active changes |
 | LokrModMenu | Stable (1.1.1) | BackQuote (`` ` ``) opens mod menu; blocked on loading screens |
@@ -370,4 +370,4 @@ Breaking changes to public APIs (`CharacterAPI`, `ModAPI`, plugin GUIDs) will be
 
 ---
 
-**Last updated**: 2026-08-17 (Sandbox Stop restores camera ortho 0.12.110)
+**Last updated**: 2026-08-17 (Vanilla Encounter import bug fixes 0.12.111)

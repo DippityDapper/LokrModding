@@ -120,9 +120,11 @@ source (see Phase 1's "Corrections to this doc's original assumptions"):
 
 ### Phase 1 — Import spike (one room)
 
-**Status:** Code complete 2026-08-17. In-game confirm pending — see
-verify list below. Both open questions resolved against decompiled
-source (below).
+**Status:** First in-game test (2026-08-17) found four real bugs, all
+root-caused against decompiled source and fixed same day — see "First
+in-game test: four bugs found and fixed" below. Both open questions
+resolved against decompiled source (below). Re-test pending; nothing
+below is confirmed until the user re-runs the picker in-game.
 
 **Implementation.** [`VanillaEncounterImporter`](../../../LokrLab/Encounter/VanillaEncounterImporter.cs)
 reads `EncounterTemplate.encounterDefinitions[0]` /
@@ -165,24 +167,118 @@ guard, reachable from the Project Browser. Full loss-list counts
 (cinematic dropped, gated, out of bounds, variant-count warnings)
 logged; a summary shown in the modal's status label.
 
-**Not attempted in this pass:** `props[]`, `tiles[]`, and `camera` are
-all explicitly deferred to Phase 2/3 per this doc's own phase
-boundaries — the imported project keeps `template` set to the vanilla
-name, so host art (including the floor) renders without needing a tile
-import, and `camera` is skippable in v1 since vanilla's own
-`encounterLimits` is unusable anyway (see the corrections below).
+**First in-game test: four bugs found and fixed (2026-08-17).** The
+user ran the picker against `combat_banditambush` immediately after
+Phase 1 shipped and reported floor tiles missing, no camera bounds, no
+walkable-hex overrides, and props visible in-game but absent from the
+Lab's editor. All four were real, all four are now fixed in
+[`VanillaEncounterImporter`](../../../LokrLab/Encounter/VanillaEncounterImporter.cs):
 
-**In-game verify needed** (nothing here has been run against the live
-game yet): pick `combat_banditambush` from the picker; confirm hero and
-enemy spawns land on plausible hexes (the hex-math constants are
-transcribed from decompiled source, not yet checked against a real
-board); confirm impassable overrides match the vanilla room's actual
-walkable/blocked layout; confirm the imported project opens in Setup
-and plays correctly in Sandbox; check the log for variant-count
-warnings on rooms with more than one `EncounterBkgDefinition`; try a
-20×24 room (e.g. from the "What fraction are 20×24" open question) to
-confirm the `AuthoredSize` fix actually produces a correctly-sized live
-board instead of clipping at the old hardcoded 16×20.
+1. **Floor and walkability were blanked, not imported.**
+   `EncounterFileModel.CreateEmpty()` defaults `WalkableDefault` and
+   `TilesDefault` to `false` (the "blank floor" behavior documented
+   under `encounter.create.Blank` — correct for a brand-new Lab
+   project, wrong for an import). With both false, `ApplyAuthoredTiles`
+   strips the host Tilemap and `ApplyWalkability`/`StampAllBlocked`
+   blocks the entire board before any override runs, so the imported
+   `overrides[]` (which only records *impassable* cells, matching
+   `boardMetadata`) had nothing to unblock against. Fixed by setting
+   both to `true` right after `CreateEmpty()`.
+2. **Spawn hex conversion used the wrong `Layout` origin.** The
+   `boardMetadata`/`spawnPos` distinction actually matters here in a
+   way Phase 1's implementation notes didn't separate cleanly: the
+   `boardMetadata` path converts room-local **cube coords** via
+   `OffsetCoord.RoffsetFromCube` + the confirmed `col+=4, row+=2` pad
+   shortcut, and that path was already correct. But `spawnPos` is a
+   **world position**, not a room-local cube coord, and needs
+   `Layout.PixelToHex` with the Layout's `origin` already at the live
+   board's real origin — the shipped code instead used a zero origin
+   and bolted the same `+4/+2` pad on afterward, landing every spawn
+   one hex off. Fixed with a second `Layout` (`LiveLayout`, origin
+   `(-3.85, 0.6655)` — the real value `LevelManager.CreateLevelFromFile`
+   builds) used only for `spawnPos`, with no post-hoc pad addition (the
+   pad is already baked into that origin). The `boardMetadata` cube
+   path was untouched.
+3. **Camera bounds were never computed.** Originally deferred as
+   "skippable in v1" (see below) — the user asked for it, so Phase 1
+   now computes it: primary path reads `TileTestController`/`Grid` off
+   the cold `EncounterBkgDefinition` prefab and replicates
+   `EncounterBkgDefinition.Initialize`'s own `BoxCollider2D` size/offset
+   math (this is a best-effort re-derivation on an uninstantiated
+   prefab, not a guaranteed-identical result — flagged as a verify item
+   below); fallback path (no `TileTestController` found) estimates
+   bounds from the live board's four hex corners padded by one hex's
+   half-extent, and logs a warning noting the estimate. Either way,
+   `EncounterCameraRules.FromCorners` builds the final `EncounterCameraModel`.
+   Note for the re-test: `EncounterCamera.ShouldClamp` only clamps
+   while `EncounterSandbox.IsArmed` — Setup's free-fly camera is
+   expected to stay unclamped even with `camera` correctly set; check
+   Sandbox, not Setup.
+4. **Props render in-game but had no Lab representation at all** —
+   confirmed as a real gap, not a display bug: the importer never read
+   `EncounterData.encounterObjs` (`List<TemplateObjectData>`), a list
+   that sits alongside `spawnDataHeroes`/`spawnDataEnemies` on the same
+   `EncounterDefinition.encounterData` and is instantiated by a
+   completely separate code path (`EncounterDefinition.InitializeObjects`
+   → `EncounterEntitiesGenerator.InstantiateObject`, not the spawn-team
+   instantiation). Now imported as unsnapped, free-placed
+   `EncounterPropModel` rows (`X`/`Y` = the struct's raw `xPos`/`yPos`,
+   `Flipped` = `flipX`, `PrefabName` = `prefabName` lowercased) — these
+   are already in the same room-local frame `spawnPos` uses, so no hex
+   conversion or pad math applies to them, matching the precedent set
+   for spawns. Nested `TemplateObjectDataChild` sub-decorations (a
+   prop's own attached extras) are **not** imported — they carry only a
+   `GameObject` reference, no prefab-name string, so there's nothing to
+   write into `PrefabName`; entries that have children are counted and
+   flagged in the warning list instead of silently losing detail.
+
+Also fixed two smaller bugs found during the same investigation:
+`CinematicDropped` was being **overwritten** by a final assignment
+after `ImportSpawns` had already incremented it per-entry (undercounting
+whenever a hero-list cinematic existed), now accumulated with `+=`; and
+`file.Width`/`file.Height` are now set to the live board size in
+addition to the pre-existing `EncounterPlacementRules.RegisterAuthoredSize`
+call, since that registration is in-memory only and doesn't survive a
+reload — `EncounterGrowRules.Normalize`/`ExpandAuthoredSizeIntoOverrides`
+is the file format's own durable mechanism for this.
+
+**Still unverified, flagged not fixed:** whether importing a populated
+host template causes vanilla's own enemies to spawn a second time
+alongside the imported combatants when that template is later loaded
+live (the importer only ever reads the prefab, never touches how
+vanilla itself spawns from it) — this is the same risk Phase 3's "Host
+strategy" open question already tracks, not a new one, but the first
+in-game test didn't confirm it either way.
+
+**Originally deferred, now covered above:** `props[]`, `tiles[]`, and
+`camera` were explicitly deferred to Phase 2/3 in the initial cut — the
+imported project kept `template` set to the vanilla name so host art
+(the floor) would render without a tile import, and `camera` seemed
+skippable since vanilla's own `encounterLimits` is unusable anyway (see
+the corrections below). The user's first test showed the floor
+deferral doesn't hold in practice (bug 1 above — the *default*, not the
+deferral, was the actual break) and asked for camera now instead of
+later (bug 3). `tiles[]` (custom terrain painting beyond the host's own
+floor) is still deferred to Phase 2 as originally planned.
+
+**In-game re-verify needed** (the four fixes above are code-complete
+and unit-tested but have not run against the live game yet): pick
+`combat_banditambush` from the picker again; confirm the floor renders
+and unblocked hexes are actually walkable in Setup (bug 1); confirm
+hero and enemy spawns land on plausible hexes, not one hex off from
+before (bug 2 — the fix changed which `Layout` origin spawns use;
+`boardMetadata` overrides were already correct and shouldn't have
+moved); confirm the Sandbox camera clamps to something sane once
+armed, not left free-floating (bug 3 — check Sandbox, Setup is expected
+to stay unclamped); confirm the props the user saw in-game now show up
+as rows in the Lab's Props list and are individually selectable/editable
+(bug 4); check the log for how many props had children dropped and
+whether that list looks complete against what's visible in the room;
+check the log for variant-count warnings on rooms with more than one
+`EncounterBkgDefinition`; try a 20×24 room (e.g. from the "What
+fraction are 20×24" open question) to confirm the `AuthoredSize` fix
+still produces a correctly-sized live board instead of clipping at the
+old hardcoded 16×20.
 
 In-game, read-only: load `combat_banditambush` the way
 `EncounterTerrainCatalog.LoadPrefab` already does. Read the encounter
@@ -265,8 +361,10 @@ resolving the two questions above):
   callers already depend on it.
 - `TemplateObjectData` (`encounterObjs`) carries a serialized
   `prefabName` string field **in addition to** the PPtr — the doc's
-  "props are PPtrs, name resolve is research" was pessimistic. Try the
-  string first in Phase 2.
+  "props are PPtrs, name resolve is research" was pessimistic. Pulled
+  forward into Phase 1 itself (not Phase 2 as planned here) once the
+  first in-game test showed props had no Lab representation at all —
+  see "First in-game test" above, bug 4.
 - Coordinate conversion: reuse `LokrLab/Encounter/EncounterEdit.cs`'s
   existing `WorldToOffset` (world → OffsetCoord, currently private —
   promote to `internal`) rather than reimplementing `Layout`/`OffsetCoord`
