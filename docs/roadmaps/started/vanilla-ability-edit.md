@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phases 1–2 confirmed in-game 2026-08-17  
+**Status:** Started — Phases 1–2 confirmed in-game 2026-08-17 (including two follow-up fixes: Override-copy delete, and gating Browse Vanilla Abilities on an open library); Phase 3 (round-trip fidelity audit) code complete, awaiting a run  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -233,20 +233,46 @@ for both modes. `Save` was already safe (`TrySave` prefers
 `SourceFilePath` over an id-based path); this was specifically a Delete
 bug.
 
+Both follow-up fixes (library targeting, delete) and the
+`isVisible: IsLibraryOpen` gate confirmed in-game 2026-08-17.
+
 ### Phase 3 — Round-trip fidelity audit
 
-No “Edit Vanilla” button until this is measured.
+**Status:** Code complete 2026-08-17. Awaiting an in-game run and the
+findings that come out of it.
 
-Stratified sample (~30–50 ids): simple melee, projectile, passive,
-point AOE, `OnCustomTargeting`, Lua, CallFunction. Pipeline: extract →
-`AbilityKvIO.TryLoad` → `TryBuildText` → diff.
+No "Edit Vanilla" button until this is measured.
 
-Classify: benign reorder vs semantic (`#RANGED` → `#PROJECTILE` rewrite,
-omitted empty keys). `sasquatch_smash` is the hard case (opaque
-`ActOnHexas` / `AddAsAffected`, `ActOnTargets` Target block in ExtraKv).
+**Not written as xUnit tests.** `docs/roadmaps/completed/test-suite.md`
+Phase 4 already flagged why: `AbilityKvIO` depends on `KVParser.KV1`
+(KVLib, bundled in the game's own assembly), which `LokrModding.Tests`
+deliberately doesn't reference (test projects skip game DLL refs so
+they don't load player `UnityEngine` or deploy). The real parser only
+runs inside the actual game process, so the audit has to run there too.
 
-`test-suite.md` already names AbilityKvIO corpus tests; they are not
-written.
+Built as [`AbilityRoundTripAudit`](../../../LokrLab/Ability/Editor/AbilityRoundTripAudit.cs),
+triggered by **File → Run Vanilla Ability Fidelity Audit** (ungated —
+no library needed, it only reads the vanilla catalog and writes a
+report). For each sampled id: `VanillaAbilityCatalog.FindSourceText` →
+`AbilityKvIO.TryBuildText` on the already-parsed model → line-set diff
+against the source. Reports `FAIL (validation)` separately from
+`DIFFERS`, since a validation rejection (like the `OnSpawn` bug Phase 2
+found and fixed) is itself a fidelity finding, not just a diff.
+
+Sample: `sasquatch_smash` forced in (the hard case named in this doc —
+opaque `ActOnHexas`/`AddAsAffected`, `ActOnTargets` Target block in
+`ExtraKv`), plus up to 6 ids per bucket — Lua card, `CallFunction`
+card, `OnCustomTargeting` event, passive, AOE, projectile, and a
+"simple melee" catch-all (none of the above) — auto-selected from the
+live catalog rather than hand-picked, so the sample stays representative
+if the game's ability roster changes. Report written to
+`Mods/LokrLab/ability-fidelity-audit.txt`.
+
+**Still to do:** run it in-game, then read the report and classify each
+`DIFFERS`/`FAIL` as benign (reordering, omitted empty keys, the known
+`#RANGED`→`#PROJECTILE` rewrite) vs semantic (an actual behavior
+change) — that classification is this phase's real deliverable, not
+just the tool.
 
 ### Phase 4 — Blast radius (“Used by”)
 
