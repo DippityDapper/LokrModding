@@ -139,8 +139,8 @@ Project stays a fork.
 
 ## Phase 5 — In-game confirm
 
-**Status:** Phase 2 core items confirmed 2026-08-17. Extract / Save /
-remaining campaign items still open.
+**Status:** Phase 2 core items and delete-revert confirmed 2026-08-17.
+Extract / Save / remaining campaign items still open.
 
 - [x] Hand-written Lab folder with Gerald Lvl1–3 block keys: hero room
       and Sandbox use Lab stats, not vanilla
@@ -160,7 +160,10 @@ remaining campaign items still open.
 - [ ] Save with Gerald Lvl2 → edit Lvl2 stats → continue
 - [ ] Change skill assignment mid-adventure
 - [ ] Tutorial still requires Gerald
-- [ ] Remove the Lab folder → vanilla Gerald returns
+- [x] Remove the Lab folder → vanilla Gerald returns (confirmed in-game
+      2026-08-17; surfaced a separate Close-Lab crash on delete-while-open,
+      fixed same day — see
+      [`character-close-lab-crash-after-deleting-open-project.md`](../../issues/resolved/character-close-lab-crash-after-deleting-open-project.md))
 - [x] `CharacterAPI.ReloadLabContent` picks up a Description edit without
       restart ([`override-description-needs-restart.md`](../../issues/resolved/override-description-needs-restart.md))
 - [ ] Fork New Project still does **not** collide with Gerald
