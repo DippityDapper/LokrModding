@@ -86,3 +86,33 @@ This is a distinct issue from
 
 Do not mark resolved until Play on a 50+ frame clip runs smoothly in the
 running game.
+
+## Fix implemented — in-game confirm pending
+
+- `RigEditorScene.TickPlayback` (`LokrLab/Character/Editor/RigEditorScene.cs:2513`)
+  no longer calls `RebakeAllClips()` on sub-frame rollover, and no longer
+  calls the full `RefreshTimeline()`. `BakedFrames` is already fresh from
+  the moment Play starts (`TogglePlayback`'s own `RefreshTimeline()` call),
+  and nothing mutates `PoseFrame` data during a pure playback tick — an
+  edit action pauses playback first (`PausePlayback`) — so re-deriving the
+  bake or rebuilding every dependent panel on every rollover was pure
+  waste.
+- Added `AnimationTimelinePanel.RefreshActiveHighlight`
+  (`LokrLab/Character/Editor/Animation/AnimationTimelinePanel.cs`), which
+  recolors the already-built frame/baked-sub-chip buttons in place
+  (`UiButton.SetColor` — a plain `Image.color` set, no allocation, no
+  `Instantiate`/`Destroy`) instead of `Refresh`'s `Clear()`+full-rebuild.
+  `TickPlayback` now calls this instead of `RefreshTimeline()`. The chip
+  strip's structure (frame count, baked-sub-chip count) never changes
+  mid-play, only which chip is highlighted, so nothing but color needs to
+  update per tick.
+- `RefreshTimeline()` itself (used by every actual edit path — add/delete/
+  move frame, clip switch, Save, etc.) is unchanged; only the playback
+  tick path was narrowed.
+- Solution builds clean; full `LokrModding.Tests` suite passes (242/242,
+  unaffected — this code is Unity-editor-only, not covered by that suite).
+
+**In-game verify:** Play a clip with 50+ frames in the Animator
+workstation; confirm it runs smoothly with no stutter, and that editing
+(add/delete/move frame, switching clips, Copy/Paste/Override frame) still
+updates the chip strip correctly afterward.
