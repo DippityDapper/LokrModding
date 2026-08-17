@@ -50,7 +50,7 @@ order — [priorities.md](completed/full-port/priorities.md) gives its own prior
    [vanilla-character-edit.md](completed/vanilla-character-edit.md) is
    **complete** (Phases 1–5 all confirmed in-game 2026-08-17).
    [vanilla-ability-edit.md](started/vanilla-ability-edit.md) is
-   **started** (Phases 1–2 (browser, copy-into-library) confirmed in-game 2026-08-17).
+   **started** (Phases 1–3 confirmed in-game 2026-08-17 (browser, copy-into-library, fidelity audit)).
    [vanilla-encounter-edit.md](not-started/vanilla-encounter-edit.md)
    stays research. Custom scripting and Custom Adventures stay on
    [extensions.md](not-started/extensions.md) (quest / map authoring,

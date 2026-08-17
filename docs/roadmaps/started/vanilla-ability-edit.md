@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phases 1–2 confirmed in-game 2026-08-17 (including two follow-up fixes: Override-copy delete, and gating Browse Vanilla Abilities on an open library); Phase 3 (round-trip fidelity audit) code complete, awaiting a run  
+**Status:** Started — Phases 1–3 confirmed in-game 2026-08-17. Phase 3 verdict: round-trip is safe enough to proceed, one narrow gap flagged for before Phase 4/5  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -238,8 +238,43 @@ Both follow-up fixes (library targeting, delete) and the
 
 ### Phase 3 — Round-trip fidelity audit
 
-**Status:** Code complete 2026-08-17. Awaiting an in-game run and the
-findings that come out of it.
+**Status:** Complete — run and classified 2026-08-17. **Verdict: safe
+enough to proceed**, one narrow gap flagged for before Phase 4/5 ships
+an actual edit-and-save flow.
+
+**Results:** 41 sampled (`sasquatch_smash` forced + up to 6 per bucket),
+0 failed to round-trip (the `OnSpawn` fix from Phase 2 holds), 29
+identical, 12 differ. All 12 classified:
+
+- **10/12 benign, zero semantic content:** an empty
+  `"AbilitySpecial" {}` / `"Modifiers" {}` container block in vanilla
+  source is dropped on rebuild — `WriteBody` only emits those sections
+  when they have entries. An empty wrapper carries no special vars or
+  modifiers either way, so nothing behavioral changes.
+- **1/12 benign:** `asra_onyx_arrows` — a trailing space in vanilla's
+  `AbilityBehavior` value is trimmed. Flag set unchanged.
+- **1/12 mixed:** `arcane_mage_teleport` has a benign whitespace
+  collapse (`POINT_TARGET |  NEEDS_CLEAR_TERRAIN` → single space) *and*
+  silently drops `AbilityAOETeamFilter "TEAM_ALL"` — `TryBuildText`
+  only writes that field when `BehaviorFlags.Contains("AOE")`, but this
+  ability is `POINT_TARGET` (not `AOE`) and vanilla sets it anyway.
+  Harmless here specifically because the dropped value equals the
+  parser's own fallback default (`GetString(..., "AbilityAOETeamFilter",
+  "TEAM_ALL")`), so nothing changes on reload — but the gap is real: an
+  ability with a *non-default* `AbilityAOETeamFilter` outside the `AOE`
+  flag would silently lose it on save. Not proven harmful in this
+  sample, but tighten `TryBuildText` (write the field whenever it's
+  non-empty, not gated on the `AOE` flag) before Phase 4/5 ships an
+  actual edit-and-save flow — Phase 2's raw-text copy never exercises
+  `TryBuildText` at all, so this doesn't affect anything currently
+  shipped.
+- `sasquatch_smash`, the hard case named in this doc (opaque
+  `ActOnHexas`/`AddAsAffected`, `ActOnTargets` Target block in
+  `ExtraKv`), came back **byte-identical**. No dropped Hit tags, no
+  corrupted opaque-card content anywhere in the sample.
+
+Report: `Mods/LokrLab/ability-fidelity-audit.txt` (not checked in —
+generated, machine-specific path).
 
 No "Edit Vanilla" button until this is measured.
 
