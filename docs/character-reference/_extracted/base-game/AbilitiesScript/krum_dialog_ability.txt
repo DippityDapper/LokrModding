@@ -1,0 +1,76 @@
+"krum_dialog_ability"
+{
+    "AbilityBehavior"   ""
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityTargetFilterFlags" "INCLUDE_NON_TARGETABLE"
+    "AbilityCastRange" "0"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID" "NOANIMATION"
+
+    "AbilitySpecial" 
+    {
+    }
+
+    "OnAbilityAction"
+    {
+        "SetStat"
+        {
+            "Target" "%SOURCE"
+            "Stat" "#startedTurn"
+            "Value" "1"
+        }
+
+        "Conditional"
+        {
+            "Condition" "stat(%SOURCE, #willGoDown) > 0"
+
+            "Actions"
+            {
+                "QueueCinematic"
+                {
+                    "Cinematic" "#KrumDialogGoDown"
+                }
+            }
+
+            "ElseActions"
+            {
+                "QueueCinematic"
+                {
+                    "Cinematic" "#KrumDialog"
+                }
+            }
+        }
+    }
+
+    "OnThink"
+    {
+        "RunThisSkillAI"
+        {
+            "BrainId" "#Custom"
+            "Target" "%UNIT"
+        }
+    }
+
+    "AIBrainCustom"
+    {
+        "Selection" 
+        {
+            "Weight" "10"
+            "Considerations"
+            {
+                "is first action"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "0"
+                        "Stat" "#actionsTaken"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}

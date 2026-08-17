@@ -1,0 +1,107 @@
+
+
+
+
+
+
+
+"spider_poison_strike"
+{
+    
+    
+    "AbilityBehavior"   "MELEE | HAS_CHANCE_TO_HIT"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"   "2"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "SpecialAttack"
+    "CastFXId" "PoisonShotCastFXMega"
+    "Icon" "PoisonStrike"
+
+    "AbilitySpecial" 
+    {
+       "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage"  "stat(%CASTER, #attackDamage)-1"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_FLOAT"
+            "damagePerTurn"  "2"
+        }
+
+        "03"
+        {
+            "var_type" "FIELD_FLOAT"
+            "duration"  "1"
+        }
+    }
+
+
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "SpiderlingBiteHitFXMega" 
+            "Tags" "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_TRUE"
+                    "Damage"        "expr(%damage)"
+                }
+            }
+
+            "Actions"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"  "modifier_new_poison"
+                    "Target"        "%HITTARGET"
+                    "Duration"      "%duration"
+                    "Refresh"   "1"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "4"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+
+                "Ignores targets already poisoned by strike"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "TargetHasModifier"
+                    "Params"
+                    {
+                        "ModifierName" "modifier_new_poison"  
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+

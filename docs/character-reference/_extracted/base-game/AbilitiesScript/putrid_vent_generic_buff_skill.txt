@@ -1,0 +1,66 @@
+"putrid_vent_generic_buff_skill"
+{
+    "AbilityBehavior"       "PASSIVE"
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "posionDuration"        "2"
+        }
+    }
+
+    "Modifiers"
+    {
+        "putrid_vent_generic_buffmodifier"
+        {
+            "EffectName"        "PutridVentFXMega"
+            "Tags"              "floor_effect"
+            "Passive"           "1"
+
+            "OnTurnFinishedGlobal"
+            {
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"        "%TARGET"
+                        "Radius"        "0"
+                        "Teams"         "TEAM_ALL"
+                    }
+
+                    "IteratorName"      "#newTarget"
+                    "Actions"    
+                    {
+                        "Conditional" 
+                        {
+                            "Condition" "equal(activeUnit(), %newTarget)"
+                            "Actions"
+                            {
+                                "Hit"
+                                {
+                                    "Target"        "%newTarget"
+                                    "Source"        "%TARGET"
+                                    "EffectName"    "PutridVentHitFXMega" 
+                                    "Tags"          "stringList(#ENVIRONMENTAL)"
+
+                                    "InitActions"
+                                    { 
+                                        "ApplyModifier"
+                                        {
+                                            "ModifierName"      "modifier_new_poison"
+                                            "Target"            "%newTarget"
+                                            "Duration"          "%posionDuration"
+                                            "Refresh"           "1"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

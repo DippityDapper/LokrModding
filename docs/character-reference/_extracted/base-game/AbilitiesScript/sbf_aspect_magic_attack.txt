@@ -1,0 +1,229 @@
+"sbf_aspect_magic_attack"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_FRIENDLY"
+    "AbilityCastRange" "0"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "Attack"
+    "CastFXId"      "SBFAspectMagicCastFXMega"
+    "Icon"          "GaAttack"
+
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage"  "stat(%CASTER, #attackDamage)"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "duration"  "stat(%CASTER, #asleep_duration)"
+        }
+
+        "03"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "range"  "stat(%CASTER, #rangedAttackRange)"
+        }
+
+        "20"
+        {
+            "var_type" "FIELD_STRING"
+            "iconDamageType"  "damageMagical"
+        }
+    }
+
+    "OnAbilityStart"
+    {
+        "StartLogicTick"
+        {
+            "Time" "0.5"
+            "TickType" "PriorityCenter"
+            "Position" "unitPosition(%SOURCE)"
+        }
+    }
+    
+    "OnAbilityAction"
+    {
+        "RemoveModifier"
+        {
+            "ModifierName"    "sbf_aspect_magic_telegraph_fx_modifier"
+            "Target"         "%CASTER"
+        }
+
+        "SetStat"
+        {
+            "Target" "%CASTER"
+            "Stat" "#already_attacked"
+            "Value" "1"
+        }
+
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_combatGeneric_fumesExplosion"
+        }
+
+        "CreateObjectList"
+        {
+            "Name" "#hexCandidates"
+        }
+
+        "ActOnHexas"
+        {
+            "Kind"              "RANGE_TUNNEL"
+            "Origin"            "unitHex(%SOURCE)"
+            "End"               "hexNeighbour(unitHex(%CASTER), unitHexSide(%CASTER), 0)"
+            "MinRange"          "1"
+            "Range" "expr(%range)"
+            "IteratorName" "#hexa"
+        
+            "Actions"    
+            {
+                "AddObjectToList" 
+                {
+                    "List" "%hexCandidates"
+                    "Value" "%hexa"
+                }
+            }
+        }
+
+        "ActOnHexas"
+        {
+            "Kind"              "RANGE_TUNNEL"
+            "Origin"            "unitHex(%SOURCE)"
+            "End"               "hexNeighbour(unitHex(%CASTER), unitHexSide(%CASTER), 2)"
+            "MinRange"          "1"
+            "Range" "expr(%range)"
+            "IteratorName" "#hexa"
+        
+            "Actions"    
+            {
+                "AddObjectToList" 
+                {
+                    "List" "%hexCandidates"
+                    "Value" "%hexa"
+                }
+            }
+        }
+
+        "ActOnHexas"
+        {
+            "Kind"              "RANGE_TUNNEL"
+            "Origin"            "unitHex(%SOURCE)"
+            "End"               "hexNeighbour(unitHex(%CASTER), unitHexSide(%CASTER), -2)"
+            "MinRange"          "1"
+            "Range" "expr(%range)"
+            "IteratorName" "#hexa"
+        
+            "Actions"    
+            {
+                "AddObjectToList" 
+                {
+                    "List" "%hexCandidates"
+                    "Value" "%hexa"
+                }
+            }
+        }
+
+        "EachInList"
+        {
+            "List" "%hexCandidates"
+            "IteratorName" "#hexa"
+            "IteratorIndexName" "#hexaIndex"
+            "Actions"
+            {
+                "AddAsAffected"
+                {
+                    "Hexa" "%hexa"
+                }
+
+                "AttachEffect"
+                {
+                    "EffectName" "SBFAspectMagicAttackExplosionFXMega"
+                    "Target" "hexPosition(%hexa)"
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"      "hexPosition(%hexa)"
+                        "Radius"      "0"
+                        "Teams"       "TEAM_ALL"
+                    }
+
+                    "IteratorName" "#newTarget"
+                
+                    "Actions"    
+                    {
+                        "Hit"
+                        {
+                            "Target" "%newTarget"
+                            "Tags" "stringList(#AOE)"
+
+                            "InitActions"
+                            {
+                                "AddDamage"
+                                {
+                                    "Type"          "DAMAGE_MAGICAL"
+                                    "Damage"        "expr(%damage)"
+                                }
+                            }
+
+                            "Actions"
+                            {
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"  "modifier_asleep"
+                                    "Target"        "%HITTARGET"
+                                    "Duration"      "expr(%duration)"
+                                    "Refresh"       "1"
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "200"
+            "Considerations"
+            {
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+
+                "is first action"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "0"
+                        "Stat" "#already_attacked"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}

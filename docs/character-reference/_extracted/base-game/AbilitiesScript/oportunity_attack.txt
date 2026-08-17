@@ -1,0 +1,189 @@
+
+
+
+
+
+
+
+"oportunity_attack"
+{
+    
+    
+    "AbilityBehavior"       "UNIT_TARGET | POSITIVE_EFFECT | PASSIVE"
+
+    "Icon" "OpportunityStrike"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "range" "1"
+        }
+    }
+
+
+    "Modifiers"
+    {
+        "modifier_oportunity_attack_provider_global_turn"
+        {
+            
+            
+            
+            
+           "Passive" "1"
+
+
+           "OnTurnStartedGlobal"
+            {
+                "Conditional" 
+                {
+                    "Condition" "equal(%TARGET, %UNIT)"
+                    "Actions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "modifier_oportunity_attack"
+                            "Target"         "%TARGET"
+                        }
+                    }
+
+                    "ElseActions"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "modifier_oportunity_attack"
+                            "Target"         "%TARGET"
+                            "Refresh" "1"
+                        }
+                    }
+                }
+            }
+        }
+
+        "modifier_oportunity_attack_provider_own_turn"
+        {
+
+            
+            
+            
+            
+           
+
+
+           "OnTurnStarted"
+            {
+               "RemoveModifier"
+                {
+                    "ModifierName"    "modifier_oportunity_attack"
+                    "Target"         "%TARGET"
+                }
+            }
+
+            "OnTurnFinished" 
+            {
+               "ApplyModifier"
+                {
+                    "ModifierName"    "modifier_oportunity_attack"
+                    "Target"         "%TARGET"
+                }
+            }
+        }
+
+
+        "modifier_oportunity_attack"
+        {
+            "Passive" "1"
+
+            
+            
+
+            "OnUnitLeavingNode"
+            {
+                "Conditional"
+                {
+                    "Condition" "%canBeInterrupted"
+
+                    "Actions"
+                    {
+                        "AreaControl"
+                        {
+                            "Center" "unitHex(%TARGET)"
+                            "Range" "%range"
+                            "From" "%from"
+                            "To" "%to"
+                            "InRangeActionsLeaving"
+                            {
+
+                                "Conditional" 
+                                {
+                                    "Condition" "matchesTeam(unitGroup(%TARGET), unitGroup(%UNIT), @TeamFilter(TEAM_ENEMY))"
+                                    "Actions"
+                                    {
+                                        "InterruptUnit"
+                                        {
+                                            "Target" "%UNIT"
+                                        }
+
+                                        "QueueAttackUnit"
+                                        {
+                                            "Target" "%TARGET"
+                                            "AttackTarget" "%UNIT"
+                                        }
+
+                                        "RemoveModifier"
+                                        {
+                                            "ModifierName"    "modifier_oportunity_attack"
+                                            "Target"         "%TARGET"
+                                        }
+
+                                        "ApplyModifier"
+                                        {
+                                            "ModifierName"    "modifier_oportunity_attack_miss_move_return"
+                                            "Target"         "%UNIT"
+                                            "Refresh"       "1"
+                                             "Params"
+                                            {
+
+                                                "step" {
+                                                    "type" "FIELD_OBJECT"
+                                                    "value" "%step"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+        }
+
+        "modifier_oportunity_attack_miss_move_return"
+        {
+            "OnAttacked"
+            {
+                "Conditional" 
+                {
+                    "Condition" "not(%HIT)"
+                    
+                    "Actions"
+                    {
+                        "ReturnStep"
+                        {
+                            "Unit" "%TARGET"
+                            "Step" "%step"
+                        }
+
+                         "RemoveModifier"
+                        {
+                            "ModifierName"    "modifier_oportunity_attack_miss_move_return"
+                            "Target"         "%TARGET"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

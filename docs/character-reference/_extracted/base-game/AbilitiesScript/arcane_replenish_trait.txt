@@ -1,0 +1,63 @@
+"arcane_replenish_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+
+    "Icon" "ArcaneReplenish"
+
+     "AbilitySpecial"
+    {
+       "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "refreshChance" "20"
+        }
+    }
+
+    "Modifiers"
+    {
+        "arcane_replenish_trait_controller_modifier"
+        {
+            "Passive" "1"
+
+            "OnAbilityStart"
+            {
+                "RemoveModifier"
+                {
+                    "ModifierName"    "arcane_replenish_trait_status_modifier"
+                    "Target"         "%TARGET"
+                }
+
+               "Conditional" 
+                {
+                    "Condition" "(randomBetween(0, 1) < (%refreshChance/100)) && (abilityCooldown(%ABILITY) > 1)"
+
+                    "Actions"
+                    {
+                        "UnitRaiseMessage"
+                        {
+                            "Unit" "%TARGET"
+                            "#Text" "REPLENISHED!!"
+                            "Icon" "ArcaneReplenish"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "arcane_replenish_trait_status_modifier"
+                            "Target"         "%TARGET"
+                            "Duration" "1"
+                        }
+                    }
+                }
+            }
+        }
+
+        "arcane_replenish_trait_status_modifier"
+        {
+            "PropertiesAdd"
+            {
+                "cooldownOffset" "-999"
+            }
+        }
+
+    }
+}

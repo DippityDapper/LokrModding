@@ -1,0 +1,67 @@
+"darkknight_porcupine_slam"
+{
+    "AbilityBehavior"                   "UNIT_TARGET | AOE"
+    "AbilityTeamFilter"                 "TEAM_ALL"
+    "AnimationID"                       "SpellCastB"
+    "CastFXId"                          "PorcupineSlamCastFXMega"
+    "Icon"                              "PorcupineSlam"
+    "AbilityCastRange"                  "0"
+    "AbilityCooldown"                   "4"
+    "AbilityAPCost"                     "1"
+
+    "AbilityAOETeamFilter"              "TEAM_ENEMY"
+    "AbilityAOERange"                   "%aoeRadius"
+    "AbilityAOEKind"                    "RANGE_CIRCLE"
+    "AbilityAOECenterOnCaster"          "1"
+    "AbilityAOEAffectsCaster"           "0"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "aoeRadius"                 "1"
+        }
+
+         "02"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "thornsDamage"          "stat(%CASTER, #armorOfThornsDamage)*2"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"                "%TARGET"
+                "ExcludedUnits"         "objectList(%SOURCE)"
+                "Radius"                "%aoeRadius"
+                "Teams"                 "TEAM_ENEMY"
+            }
+
+            "IteratorName"              "#newTarget"
+        
+            "Actions"    
+            {
+                "Hit"
+                {
+                    "Target"            "%newTarget"
+                    "EffectName"        "PorcupineSlamHitFXMega" 
+                    "Tags"              "stringList(#AOE)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "stat(%SOURCE, #armorOfThornsDamage)*2"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

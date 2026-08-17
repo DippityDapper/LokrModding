@@ -1,0 +1,234 @@
+"shortfuse"
+{
+    
+    
+    "AbilityBehavior"       "UNIT_TARGET | AOE"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+
+    "AnimationID"   "Attack"
+    "CastFXId" "ShortFuseCastFXMega"
+    "Icon" "BasicGun"
+   
+   
+    "AbilityAOEKind" "RANGE_CIRCLE"
+    "AbilityAOECenterOnCaster" "0"
+    "AbilityAOEAffectsCaster" "1"
+    "AbilityAOETeamFilter" "TEAM_ENEMY"
+
+    "AbilityAOERange" "%aoeRadius"
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+
+
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "aoeRadius"            "1"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "directDamage"            "stat(%CASTER,#attackDamage)"
+        }
+
+        "03"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "splashDamage"            "stat(%CASTER,#attackDamage)"
+        }
+
+        "04"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "extraDamage"  "ceil(stat(%CASTER, #attackDamage)/2)"
+        }
+    }
+
+
+
+
+    "OnAbilityAction"
+    {
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_combatBombardier_shortfuseProjectile"
+        }
+
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "unitPosition(%TARGET)"
+            "Model" "BombardierGrenade"
+
+            "Params" 
+            {
+                "directDamage" 
+                {
+                    "type" "FIELD_FLOAT"
+                    "value" "expr(%directDamage)"
+                }
+
+                "splashDamage" 
+                {
+                    "type" "FIELD_FLOAT"
+                    "value" "expr(%splashDamage)"
+                }
+
+                "extraDamage" 
+                {
+                    "type" "FIELD_FLOAT"
+                    "value" "expr(%extraDamage)"
+                }
+            }
+        }
+    }
+    
+
+    "OnProjectileHitUnit"
+    {
+        "StopSound"
+        {
+            "Sound"         "#krl_sfx_combatBombardier_shortfuseProjectile"
+        }
+        
+        "AttachEffect"
+        {
+            "EffectName" "ShortfuseExplosionFXMega"
+            "Target" "unitPosition(%TARGET, #Base)"
+        }
+
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "FireballHitFXMega" 
+            "Tags" "stringList(#PROJECTILE, #AOE)"
+
+            "InitActions"
+            {   
+                "AddDamage"
+                {
+                    "Type"            "DAMAGE_PHYSICAL"
+                    "Damage"        "%directDamage"
+                }
+
+                "Conditional"
+                {
+                    "Condition" "isOnState(%HITTARGET, #IMMOBILIZED)"
+
+                    
+                    
+                      
+                       
+                        
+                         
+                       
+
+                        
+                        
+                        
+                    
+
+                    
+                    
+                       
+                        
+                          
+                           
+                        
+                    
+
+                    "Actions" 
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "%extraDamage"
+                        }
+
+                        "MarkHitLegendary"
+                        {
+                        }
+                    }
+                }
+            }
+        }
+
+       "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"      "unitPosition(%TARGET)"
+                "Radius"     "%aoeRadius"
+                "Teams"     "TEAM_ENEMY"
+                "ExcludedUnits" "objectList(%TARGET)"
+            }
+
+            "IteratorName" "#newTarget"
+        
+            "Actions"    
+            {
+                "Hit"
+                {
+                    "Target" "%newTarget"
+                    "EffectName" "FireballHitFXMega" 
+                    "Tags" "stringList(#PROJECTILE, #AOE)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"            "DAMAGE_PHYSICAL"
+                            "Damage"        "%splashDamage"
+                        }
+
+                        "Conditional"
+                        {
+                            "Condition" "isOnState(%HITTARGET, #IMMOBILIZED)"
+
+                            
+                            
+                              
+                               
+                                
+                                 
+                               
+
+                                
+                                
+                                
+                            
+
+                            
+                            
+                               
+                                
+                                  
+                                   
+                                
+                            
+
+                            "Actions" 
+                            {
+                                "AddDamage"
+                                {
+                                    "Type"          "DAMAGE_PHYSICAL"
+                                    "Damage"        "%extraDamage"
+                                }
+
+                                "MarkHitLegendary"
+                                {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

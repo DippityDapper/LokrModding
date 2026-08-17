@@ -1,0 +1,75 @@
+"kill_count_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "kill_count_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnUnitDiedGlobal"
+            {
+                
+                "Conditional"
+                {
+                    "Condition" "not(matchesGroup(unitGroup(%DEAD), @UnitGroup(GoodSide))) && (not(isOnState(%DEAD, #NO_SKULL)) || isOnState(%DEAD, #FORCE_KILL_COUNT)) && not(isOnState(%DEAD, #IS_CINEMATIC))"
+
+                    "Actions" 
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#bruxa_unlock"
+                        }
+
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#large_kill_count"
+                        }
+
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#pentakill"
+                        }
+
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.enemies_defeated"
+                        }
+
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.enemies_defeated_arena"
+                        }
+
+                        "Conditional"
+                        {
+                            "Condition" "isOnState(%DEAD, #QUICK_PLAY_ARENA_ELITE)"
+
+                            "Actions" 
+                            {
+                                "AdventureSummaryIncrement"
+                                {
+                                    "Id" "#summary.elites_defeated"
+                                }
+                            }
+                        }
+
+                        "SetToContext"
+                        {
+                            "Context" "encounterContext()"
+                            "Key" "#arenaKillCounter"
+                            "Value" "wrapContext(encounterContext(), round(%arenaKillCounter + 1))"
+                            "Type" "FIELD_INTEGER"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

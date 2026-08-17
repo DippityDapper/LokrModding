@@ -1,0 +1,190 @@
+"mine"
+{
+    
+    
+    "AbilityBehavior"       "POINT_TARGET | NEGATIVE_EFFECT | NEEDS_CLEAR_TERRAIN"
+    "AbilityCastRange" "2"
+    "AbilityCooldown"      "1"
+    "AbilityAPCost"       1"
+
+
+    "AnimationID"   "SpellCastB"
+    "CastFXId" "ThornCastFXMega"
+    "Icon" "BearTrap"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "mainDamage" "5"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_FLOAT"
+            "splashDamage" "1"
+        }
+    }
+
+    "OnAbilityAction"
+    { 
+        "TrackingProjectile"
+        {
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "%TARGET"
+            "Model" "BombardierMine"
+        }
+
+       
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "AttachEffect"
+        {
+            "EffectName" "WoodBreakFXMega"
+            "Target" "%TARGET"
+        }
+
+
+        "SpawnUnit"
+        {
+           "UnitName" "#BombardierMine"
+           "Position" "%TARGET"
+           "UnitGroup" "unitGroup(%CASTER)"
+           "IsAI" "1"
+           "InheritsInitiative" "1"
+           "OnSpawn"
+            {
+                "PlayActivityAnimation"
+                {
+                    "Target" "%UNIT"
+                    "Animation" "Spawn"
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"    "modifier_mine_monitor"
+                    "Target"         "%UNIT"
+                }
+           }
+        }
+    }
+
+    "Modifiers"
+    {
+        "modifier_mine_monitor"
+        {
+            "OnUnitEnteredNode"
+            {
+               "AreaControl"
+               {
+
+                    "Center" "unitHex(%TARGET)"
+                    "Range" "0"
+                    "From" "%from"
+                    "To" "%to"
+
+                    "EnterActions"
+                    {
+                        "InterruptUnit"
+                        {
+                            "Target" "%UNIT"
+                        }
+
+                        "AttachEffect"
+                        {
+                            "EffectName" "FireStatusFXMega"
+                            "Target" "%TARGET"
+                        }
+
+                        "StartLogicTick"
+                        {
+                            "Time" "1.21"
+                            "TickType" "ActiveUnit "
+                            "Position" "unitPosition(%TARGET)"
+                        }
+
+                        "Delay"
+                        {
+                            "Time" "randomBetween(0.3, 1.2)"
+                            "Actions"
+                            {
+                                "AttachEffect"
+                                {
+                                    "EffectName" "FireballExplosionFXMega"
+                                    "Target" "unitPosition(%TARGET)"
+                                }
+
+                                "Hit"
+                                {
+                                    "Target" "%UNIT"
+                                    "EffectName" "FireballHitFXMega" 
+                                    "Tags" "stringList(#AOE)"
+
+                                    "InitActions"
+                                    {
+                                        "AddDamage"
+                                        {
+                                            "Type"            "DAMAGE_PHYSICAL"
+                                            "Damage"        "%mainDamage"
+                                        }
+                                    }
+                                }
+
+                                "ActOnTargets"
+                                {
+                                    "Target"
+                                    {
+                                        "Center"      "unitPosition(%TARGET)"
+                                        "Radius"     "1"
+                                        "Teams"     "TEAM_ALL"
+                                        "ExcludedUnits" "objectList(%UNIT)"
+                                    }
+
+                                    "IteratorName" "#newTarget"
+                                
+                                    "Actions"    
+                                    {
+
+                                        "Hit"
+                                        {
+                                            "Target" "%newTarget"
+                                            "EffectName" "FireballHitFXMega" 
+                                            "Tags" "stringList(#AOE)"
+
+                                            "InitActions"
+                                            {
+                                                "AddDamage"
+                                                {
+                                                    "Type"            "DAMAGE_PHYSICAL"
+                                                    "Damage"        "%splashDamage"
+                                                }
+                                            }
+
+                                            "Actions"
+                                            {
+                                                "Knockback" 
+                                                {
+                                                    "Target" "%HITTARGET"
+                                                    "Center" "unitPosition(%TARGET)"
+                                                    "Strength" "1"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                "KillUnit"
+                                {
+                                    "Target"        "%TARGET" 
+                                }
+                            }
+                        }
+                    }
+               }
+            }
+        }
+    }
+}

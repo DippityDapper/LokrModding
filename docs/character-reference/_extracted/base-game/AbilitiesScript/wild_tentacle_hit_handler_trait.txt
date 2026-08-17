@@ -1,0 +1,93 @@
+"wild_tentacle_hit_handler_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+    "Icon" "Shutdown"
+
+     "AbilitySpecial"
+    {
+       "01"
+        {
+            "var_type"               "FIELD_INTEGER"
+            "duration"               "1"
+        }
+    }
+
+    "Modifiers"
+    {
+        "wild_tentacle_sleep_monitor_modifier"
+        {
+           "Passive" "1"
+
+           "OnHitPreResult"
+           {
+                "SetStat"
+                {
+                    "Target" "%TARGET"
+                    "Stat" "#health"
+                    "Value" "stat(%TARGET, #health_max)"
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "wild_tentacle_sleep_monitor_modifier"
+                    "Target"          "%TARGET"
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"    "wild_tentacle_sleeping_modifier"
+                    "Target"          "%TARGET"
+                    "Duration"        "%duration"
+                }
+           }
+
+        }
+
+        "wild_tentacle_sleeping_modifier"
+        {
+            "AnimationOverride" "Crippled"
+
+            "States"
+            {
+                "NON_TARGETABLE" "1"
+            }
+
+            "OnAdded"
+            {
+                "PlayActivityAnimation"
+                {
+                    "Target" "%TARGET"
+                    "Animation" "Disable"
+                }
+            }
+            
+            "OnRemoved"
+            {
+                "PlayActivityAnimation"
+                {
+                    "Target" "%TARGET"
+                    "Animation" "Activate"
+                }
+
+                "Delay"
+                {
+                    "Time" "1"
+                    "Actions"
+                    {
+                        "PlaySound"
+                        {
+                            "Sound"         "#krl_sfx_genericCombat_tentacleRegrowth"
+                        }
+                    }
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"    "wild_tentacle_sleep_monitor_modifier"
+                    "Target"          "%TARGET"
+                }
+            }
+        }
+    }
+}
+

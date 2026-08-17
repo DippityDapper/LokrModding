@@ -1,0 +1,100 @@
+"demon_hound_blazing_bite"
+{
+    
+    
+    "AbilityBehavior"   "MELEE | HAS_CHANCE_TO_HIT"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "stat(%CASTER, #attackCostAP)"
+    "AnimationID"   "Attack"
+    "Icon" "BlazingBite"
+    "CastFXId" "DemonHoundBlazingBiteFXMega"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "MinDamage"  "stat(%CASTER, #attackDamage)-1"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "MaxDamage"  "stat(%CASTER, #attackDamage)+1"
+        }
+
+        "03"
+        {
+            "var_type" "FIELD_FLOAT"        
+            "burnDuration"  "2"
+        }
+
+    }
+
+
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "DemonHoundBlazingBiteHitFXMega" 
+            "Tags" "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_PHYSICAL"
+                    "Damage"        "randomI(expr(%MinDamage), expr(%MaxDamage))"
+                }
+            }
+
+
+            "Actions"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"  "modifier_burning"
+                    "Target"        "%HITTARGET"
+                    "Duration"      "%burnDuration"
+                    "Refresh"   "1"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.3"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+
+                "tries to avoid burning targets"
+                {
+                    "Curve" "Linear|-0.05|1|1|0"
+                    "Consideration" "UnitStateOn"
+                    "Params"
+                    {
+                        "State" "#BURNING"
+                        "Owner" "0"
+                    }
+                }
+            }
+        }
+    }
+}

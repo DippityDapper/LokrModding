@@ -1,0 +1,114 @@
+"asra_hit_and_run"
+{
+    "AbilityBehavior"       "MELEE"
+    "AbilityTeamFilter"     "TEAM_ENEMY"
+    "AbilityCastRange"      "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"       "2"
+    "AbilityAPCost"         "1"
+
+    "AnimationID"           "AttackMelee"
+    "Icon"                  "HitNRun"
+    "CastFXId"              "AsraShivCastFXMega"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"      "FIELD_EXPRESSION"
+            "epicDamage"    "ceil(stat(%CASTER, #attackDamage) / 2)"
+        }
+
+        "02"
+        {
+            "var_type"      "FIELD_FLOAT"
+            "stunDuration"  "1"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target"        "%TARGET"
+            "EffectName"    "AsraHitAndRunHitFXMega" 
+            "Tags"          "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "Conditional"
+                {
+                    "Condition"     "isOnState(%HITTARGET, #WEAKENED)"
+
+                    "Actions" 
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "expr(%epicDamage)"
+                        }
+
+                        "MarkHitLegendary"
+                        {
+                        }
+                    }
+                }
+            }
+
+            "Actions"
+            {
+                "RemoveModifier"
+                {
+                    "ModifierName"      "modifier_stunned"
+                    "Target"            "%HITTARGET"
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"      "modifier_stunned"
+                    "Target"            "%HITTARGET"
+                    "Duration"          "%stunDuration"
+                }
+            }
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"      "asra_hit_and_run_modifier"
+            "Target"            "%SOURCE"
+            "Duration"          "1"
+        }
+    }
+
+    "Modifiers"
+    {
+        "asra_hit_and_run_modifier"
+        {
+            "States"
+            {
+                "ACTION_DOESNT_CONSUME_MOVE" "1"
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "4"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+            }
+        }
+    }
+}

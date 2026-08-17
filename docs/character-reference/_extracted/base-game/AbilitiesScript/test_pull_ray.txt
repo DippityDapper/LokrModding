@@ -1,0 +1,153 @@
+"test_pull_ray"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCastMinRange" "0" 
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "SpecialAttack"
+    "CastFXId" "ArcaneMagicMissileCastFXMega"
+    "Icon" "BasicMagic" 
+
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "maxDamage"  "ceil(stat(%CASTER, #attackDamage)/2)"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "unitPosition(%TARGET, #Chest)"
+            "Model" "ArcaneMageRayProjectile"
+
+            "Params" 
+            {
+                "damage" 
+                { 
+                    "type" "FIELD_FLOAT"
+                    "value" "expr(%maxDamage)"
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "Conditional"
+        {
+            "Condition" "matchesTeam(unitGroup(%SOURCE), unitGroup(%TARGET), @TeamFilter(TEAM_ENEMY))"
+
+            "Actions" 
+            {
+
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "EffectName" "MagicBoltHitFXMega" 
+                    "Tags" "stringList(#RAY, #MAGICAL)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_MAGICAL"
+                            "Damage"        "%damage"
+                        }
+                        "Conditional"
+                        {
+                            "Condition""safeEquals(hexDistance(unitHex(%SOURCE), unitHex(%TARGET)),1)"
+                            "Actions" 
+                            {
+                                "Knockback" 
+                                {
+                                    "Target" "%HITTARGET"
+                                    "Center" "unitPosition(%HITSOURCE)"
+                                    "Strength" "2"
+                                }
+                            } 
+                            "ElseActions" 
+                            {
+                                "Knockback" 
+                                {
+                                    "Target" "%HITTARGET"
+                                    "Center" "hexPosition(hexNeighbour(unitHex(%HITTARGET), unitHex(%HITSOURCE), 3))"
+                                    "Strength" "1"
+                                }
+                            }       
+                        }
+                    }
+                    
+                }
+            }
+            "ElseActions"
+            {
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "EffectName" "MagicBoltHitFXMega" 
+                    "Tags" "stringList(#RAY, #MAGICAL)"
+
+                    "InitActions"
+                    {
+                        "Conditional"
+                        {
+                            "Condition""safeEquals(hexDistance(unitHex(%SOURCE), unitHex(%TARGET)),1)"
+                            "Actions" 
+                            {
+                                "Knockback" 
+                                {
+                                    "Target" "%HITTARGET"
+                                    "Center" "unitPosition(%HITSOURCE)"
+                                    "Strength" "2"
+                                }
+                            } 
+                            "ElseActions" 
+                            {
+                                "Knockback" 
+                                {
+                                    "Target" "%HITTARGET"
+                                    "Center" "hexPosition(hexNeighbour(unitHex(%HITTARGET), unitHex(%HITSOURCE), 3))"
+                                    "Strength" "1"
+                                }
+                            }       
+                        }
+                       
+                    }
+                }    
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.3"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+            }
+        }
+    }
+}

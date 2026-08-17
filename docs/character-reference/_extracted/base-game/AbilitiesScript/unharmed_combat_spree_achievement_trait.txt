@@ -1,0 +1,86 @@
+"unharmed_combat_spree_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "unharmed_combat_spree_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnPostHitGlobal"
+            {
+                "Conditional" 
+                {
+                    "Condition" "hitConnected(%HIT) && matchesGroup(unitGroup(%ATTACKED), @UnitGroup(GoodSide)) && isOnState(%ATTACKED, #HERO) && hitEffectiveDamage(%HIT) > 0"
+                    "Actions"
+                    {
+                        "SetToContext"
+                        {
+                            "Context"   "encounterContext()"
+                            "Key"       "#unharmedCombatAchievement"
+                            "Type"      "FIELD_INTEGER"
+                            "Value"     "1"
+                        }
+                    }
+                }
+            }
+
+            "OnVictory"
+            {
+                "Conditional" 
+                {
+                    "Condition" "safeEquals(wrapContext(encounterContext(), %unharmedCombatAchievement), 0)"
+                    "Actions"
+                    {
+                        "Conditional" 
+                        {
+                            "Condition" "not(playingTutorial())"
+                            "Actions"
+                            {
+                                "AchievementIncrement"
+                                {
+                                    "Achievement" "#unharmed_combat_spree"
+                                }
+                            }
+                        }
+
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.flawless_encounters"
+                        }
+
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.flawless_encounters_arena"
+                        }
+
+                        "Conditional" 
+                        {
+                            "Condition" "hasModifier(%TARGET, #silveroak_orcs_win_achievement_modifier)"
+                            "Actions"
+                            {
+                                "AchievementIncrement"
+                                {
+                                    "Achievement" "#orcs_silveroak_win"
+                                }
+                            }
+                        }
+                    }
+                    "ElseActions"
+                    {   
+                        "AchievementClearProgress"
+                        {
+                            "Achievement" "#unharmed_combat_spree"
+                        }
+                    }
+                }     
+            }
+        }
+    }
+}
+

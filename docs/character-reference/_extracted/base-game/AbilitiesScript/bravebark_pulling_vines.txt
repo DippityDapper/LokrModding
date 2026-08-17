@@ -1,0 +1,183 @@
+"bravebark_pulling_vines"
+{
+    "AbilityBehavior"                   "UNIT_TARGET"
+    "AbilityTeamFilter"                 "TEAM_ENEMY"
+    "AbilityCustomTargetFilter"         "countFreeHexes(unitHex(%CASTER), 1) > 0 && not(isOnState(%UNIT, #FIXED_POSITION)) && not(isOnState(%UNIT, #BOSS))"
+
+    "AnimationID"                       "SpellCastB"
+    "Icon"                              "PullingVines"
+    "CastFXId"                          "BravebarkPullingVinesCastFXMega"
+
+    "AbilityCastRange"                  "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCastMinRange"               "1"
+    "AbilityCooldown"                   "2"
+    "AbilityAPCost"                     "1"
+
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "rootDuration"              "1"
+        }
+
+        "02"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "selfRootedDuration"        "2"
+        }
+
+        "03"
+        {
+            "var_type"                  "FIELD_EXPRESSION"
+            "damage"                    "3"
+        }
+        "20"
+        {
+            "var_type" "FIELD_STRING"
+            "iconDamageType"  "damagePhysical"
+        }
+    }
+
+    "OnAbilityAction"
+    { 
+        "ActOnHexas"
+        {
+            "Center" "unitHex(%SOURCE)"
+            "Range" "1"
+            "IteratorName" "#hexa"
+            "RequireEmpty" "1"
+            "Max" "1"
+            "Random" "1"
+            
+            "Actions"    
+            {
+                "SetToContext"
+                {
+                    "Context"       "currentContext()"
+                    "Key"           "#targetPos"
+                    "Value"         "hexPosition(%hexa)"
+                    "Type"          "FIELD_OBJECT"
+                }
+            }
+        }
+    }
+
+    "OnAbilityCustomEvent"
+    {
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction2)"
+
+            "Actions" 
+            {
+                "AttachEffect"
+                {
+                    "EffectName"    "BravebarkPullingVinesInFXMega" 
+                    "Target"        "unitPosition(%TARGET)"
+                }
+
+                "PlayActivityAnimation"
+                {
+                    "Target"        "%TARGET"
+                    "Animation"     "TakeDamage"
+                    "Interruptible" "1"
+                }
+            }
+        }
+
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction3)"
+
+            "Actions" 
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"    "disable_unit_modifier"
+                    "Target"          "%TARGET"
+                }
+
+                "MoveUnit"
+                {
+                    "Target"        "%TARGET"
+                    "Position"      "newPoint(1000, 1000, 0)"
+                }
+            }
+        }
+
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction4)"
+
+            "Actions" 
+            {
+                "AttachEffect"
+                {
+                    "EffectName"        "BravebarkPullingVinesOutFXMega" 
+                    "Target"            "%targetPos"
+                }
+            }
+        }
+
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction5)"
+
+            "Actions" 
+            {
+                "MoveUnit"
+                {
+                    "Target"            "%TARGET"
+                    "Position"          "%targetPos"
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"      "disable_unit_modifier"
+                    "Target"            "%TARGET"
+                }
+
+                "InterruptUnit"
+                {
+                    "Target" "%TARGET"
+                }
+
+                "Hit"
+                {
+                    "Target"                "%TARGET"
+                    "Tags"                  "stringList(#TARGETED)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "expr(%damage)"
+                        }
+                    }
+
+                    "Actions"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "modifier_rooted"
+                            "Target"            "%SOURCE"
+                            "Duration"          "%selfRootedDuration"
+                            "Refresh"           "1"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "modifier_rooted"
+                            "Target"            "%TARGET"
+                            "Duration"          "%rootDuration"
+                            "Refresh"           "1"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

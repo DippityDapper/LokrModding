@@ -1,0 +1,161 @@
+"sorceress_corroding_hex"
+{
+    "AbilityBehavior"           "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter"         "TEAM_ENEMY"
+    "AbilityCastRange"          "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCastMinRange"       "stat(%CASTER, #rangedAttackMinRange)"
+    "AbilityCooldown"           "2"
+    "AbilityAPCost"             "0"
+
+    "AnimationID"               "Attack"
+    "Icon"                      "CorrodingHex"
+    "CastFXId"                  "SorceressHexCastFXMega"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            
+            "damage"            "stat(%CASTER, #attackDamage)"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_combatSorceress_exoburstRay"
+        }
+                        
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "unitPosition(%TARGET, #Chest)"
+            "Model"                 "SorceressExoburstRayProjectile"
+
+            "Params" 
+            {
+                "damage" 
+                { 
+                    "type" "FIELD_FLOAT"
+                    "value" "expr(%damage)"
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "Hit"
+        {
+            "Target"                "%TARGET"
+            "EffectName"            "SorceressCorrodingHexHitFXMega" 
+            "Tags"                  "stringList(#PROJECTILE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_ARMOR"
+                    "Damage"        "%damage"
+                }
+            }
+
+            "Actions"
+            {
+                "Conditional"
+                {
+                    "Condition" "hitBrokenArmor(%HIT) == 0"
+
+                    "Actions"
+                    {
+                        "UnitRaiseMessage"
+                        {
+                            "Unit" "%TARGET"
+                            "Text" "0"
+                            "Prefab" "LabelPopUpArmorDamage"
+                        }
+                    }
+                }
+
+                "Conditional"
+                {
+                    "Condition" "hitBrokenArmor(%HIT) > 0 && equal(stat(%TARGET, #armor), 0.0)"
+
+                    "Actions" 
+                    {
+                        "MarkHitLegendary"
+                        {
+                        }
+                        
+                        "Conditional"
+                        {
+                            "Condition" "hitBrokenArmor(%HIT) > 0"
+
+                            "Actions" 
+                            {
+                                "RemoveModifier"
+                                {
+                                    "ModifierName"      "modifier_sorceress_corroding_hex"
+                                    "Target"            "%SOURCE"
+                                }
+
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"      "modifier_sorceress_corroding_hex"
+                                    "Target"            "%SOURCE"
+                                    "Duration"          "2"
+                                    "Params"
+                                    {
+                                        "extraArmor"
+                                        {
+                                            "type"          "FIELD_FLOAT"
+                                            "value"         "hitBrokenArmor(%HIT)"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "Modifiers"
+    {
+        "modifier_sorceress_corroding_hex"
+        {
+            "PropertiesAdd"
+            {
+                "armor_max"             "%extraArmor"
+            }
+
+            "OnAdded"
+            {
+                "GiveArmor"
+                {
+                    "Target"            "%TARGET"
+                    "ArmorAmount"       "%extraArmor"
+                }
+
+                "AttachEffect"
+                {
+                    "EffectName"    "SorceressCorrodingHexGiveArmorFXMega"
+                    "Target"        "%TARGET"
+                }
+            }
+
+            "OnRemoved"
+            {
+                "GiveArmor"
+                {
+                    "Target"            "%TARGET"
+                    "ArmorAmount"       "0"
+                }
+            }
+        }
+    }
+}

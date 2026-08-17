@@ -1,0 +1,133 @@
+"bruxa_skull_dance"
+{
+    "AbilityBehavior"           "UNIT_TARGET | NEGATIVE_EFFECT | AOE"
+    "AbilityTeamFilter"         "TEAM_FRIENDLY"
+    "AbilityCastRange"          "0"
+    "AbilityCooldown"           "3"
+    "AbilityAPCost"             "1"   
+    "AbilityCanExecute"         "stat(%SOURCE, #skulls) > 0"
+    "AbilityAOETeamFilter"      "TEAM_ENEMY"
+    "AbilityAOERange"           "%aoeRadius"
+    "AbilityAOEKind"            "RANGE_CIRCLE"
+    "AbilityAOECenterOnCaster"  "0"
+    "AbilityAOEAffectsCaster"   "0"
+    "AnimationID"               "SkullDance"
+    "Icon"                      "SkullDance"
+    "CastFXId"                  "BruxaSkullDanceCastFXMega"
+    
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "damage"            "ceil(stat(%CASTER, #skulls)*1.5)"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "aoeRadius"         "1"
+        }
+
+        "03" 
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "stunDuration"      "stat(%CASTER, #skulls)"
+        }
+    }
+
+    "OnAbilityStart"
+    {
+        "Times"
+        {
+            "Times"                     "stat(%SOURCE, #skulls)"
+            "Actions"
+            {
+                "AttachEffect"
+                {
+                    "EffectName"                "BruxaVoodooBombReleaseFXMega"
+                    "Target"                    "%SOURCE"
+                    "ReplaceAttach"             "stringList(#SKULL, stringWithIndex(#skull, %index + 1))"
+                }
+            }
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "AttachEffect"
+        {
+            "EffectName"                "BruxaSkullDanceSlashFXMega"
+            "Target"                    "%SOURCE"
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"        "%TARGET"
+                "Radius"        "%aoeRadius"
+                "Teams"         "TEAM_ENEMY"
+            }
+
+            "IteratorName" "#newTarget"
+        
+            "Actions"    
+            {
+                "Delay"
+                {
+                    "Time"          "randomBetween(0, 0.5)"
+
+                    "Params"
+                    {
+                        "damage" {
+                            "type" "FIELD_FLOAT"
+                            "value" "expr(%damage)"
+                        }
+
+                        "stunDuration" {
+                            "type" "FIELD_FLOAT"
+                            "value" "expr(%stunDuration)"
+                        }
+                    }
+
+                    "Actions"
+                    {
+                        "Hit"
+                        {
+                            "Target"        "%newTarget"
+                            "EffectName"    "BruxaVoodooHitFXMega" 
+                            "Tags"          "stringList(#MELEE)"
+
+                            "InitActions"
+                            {
+                                "AddDamage"
+                                {
+                                    "Type"          "DAMAGE_PHYSICAL"
+                                    "Damage"        "%damage"
+                                }
+                            }
+
+                            "Actions"
+                            {
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"  "modifier_stunned"
+                                    "Target"        "%HITTARGET"
+                                    "Duration"      "%stunDuration"
+                                    "Refresh"       "1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        "RemoveModifier"
+        {
+            "ModifierTag"    "bruxa_skull"
+            "Target"         "%SOURCE"
+        }
+    }
+}

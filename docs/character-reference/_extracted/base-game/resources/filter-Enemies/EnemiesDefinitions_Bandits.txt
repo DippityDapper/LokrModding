@@ -1,0 +1,237 @@
+"units"
+{
+
+	"BanditHighwayMan" 
+	{
+		"Model" "BanditHighwayMan"
+		"Name" "BANDIT_HIGHWAYMAN"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "4"
+			"armor_max" "1"	
+			"armor_regen_per_turn" "0"
+			"rangedAttackRange" "0"
+			
+
+			"baseDamage"  "2"
+			
+			"walkSpeed" "3"
+
+			"initiativeModifier" "2"
+
+			"visualMoveSpeed" "2"
+			"visualRunSpeed" "2"
+
+		}
+
+
+		"skills"
+		{
+			
+			"11" "counter_stance"
+ 		}
+
+ 		"soundConfig"
+		{
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_smallHumanoidHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_smallHumanoidDeath"
+			}
+		}
+
+ 		"defaultSkill" "common_melee_attack"
+	}
+
+	"BanditRaider" 
+	{
+		"Model" "BanditRaider"
+		"Name" "BANDIT_RAIDER"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "6"
+			"armor_max" "3"	
+			"armor_regen_per_turn" "0"
+			"rangedAttackRange" "0"
+			
+
+			"baseDamage"  "4"
+			
+			"walkSpeed" "2"
+
+			"initiativeModifier" "2"
+
+		}
+
+
+		"skills"
+		{
+			
+			"1" "stunning_blow"
+ 		}
+
+ 		"soundConfig"
+		{
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_mediumHumanoidHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_mediumHumanoidDeath"
+			}
+		}
+
+ 		"defaultSkill" "common_melee_attack"
+	}
+
+
+
+	"BanditArcher" 
+	{
+		"Model" "BanditArcher"
+		"Name" "BANDIT_ARCHER"
+		"InheritsFrom" "Base"
+
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "5"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+
+			"baseDamage"  "2"
+
+			"rangedAttackRange" "3"
+			"rangedAttackMinRange" "2"
+			"evasion" "0.2"
+			"walkSpeed" "3"
+		}
+
+
+		"skills"
+		{
+			"1" "sleeping_arrow"
+			"11" "dodge_trait"
+			
+			"100" "keepDistance_ai"
+			"101" "get_in_range_ai"
+			"102" "walk_to_closest_ranged_ai"
+			"103" "bandit_archer_ai"
+
+ 		}
+
+ 		"soundConfig"
+		{
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_smallHumanoidHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_smallHumanoidDeath"
+			}
+		}
+
+ 		"defaultSkill" "bandit_ranged_attack"		
+	}
+
+	"BanditArcherNoDamageRooted" 
+	{
+		"Model" "BanditArcherNoDamageRooted"
+		"Name" "UNIT_BANDIT_ARCHER_NAME"
+		"InheritsFrom" "Base"
+
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "6"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+
+			"baseDamage"  "0"
+
+			"rangedAttackRange" "4"
+			"rangedAttackMinRange" "2"
+
+			"walkSpeed" "0"
+		}
+
+
+		"skills"
+		{
+			
+ 		}
+ 		"states"
+		{
+			
+			"ROOTED" "1"
+ 		}
+
+ 		"defaultSkill" "fixed_ranged_attack"		
+	}
+
+	"BanditPillager" 
+	{
+		"Model" "BanditPillager"
+		"Name" "BANDIT_PILLAGER"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "15"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+			"rangedAttackRange" "0"
+
+			"visualMoveSpeed" "1" 
+			"visualRunSpeed" "1"
+			
+			"baseDamage"  "6"
+
+			"walkSpeed" "2"
+		}
+
+		"skills"
+		{
+			
+			"1" "pillager_ground_slam"
+ 		}
+
+ 		"soundConfig"
+		{
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_largeHumanoidHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_largeHumanoidDeath"
+				"walk" ""
+				"step" "krl_sfx_combatGeneric_softFootsteps_dirt_individual"
+			}
+		}
+
+
+ 		"defaultSkill" "area_knockback_melee_attack"
+	}
+}

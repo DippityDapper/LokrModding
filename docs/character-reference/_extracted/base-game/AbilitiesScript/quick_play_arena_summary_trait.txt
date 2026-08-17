@@ -1,0 +1,168 @@
+"quick_play_arena_summary_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "quick_play_arena_summary_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnStartFight"
+            {
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"        "%TARGET"
+                        "Radius"        "1000"
+                        "Teams"         "TEAM_ALL"
+                        "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(GoodSide)) && matchesCinematicId(%theUnit, #Heroe))"
+                    }
+
+                    "ActionsIfFound"
+                    {
+                        "SetToContext"
+                        {
+                            "Context" "encounterContext()"
+                            "Key" "#startingHeroesCount"
+                            "Value" "listCount(%foundUnits)"
+                            "Type" "FIELD_INTEGER"
+                        }
+                    }
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"        "%TARGET"
+                        "Radius"        "1000"
+                        "Teams"         "TEAM_ALL"
+                        "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(BadSide)) && isOnState(%theUnit, #QUICK_PLAY_ARENA_ELITE))"
+                    }
+
+                    "ActionsIfFound"
+                    {
+                        "SetToContext"
+                        {
+                            "Context"       "encounterContext()"
+                            "Key"           "#startingEliteCount"
+                            "Value"         "listCount(%foundUnits)"
+                            "Type"          "FIELD_INTEGER"
+                        }
+                    }
+                }
+            }
+
+            "OnVictory"
+            {
+                "AdventureSummaryIncrement"
+                {
+                    "Id" "#summary.combat_won"
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"        "%TARGET"
+                        "Radius"        "1000"
+                        "Teams"         "TEAM_ALL"
+                        "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(GoodSide)) && matchesCinematicId(%theUnit, #Heroe) && safeEquals(stat(%theUnit, #deaths_in_fights), 0))"
+                    }
+
+                    "ActionsIfFound"
+                    {
+                        "Conditional"
+                        {
+                            "Condition"     "safeEquals(listCount(%foundUnits), wrapContext(encounterContext(), %startingHeroesCount))"
+                            "Actions" 
+                            {
+                                "AdventureSummaryIncrement"
+                                {
+                                    "Id" "#summary.no_casualties_combat"
+                                }
+
+                                "Conditional"
+                                {
+                                    "Condition"     "isDiversifierActive(#bashed_heroes)"
+                                    "Actions" 
+                                    {
+                                        "AchievementIncrement"
+                                        {
+                                            "Achievement" "#qpa_flawless_win_bashed_heroes"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.remaining_heroes"
+                            "Increment" "listCount(%foundUnits)"
+                        }
+                    }
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"        "%TARGET"
+                        "Radius"        "1000"
+                        "Teams"         "TEAM_ALL"
+                        "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(GoodSide)) && matchesCinematicId(%theUnit, #Heroe) && safeEquals(stat(%theUnit, #health), stat(%theUnit, #health_max)))"
+                    }
+
+                    "ActionsIfFound"
+                    {
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.full_hp_heroes"
+                            "Increment" "listCount(%foundUnits)"
+                        }
+                    }
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"        "%TARGET"
+                        "Radius"        "1000"
+                        "Teams"         "TEAM_ALL"
+                        "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(GoodSide)) && matchesCinematicId(%theUnit, #NPC))"
+                    }
+
+                    "ActionsIfFound"
+                    {
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.remaining_npcs"
+                            "Increment" "listCount(%foundUnits)"
+                        }
+                    }
+                }
+
+                "Conditional"
+                {
+                    "Condition"     "wrapContext(encounterContext(), %startingEliteCount) > 0"
+                    "Actions" 
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#qpa_win_multiple_elite_combats"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

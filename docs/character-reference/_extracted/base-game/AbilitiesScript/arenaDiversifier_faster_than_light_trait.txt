@@ -1,0 +1,70 @@
+"arenaDiversifier_faster_than_light_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_INTEGER"
+            "extraSpeed"            "1"
+        }
+    }
+
+    "Modifiers"
+    {
+        "arenaDiversifier_faster_than_light_trait"
+        {
+            "Passive" "1"
+
+            "OnStartFight"
+            {
+                "Conditional"
+                {
+                    "Condition" "isDiversifierActive(#faster_than_light)"
+
+                    "Actions" 
+                    {
+                        "ActOnTargets"
+                        {
+                            "Target"
+                            {
+                                "Center"        "%TARGET"
+                                "Radius"        "9999"
+                                "Teams"         "TEAM_ALL"
+                                "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(BadSide)) && not(isOnState(%theUnit, #PROP)))"
+                            }
+                            "IteratorName" "#newTarget"
+                            "Actions"    
+                            {
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"    "faster_than_light_extra_speed_modifier"
+                                    "Target"          "%newTarget"
+                                }
+                            }
+                        }
+                    }
+
+                    "ElseActions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "arenaDiversifier_faster_than_light_trait"
+                            "Target"          "%TARGET"
+                        }
+                    }
+                }
+            }
+        }
+
+        "faster_than_light_extra_speed_modifier"
+        {
+            "PropertiesAdd"
+            {
+                "walkSpeed"             "%extraSpeed"
+            }
+        }
+    }
+}
+

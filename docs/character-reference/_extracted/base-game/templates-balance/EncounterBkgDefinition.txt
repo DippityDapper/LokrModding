@@ -1,0 +1,2499 @@
+MonoBehaviour Base
+	PPtr<GameObject> m_GameObject
+		int m_FileID = 0
+		SInt64 m_PathID = -2422819051125240475
+	UInt8 m_Enabled = 1
+	PPtr<MonoScript> m_Script
+		int m_FileID = 0
+		SInt64 m_PathID = -6772448756576834612
+	string m_Name = ""
+	PPtr<$BoxCollider2D> backgroundLimits
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	PPtr<$GameObject> prefab
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	LevelBoardSave boardMetadata
+		int hexWidth = 20
+		int hexHeight = 24
+		LevelBoardSaveItem boardState
+			Array Array
+			int size = 354
+				[0]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -9
+						int r = 19
+						int s = -10
+					UInt8 walkable = 0
+				[1]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 19
+						int s = -11
+					UInt8 walkable = 0
+				[2]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 19
+						int s = -12
+					UInt8 walkable = 0
+				[3]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 19
+						int s = -13
+					UInt8 walkable = 0
+				[4]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 19
+						int s = -14
+					UInt8 walkable = 0
+				[5]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 19
+						int s = -15
+					UInt8 walkable = 0
+				[6]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 19
+						int s = -16
+					UInt8 walkable = 0
+				[7]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 19
+						int s = -17
+					UInt8 walkable = 0
+				[8]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 18
+						int s = -12
+					UInt8 walkable = 0
+				[9]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 18
+						int s = -13
+					UInt8 walkable = 0
+				[10]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 18
+						int s = -11
+					UInt8 walkable = 0
+				[11]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 18
+						int s = -10
+					UInt8 walkable = 0
+				[12]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -9
+						int r = 18
+						int s = -9
+					UInt8 walkable = 0
+				[13]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 19
+						int s = -18
+					UInt8 walkable = 0
+				[14]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 19
+						int s = -19
+					UInt8 walkable = 0
+				[15]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 19
+						int s = -20
+					UInt8 walkable = 0
+				[16]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 19
+						int s = -21
+					UInt8 walkable = 0
+				[17]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 19
+						int s = -23
+					UInt8 walkable = 0
+				[18]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 18
+						int s = -23
+					UInt8 walkable = 0
+				[19]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 19
+						int s = -24
+					UInt8 walkable = 0
+				[20]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 18
+						int s = -24
+					UInt8 walkable = 0
+				[21]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 19
+						int s = -25
+					UInt8 walkable = 0
+				[22]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -9
+						int r = 17
+						int s = -8
+					UInt8 walkable = 0
+				[23]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -10
+						int r = 19
+						int s = -9
+					UInt8 walkable = 0
+				[24]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 0
+						int s = 0
+					UInt8 walkable = 0
+				[25]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 0
+						int s = -1
+					UInt8 walkable = 0
+				[26]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 0
+						int s = -2
+					UInt8 walkable = 0
+				[27]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 0
+						int s = -3
+					UInt8 walkable = 0
+				[28]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 0
+						int s = -4
+					UInt8 walkable = 0
+				[29]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 0
+						int s = -5
+					UInt8 walkable = 0
+				[30]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 0
+						int s = -6
+					UInt8 walkable = 0
+				[31]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 0
+						int s = -11
+					UInt8 walkable = 0
+				[32]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 0
+						int s = -12
+					UInt8 walkable = 0
+				[33]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 0
+						int s = -10
+					UInt8 walkable = 0
+				[34]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 0
+						int s = -9
+					UInt8 walkable = 0
+				[35]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 0
+						int s = -8
+					UInt8 walkable = 0
+				[36]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 0
+						int s = -7
+					UInt8 walkable = 0
+				[37]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 1
+						int s = 0
+					UInt8 walkable = 0
+				[38]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 1
+						int s = -1
+					UInt8 walkable = 0
+				[39]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 1
+						int s = -2
+					UInt8 walkable = 0
+				[40]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 1
+						int s = -3
+					UInt8 walkable = 0
+				[41]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 1
+						int s = -4
+					UInt8 walkable = 0
+				[42]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 1
+						int s = -5
+					UInt8 walkable = 0
+				[43]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 1
+						int s = -6
+					UInt8 walkable = 0
+				[44]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 1
+						int s = -7
+					UInt8 walkable = 0
+				[45]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 1
+						int s = -8
+					UInt8 walkable = 0
+				[46]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 1
+						int s = -9
+					UInt8 walkable = 0
+				[47]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 1
+						int s = -10
+					UInt8 walkable = 0
+				[48]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 1
+						int s = -11
+					UInt8 walkable = 0
+				[49]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 1
+						int s = -12
+					UInt8 walkable = 0
+				[50]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 1
+						int s = -13
+					UInt8 walkable = 0
+				[51]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 2
+						int s = -1
+					UInt8 walkable = 0
+				[52]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 2
+						int s = -4
+					UInt8 walkable = 0
+				[53]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 2
+						int s = -5
+					UInt8 walkable = 0
+				[54]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 2
+						int s = -6
+					UInt8 walkable = 0
+				[55]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 2
+						int s = -7
+					UInt8 walkable = 0
+				[56]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 2
+						int s = -12
+					UInt8 walkable = 0
+				[57]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 2
+						int s = -13
+					UInt8 walkable = 0
+				[58]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 0
+						int s = -13
+					UInt8 walkable = 0
+				[59]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 0
+						int s = -14
+					UInt8 walkable = 0
+				[60]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 0
+						int s = -15
+					UInt8 walkable = 0
+				[61]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 1
+						int s = -16
+					UInt8 walkable = 0
+				[62]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 1
+						int s = -15
+					UInt8 walkable = 0
+				[63]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 1
+						int s = -14
+					UInt8 walkable = 0
+				[64]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 2
+						int s = -14
+					UInt8 walkable = 0
+				[65]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 2
+						int s = -16
+					UInt8 walkable = 0
+				[66]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 3
+						int s = -5
+					UInt8 walkable = 0
+				[67]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 4
+						int s = -6
+					UInt8 walkable = 0
+				[68]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 3
+						int s = -10
+					UInt8 walkable = 0
+				[69]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 2
+						int s = -15
+					UInt8 walkable = 0
+				[70]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 3
+						int s = -15
+					UInt8 walkable = 0
+				[71]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 21
+						int s = -22
+					UInt8 walkable = 0
+				[72]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 2
+						int s = -10
+					UInt8 walkable = 0
+				[73]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 2
+						int s = -11
+					UInt8 walkable = 0
+				[74]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 2
+						int s = -9
+					UInt8 walkable = 0
+				[75]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 3
+						int s = -7
+					UInt8 walkable = 0
+				[76]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 3
+						int s = -11
+					UInt8 walkable = 0
+				[77]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 3
+						int s = -14
+					UInt8 walkable = 0
+				[78]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 17
+						int s = -10
+					UInt8 walkable = 0
+				[79]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 17
+						int s = -9
+					UInt8 walkable = 0
+				[80]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 3
+						int s = -8
+					UInt8 walkable = 0
+				[81]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 3
+						int s = -9
+					UInt8 walkable = 0
+				[82]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 2
+						int s = -8
+					UInt8 walkable = 0
+				[83]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 3
+						int s = -12
+					UInt8 walkable = 0
+				[84]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 3
+						int s = -13
+					UInt8 walkable = 0
+				[85]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 2
+						int s = -3
+					UInt8 walkable = 0
+				[86]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 2
+						int s = -2
+					UInt8 walkable = 0
+				[87]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 20
+						int s = -17
+					UInt8 walkable = 0
+				[88]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 20
+						int s = -18
+					UInt8 walkable = 0
+				[89]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 20
+						int s = -20
+					UInt8 walkable = 0
+				[90]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 20
+						int s = -19
+					UInt8 walkable = 0
+				[91]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 20
+						int s = -16
+					UInt8 walkable = 0
+				[92]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 20
+						int s = -21
+					UInt8 walkable = 0
+				[93]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 14
+						int s = -7
+					UInt8 walkable = 0
+				[94]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 15
+						int s = -7
+					UInt8 walkable = 0
+				[95]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 15
+						int s = -8
+					UInt8 walkable = 0
+				[96]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 16
+						int s = -8
+					UInt8 walkable = 0
+				[97]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 16
+						int s = -9
+					UInt8 walkable = 0
+				[98]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 8
+						int s = -4
+					UInt8 walkable = 0
+				[99]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 7
+						int s = -4
+					UInt8 walkable = 0
+				[100]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 6
+						int s = -4
+					UInt8 walkable = 0
+				[101]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 5
+						int s = -4
+					UInt8 walkable = 0
+				[102]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 4
+						int s = -5
+					UInt8 walkable = 0
+				[103]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 3
+						int s = -4
+					UInt8 walkable = 0
+				[104]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 3
+						int s = -3
+					UInt8 walkable = 0
+				[105]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 4
+						int s = -3
+					UInt8 walkable = 0
+				[106]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 4
+						int s = -4
+					UInt8 walkable = 0
+				[107]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 5
+						int s = -3
+					UInt8 walkable = 0
+				[108]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 6
+						int s = -3
+					UInt8 walkable = 0
+				[109]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 7
+						int s = -3
+					UInt8 walkable = 0
+				[110]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 5
+						int s = -2
+					UInt8 walkable = 0
+				[111]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 4
+						int s = -2
+					UInt8 walkable = 0
+				[112]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 3
+						int s = -1
+					UInt8 walkable = 0
+				[113]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 3
+						int s = -2
+					UInt8 walkable = 0
+				[114]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 13
+						int s = -6
+					UInt8 walkable = 0
+				[115]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 3
+						int s = -16
+					UInt8 walkable = 0
+				[116]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 4
+						int s = -17
+					UInt8 walkable = 0
+				[117]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 3
+						int s = -17
+					UInt8 walkable = 0
+				[118]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 3
+						int s = -6
+					UInt8 walkable = 0
+				[119]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 13
+						int s = -26
+					UInt8 walkable = 0
+				[120]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 14
+						int s = -27
+					UInt8 walkable = 0
+				[121]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 0
+						int s = -16
+					UInt8 walkable = 0
+				[122]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 1
+						int s = -17
+					UInt8 walkable = 0
+				[123]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 2
+						int s = -17
+					UInt8 walkable = 0
+				[124]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 3
+						int s = -18
+					UInt8 walkable = 0
+				[125]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 2
+						int s = -18
+					UInt8 walkable = 0
+				[126]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = 1
+						int s = -18
+					UInt8 walkable = 0
+				[127]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = 0
+						int s = -17
+					UInt8 walkable = 0
+				[128]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 18
+						int r = 0
+						int s = -18
+					UInt8 walkable = 0
+				[129]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 18
+						int r = 1
+						int s = -19
+					UInt8 walkable = 0
+				[130]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = 2
+						int s = -19
+					UInt8 walkable = 0
+				[131]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 3
+						int s = -19
+					UInt8 walkable = 0
+				[132]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = 3
+						int s = -20
+					UInt8 walkable = 0
+				[133]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 18
+						int r = 2
+						int s = -20
+					UInt8 walkable = 0
+				[134]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 19
+						int r = 0
+						int s = -19
+					UInt8 walkable = 0
+				[135]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 19
+						int r = 1
+						int s = -20
+					UInt8 walkable = 0
+				[136]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 19
+						int r = 2
+						int s = -21
+					UInt8 walkable = 0
+				[137]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 18
+						int r = 3
+						int s = -21
+					UInt8 walkable = 0
+				[138]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 20
+						int r = 0
+						int s = -20
+					UInt8 walkable = 0
+				[139]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -10
+						int r = 21
+						int s = -11
+					UInt8 walkable = 0
+				[140]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -11
+						int r = 21
+						int s = -10
+					UInt8 walkable = 0
+				[141]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -10
+						int r = 20
+						int s = -10
+					UInt8 walkable = 0
+				[142]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -9
+						int r = 20
+						int s = -11
+					UInt8 walkable = 0
+				[143]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -9
+						int r = 21
+						int s = -12
+					UInt8 walkable = 0
+				[144]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 20
+						int s = -12
+					UInt8 walkable = 0
+				[145]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 21
+						int s = -13
+					UInt8 walkable = 0
+				[146]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 20
+						int s = -13
+					UInt8 walkable = 0
+				[147]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 20
+						int s = -14
+					UInt8 walkable = 0
+				[148]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 20
+						int s = -15
+					UInt8 walkable = 0
+				[149]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 21
+						int s = -15
+					UInt8 walkable = 0
+				[150]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 21
+						int s = -14
+					UInt8 walkable = 0
+				[151]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 21
+						int s = -17
+					UInt8 walkable = 0
+				[152]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 21
+						int s = -16
+					UInt8 walkable = 0
+				[153]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 21
+						int s = -18
+					UInt8 walkable = 0
+				[154]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 21
+						int s = -19
+					UInt8 walkable = 0
+				[155]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 21
+						int s = -20
+					UInt8 walkable = 0
+				[156]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 21
+						int s = -21
+					UInt8 walkable = 0
+				[157]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 20
+						int s = -22
+					UInt8 walkable = 0
+				[158]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 21
+						int s = -23
+					UInt8 walkable = 0
+				[159]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 20
+						int s = -23
+					UInt8 walkable = 0
+				[160]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 21
+						int s = -24
+					UInt8 walkable = 0
+				[161]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 20
+						int s = -24
+					UInt8 walkable = 0
+				[162]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 21
+						int s = -25
+					UInt8 walkable = 0
+				[163]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 20
+						int s = -25
+					UInt8 walkable = 0
+				[164]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 21
+						int s = -26
+					UInt8 walkable = 0
+				[165]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 20
+						int s = -26
+					UInt8 walkable = 0
+				[166]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 18
+						int s = -25
+					UInt8 walkable = 0
+				[167]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 19
+						int s = -26
+					UInt8 walkable = 0
+				[168]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 22
+						int s = -28
+					UInt8 walkable = 0
+				[169]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 21
+						int s = -28
+					UInt8 walkable = 0
+				[170]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 20
+						int s = -27
+					UInt8 walkable = 0
+				[171]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 19
+						int s = -27
+					UInt8 walkable = 0
+				[172]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 18
+						int s = -26
+					UInt8 walkable = 0
+				[173]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 21
+						int s = -27
+					UInt8 walkable = 0
+				[174]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 20
+						int s = -28
+					UInt8 walkable = 0
+				[175]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 21
+						int s = -29
+					UInt8 walkable = 0
+				[176]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 20
+						int s = -29
+					UInt8 walkable = 0
+				[177]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 21
+						int s = -30
+					UInt8 walkable = 0
+				[178]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 20
+						int s = -30
+					UInt8 walkable = 0
+				[179]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 18
+						int s = -29
+					UInt8 walkable = 0
+				[180]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 18
+						int s = -28
+					UInt8 walkable = 0
+				[181]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 18
+						int s = -27
+					UInt8 walkable = 0
+				[182]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 19
+						int s = -28
+					UInt8 walkable = 0
+				[183]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 19
+						int s = -29
+					UInt8 walkable = 0
+				[184]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 12
+						int s = -26
+					UInt8 walkable = 0
+				[185]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = -1
+						int s = 1
+					UInt8 walkable = 0
+				[186]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = -1
+						int s = 0
+					UInt8 walkable = 0
+				[187]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = -1
+						int s = -1
+					UInt8 walkable = 0
+				[188]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = -1
+						int s = -2
+					UInt8 walkable = 0
+				[189]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = -1
+						int s = -3
+					UInt8 walkable = 0
+				[190]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = -1
+						int s = -4
+					UInt8 walkable = 0
+				[191]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = -1
+						int s = -5
+					UInt8 walkable = 0
+				[192]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = -2
+						int s = -5
+					UInt8 walkable = 0
+				[193]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = -1
+						int s = -6
+					UInt8 walkable = 0
+				[194]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = -1
+						int s = -7
+					UInt8 walkable = 0
+				[195]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = -1
+						int s = -8
+					UInt8 walkable = 0
+				[196]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = -1
+						int s = -9
+					UInt8 walkable = 0
+				[197]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = -1
+						int s = -10
+					UInt8 walkable = 0
+				[198]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = -1
+						int s = -11
+					UInt8 walkable = 0
+				[199]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = -1
+						int s = -12
+					UInt8 walkable = 0
+				[200]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = -1
+						int s = -13
+					UInt8 walkable = 0
+				[201]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = -1
+						int s = -14
+					UInt8 walkable = 0
+				[202]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = -1
+						int s = -15
+					UInt8 walkable = 0
+				[203]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = -1
+						int s = -16
+					UInt8 walkable = 0
+				[204]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 18
+						int r = -1
+						int s = -17
+					UInt8 walkable = 0
+				[205]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 19
+						int r = -1
+						int s = -18
+					UInt8 walkable = 0
+				[206]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 20
+						int r = -1
+						int s = -19
+					UInt8 walkable = 0
+				[207]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 4
+						int s = -18
+					UInt8 walkable = 0
+				[208]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 22
+						int s = -29
+					UInt8 walkable = 0
+				[209]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 22
+						int s = -27
+					UInt8 walkable = 0
+				[210]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 22
+						int s = -26
+					UInt8 walkable = 0
+				[211]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 22
+						int s = -25
+					UInt8 walkable = 0
+				[212]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 22
+						int s = -24
+					UInt8 walkable = 0
+				[213]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 22
+						int s = -23
+					UInt8 walkable = 0
+				[214]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 22
+						int s = -22
+					UInt8 walkable = 0
+				[215]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 22
+						int s = -21
+					UInt8 walkable = 0
+				[216]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 22
+						int s = -20
+					UInt8 walkable = 0
+				[217]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 22
+						int s = -19
+					UInt8 walkable = 0
+				[218]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 22
+						int s = -17
+					UInt8 walkable = 0
+				[219]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 22
+						int s = -18
+					UInt8 walkable = 0
+				[220]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 22
+						int s = -16
+					UInt8 walkable = 0
+				[221]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 22
+						int s = -15
+					UInt8 walkable = 0
+				[222]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 22
+						int s = -14
+					UInt8 walkable = 0
+				[223]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -9
+						int r = 22
+						int s = -13
+					UInt8 walkable = 0
+				[224]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -10
+						int r = 22
+						int s = -12
+					UInt8 walkable = 0
+				[225]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -11
+						int r = 22
+						int s = -11
+					UInt8 walkable = 0
+				[226]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 17
+						int s = -27
+					UInt8 walkable = 0
+				[227]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 4
+						int s = -20
+					UInt8 walkable = 0
+				[228]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = 4
+						int s = -21
+					UInt8 walkable = 0
+				[229]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 18
+						int r = 4
+						int s = -22
+					UInt8 walkable = 0
+				[230]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = 5
+						int s = -22
+					UInt8 walkable = 0
+				[231]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 17
+						int r = 6
+						int s = -23
+					UInt8 walkable = 0
+				[232]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 8
+						int s = -24
+					UInt8 walkable = 0
+				[233]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 10
+						int s = -25
+					UInt8 walkable = 0
+				[234]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 16
+						int s = -28
+					UInt8 walkable = 0
+				[235]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 17
+						int s = -28
+					UInt8 walkable = 0
+				[236]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 15
+						int s = -27
+					UInt8 walkable = 0
+				[237]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 16
+						int s = -27
+					UInt8 walkable = 0
+				[238]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 5
+						int s = -21
+					UInt8 walkable = 0
+				[239]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 6
+						int s = -22
+					UInt8 walkable = 0
+				[240]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 16
+						int r = 7
+						int s = -23
+					UInt8 walkable = 0
+				[241]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 6
+						int s = -21
+					UInt8 walkable = 0
+				[242]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 7
+						int s = -22
+					UInt8 walkable = 0
+				[243]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 8
+						int s = -23
+					UInt8 walkable = 0
+				[244]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 5
+						int s = -20
+					UInt8 walkable = 0
+				[245]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 9
+						int s = -24
+					UInt8 walkable = 0
+				[246]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 15
+						int r = 4
+						int s = -19
+					UInt8 walkable = 0
+				[247]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 10
+						int s = -5
+					UInt8 walkable = 0
+				[248]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 11
+						int s = -5
+					UInt8 walkable = 0
+				[249]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 12
+						int s = -6
+					UInt8 walkable = 0
+				[250]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 9
+						int s = -4
+					UInt8 walkable = 0
+				[251]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 11
+						int s = -25
+					UInt8 walkable = 0
+				[252]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 9
+						int s = -23
+					UInt8 walkable = 0
+				[253]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 10
+						int s = -23
+					UInt8 walkable = 0
+				[254]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 11
+						int s = -24
+					UInt8 walkable = 0
+				[255]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 12
+						int s = -24
+					UInt8 walkable = 0
+				[256]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 12
+						int s = -25
+					UInt8 walkable = 0
+				[257]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 13
+						int s = -25
+					UInt8 walkable = 0
+				[258]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 14
+						int s = -26
+					UInt8 walkable = 0
+				[259]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 10
+						int s = -24
+					UInt8 walkable = 0
+				[260]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 5
+						int s = -5
+					UInt8 walkable = 0
+				[261]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 5
+						int s = -6
+					UInt8 walkable = 0
+				[262]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 6
+						int s = -5
+					UInt8 walkable = 0
+				[263]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 7
+						int s = -5
+					UInt8 walkable = 0
+				[264]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 8
+						int s = -5
+					UInt8 walkable = 0
+				[265]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 9
+						int s = -5
+					UInt8 walkable = 0
+				[266]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 10
+						int s = -6
+					UInt8 walkable = 0
+				[267]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 11
+						int s = -6
+					UInt8 walkable = 0
+				[268]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 12
+						int s = -7
+					UInt8 walkable = 0
+				[269]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 13
+						int s = -7
+					UInt8 walkable = 0
+				[270]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 14
+						int s = -8
+					UInt8 walkable = 0
+				[271]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 15
+						int s = -9
+					UInt8 walkable = 0
+				[272]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 16
+						int s = -10
+					UInt8 walkable = 0
+				[273]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -6
+						int r = 17
+						int s = -11
+					UInt8 walkable = 0
+				[274]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 17
+						int s = -12
+					UInt8 walkable = 0
+				[275]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 15
+						int s = -10
+					UInt8 walkable = 0
+				[276]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 14
+						int s = -9
+					UInt8 walkable = 0
+				[277]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -5
+						int r = 13
+						int s = -8
+					UInt8 walkable = 0
+				[278]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 11
+						int s = -7
+					UInt8 walkable = 0
+				[279]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 9
+						int s = -6
+					UInt8 walkable = 0
+				[280]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 8
+						int s = -22
+					UInt8 walkable = 0
+				[281]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 14
+						int s = -25
+					UInt8 walkable = 0
+				[282]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 15
+						int s = -26
+					UInt8 walkable = 0
+				[283]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 16
+						int s = -26
+					UInt8 walkable = 0
+				[284]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 17
+						int s = -26
+					UInt8 walkable = 0
+				[285]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 17
+						int s = -25
+					UInt8 walkable = 0
+				[286]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 7
+						int s = -21
+					UInt8 walkable = 0
+				[287]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 15
+						int s = -25
+					UInt8 walkable = 0
+				[288]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 10
+						int s = -7
+					UInt8 walkable = 0
+				[289]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 8
+						int s = -6
+					UInt8 walkable = 0
+				[290]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 7
+						int s = -6
+					UInt8 walkable = 0
+				[291]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 6
+						int s = -6
+					UInt8 walkable = 0
+				[292]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 16
+						int s = -25
+					UInt8 walkable = 0
+				[293]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 5
+						int s = -18
+					UInt8 walkable = 0
+				[294]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 6
+						int s = -19
+					UInt8 walkable = 0
+				[295]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 7
+						int s = -20
+					UInt8 walkable = 0
+				[296]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 5
+						int s = -19
+					UInt8 walkable = 0
+				[297]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 14
+						int r = 6
+						int s = -20
+					UInt8 walkable = 0
+				[298]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 5
+						int s = -16
+					UInt8 walkable = 0
+				[299]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 4
+						int s = -15
+					UInt8 walkable = 0
+				[300]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 4
+						int s = -16
+					UInt8 walkable = 0
+				[301]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 5
+						int s = -17
+					UInt8 walkable = 0
+				[302]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 4
+						int s = -14
+					UInt8 walkable = 0
+				[303]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 4
+						int s = -7
+					UInt8 walkable = 0
+				[304]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 10
+						int r = 5
+						int s = -15
+					UInt8 walkable = 0
+				[305]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 5
+						int s = -14
+					UInt8 walkable = 0
+				[306]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 4
+						int s = -13
+					UInt8 walkable = 0
+				[307]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 5
+						int s = -13
+					UInt8 walkable = 0
+				[308]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 4
+						int s = -12
+					UInt8 walkable = 0
+				[309]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 4
+						int s = -11
+					UInt8 walkable = 0
+				[310]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 5
+						int s = -11
+					UInt8 walkable = 0
+				[311]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 4
+						int s = -10
+					UInt8 walkable = 0
+				[312]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 5
+						int s = -10
+					UInt8 walkable = 0
+				[313]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 4
+						int s = -9
+					UInt8 walkable = 0
+				[314]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 4
+						int s = -8
+					UInt8 walkable = 0
+				[315]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 5
+						int s = -9
+					UInt8 walkable = 0
+				[316]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 5
+						int s = -8
+					UInt8 walkable = 0
+				[317]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 5
+						int s = -7
+					UInt8 walkable = 0
+				[318]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 6
+						int s = -7
+					UInt8 walkable = 0
+				[319]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 7
+						int s = -7
+					UInt8 walkable = 0
+				[320]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 8
+						int s = -7
+					UInt8 walkable = 0
+				[321]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 6
+						int s = -8
+					UInt8 walkable = 0
+				[322]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -2
+						int r = 9
+						int s = -7
+					UInt8 walkable = 0
+				[323]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 5
+						int s = -12
+					UInt8 walkable = 0
+				[324]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 12
+						int s = -8
+					UInt8 walkable = 0
+				[325]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 12
+						int r = 6
+						int s = -18
+					UInt8 walkable = 0
+				[326]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 9
+						int s = -13
+					UInt8 walkable = 0
+				[327]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 8
+						int s = -12
+					UInt8 walkable = 0
+				[328]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 5
+						int r = 7
+						int s = -12
+					UInt8 walkable = 0
+				[329]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 14
+						int s = -13
+					UInt8 walkable = 0
+				[330]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -1
+						int r = 15
+						int s = -14
+					UInt8 walkable = 0
+				[331]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 9
+						int s = -18
+					UInt8 walkable = 0
+				[332]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 11
+						int s = -18
+					UInt8 walkable = 0
+				[333]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 11
+						int s = -19
+					UInt8 walkable = 0
+				[334]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 10
+						int s = -18
+					UInt8 walkable = 0
+				[335]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 6
+						int r = 6
+						int s = -12
+					UInt8 walkable = 0
+				[336]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 15
+						int s = -19
+					UInt8 walkable = 0
+				[337]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 4
+						int r = 16
+						int s = -20
+					UInt8 walkable = 0
+				[338]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 17
+						int s = -20
+					UInt8 walkable = 0
+				[339]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 9
+						int r = 10
+						int s = -19
+					UInt8 walkable = 0
+				[340]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 8
+						int r = 9
+						int s = -17
+					UInt8 walkable = 0
+				[341]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 14
+						int s = -14
+					UInt8 walkable = 0
+				[342]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 15
+						int s = -15
+					UInt8 walkable = 0
+				[343]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 0
+						int r = 13
+						int s = -13
+					UInt8 walkable = 0
+				[344]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 13
+						int s = -14
+					UInt8 walkable = 0
+				[345]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 1
+						int r = 14
+						int s = -15
+					UInt8 walkable = 0
+				[346]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 7
+						int r = 10
+						int s = -17
+					UInt8 walkable = 0
+				[347]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 2
+						int r = 18
+						int s = -20
+					UInt8 walkable = 0
+				[348]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -3
+						int r = 18
+						int s = -15
+					UInt8 walkable = 0
+				[349]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -4
+						int r = 18
+						int s = -14
+					UInt8 walkable = 0
+				[350]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 8
+						int s = -21
+					UInt8 walkable = 0
+				[351]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 13
+						int r = 9
+						int s = -22
+					UInt8 walkable = 0
+				[352]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 3
+						int r = 19
+						int s = -22
+					UInt8 walkable = 0
+				[353]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = 11
+						int r = 13
+						int s = -24
+					UInt8 walkable = 0

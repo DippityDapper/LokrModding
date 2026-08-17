@@ -1,0 +1,57 @@
+"agility_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+
+    "Icon" "Agility"
+
+     "AbilitySpecial"
+    {
+       
+    }
+
+    "Modifiers"
+    {
+        "agility_trait_provider"
+        {
+            "Passive" "1"
+
+            "OnTurnStarted"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"    "agility_trait_bonus_modifier"
+                    "Target"         "%TARGET"
+                    "Duration" "1"
+                }
+            }
+
+            "OnUnitLeavingNode"
+            {
+                "Conditional"
+                {
+                    "Condition" "equal(%TARGET, %UNIT)"
+
+                    "Actions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "agility_trait_bonus_modifier"
+                            "Target"         "%TARGET"
+                        }
+                    }
+                }
+            }
+        }
+
+        "agility_trait_bonus_modifier"
+        {
+
+            
+
+            "States"
+            {
+                "ACTION_DOESNT_CONSUME_MOVE" "1"
+            }
+        }
+    }
+}

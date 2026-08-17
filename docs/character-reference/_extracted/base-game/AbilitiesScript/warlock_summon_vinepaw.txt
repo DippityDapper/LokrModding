@@ -1,0 +1,99 @@
+"warlock_summon_vinepaw"
+{
+    "AbilityBehavior"           "POINT_TARGET | POSITIVE_EFFECT | NEEDS_CLEAR_TERRAIN"
+    "AbilityCastRange"          "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"           "3"
+    "AbilityAPCost"             "2"
+    "CastFXId"                  "WarlockSummonVinepawCastFXMega"
+    "AnimationID"               "SpellCastB"
+    "Icon"                      "SummonVinepaw"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "duration"          "4"
+        }
+
+        "01"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "AbilityCastRange"  "stat(%CASTER, #rangedAttackRange)"
+        }
+    }
+
+     "OnAbilityAction"
+    { 
+        "SpawnUnit"
+        {
+            "UnitName"                  "#Vinepaw"
+            "Position"                  "%TARGET"
+            "UnitGroup"                 "unitGroup(%CASTER)"
+            "IsAI"                      "isAI(%CASTER)"
+            "AddToInitiativeOrder"      "0"
+
+            "OnSpawn"
+            {
+                "PlayActivityAnimation"
+                {
+                    "Target"            "%UNIT"
+                    "Animation"         "Spawn"
+                }
+
+                "AttachEffect"
+                {
+                    "EffectName"                "WarlockSummonVinepawFXMega"
+                    "Target"                    "%UNIT"
+                }
+
+                "Delay"
+                {
+                    "Time" "1.8"
+                    "Actions"
+                    {
+                        "PlaySound"
+                        {
+                            "Sound" "#krl_sfx_genericCombat_warlockSummonVinepawSpawn"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "2.3"
+            "Considerations"
+            {
+                "Close to enemies"
+                {
+                    "Curve" "Linear|100|1|100|1"
+                    "Consideration" "InfluenceMap"
+                    "Params"
+                    {
+                        "MapId" "#CloseToEnemies"  
+                        "Max" "3"
+                        "Min" "0"
+                    }
+                }
+
+                "Amenaza"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "InfluenceMap"
+                    "Params"
+                    {
+                        "MapId" "#Threat"  
+                        "Max" "3"
+                        "Min" "0"
+                    }
+                }
+            }
+        }
+    }
+
+}

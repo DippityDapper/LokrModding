@@ -1,0 +1,71 @@
+
+
+
+
+
+
+
+"shadow_dodge"
+{
+    
+    
+    "AbilityBehavior"       "UNIT_TARGET | NEGATIVE_EFFECT"
+    "AbilityTeamFilter" "TEAM_FRIENDLY"
+    "AbilityCastRange" "0"
+    "AbilityCooldown"      "3"
+    "AbilityAPCost"       "1"
+
+
+    "AnimationID"   "SpellCastB"
+    "CastFXId" "DivineShieldCastFXMega"
+    "Icon" "ShadowDodge"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "evasion" "1.0"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_FLOAT"
+            "duration" "2"
+        }
+         "03"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "evasionDescriptionPercentage" "%evasion*100"
+        }
+    }
+
+
+     "OnAbilityAction"
+    { 
+         "RemoveModifier"
+        {
+            "ModifierName"    "modifier_shadow_dodge"
+            "Target"         "%TARGET"
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"    "modifier_shadow_dodge"
+            "Target"         "%TARGET"
+            "Duration"  "%duration"
+        }
+    }
+
+     "Modifiers"
+    {
+        "modifier_shadow_dodge"
+        {
+
+            "PropertiesAdd"
+            {
+                "evasion" "%evasion"
+            }
+        }
+    }
+}

@@ -1,0 +1,79 @@
+"enrage_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+
+     "AbilitySpecial"
+    {
+       
+    }
+
+    "Modifiers"
+    {
+        "enrage_trait_provider"
+        {
+            "Passive" "1"
+
+            "OnTurnStartedGlobal"
+            {
+                "SetStat"
+                {
+                    "Target" "%TARGET"
+                    "Stat" "#canBeEnraged"
+                    "Value" "1"
+                }
+            }
+
+            "OnPostHit"
+            {
+                "Conditional" 
+                {
+                    "Condition" "hitConnected(%HIT) && (stat(%TARGET, #canBeEnraged) > 0)"
+
+                    "Actions"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "enrage_trait_extra_damage"
+                            "Target"         "%TARGET"
+                        }
+
+                        "SetStat"
+                        {
+                            "Target" "%TARGET"
+                            "Stat" "#canBeEnraged"
+                            "Value" "0"
+                        }
+                    }
+                }
+            }
+
+            "OnTurnFinished"
+            {     
+                "RemoveModifier"
+                {
+                    "ModifierName"    "enrage_trait_extra_damage"
+                    "Target"         "%TARGET"
+                    "RemoveAllMatchingName" "1"
+                }
+            }
+        }
+
+        "enrage_trait_extra_damage"
+        {
+            "OnAdded"
+            {
+                "UnitRaiseMessage"
+                {
+                    "Unit" "%TARGET"
+                    "Text" "ENRAGED!!"
+                }
+            }
+
+
+            "PropertiesAdd"
+            {
+                "extraDamage" "1"
+            }
+        }
+    }
+}

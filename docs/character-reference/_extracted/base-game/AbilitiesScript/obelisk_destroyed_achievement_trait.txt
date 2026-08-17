@@ -1,0 +1,32 @@
+"obelisk_destroyed_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "obelisk_destroyed_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnUnitDiedGlobal"
+            {
+                "Conditional"
+                {
+                    "Condition" "equal(%DEAD, %TARGET)"
+                    "Actions" 
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#obelisks_destroyed"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

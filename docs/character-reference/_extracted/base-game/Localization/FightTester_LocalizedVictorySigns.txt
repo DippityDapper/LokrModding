@@ -1,0 +1,24 @@
+
+
+local encounterLogic = encounterHelper.CreateEncounterLogic()
+
+encounterLogic.AddCinematic("OnStart",cinematicHelper.Cinematic({
+	    cinematicHelper.SetCinematicBarsVisibility(false),
+		cinematicHelper.SetCurtain(true),
+		cinematicHelper.StartFight(),
+	}))
+
+
+encounterLogic.AddCinematic("OnEnd",cinematicHelper.Cinematic({
+		cinematicHelper.Instant(|| cinematicHelper.PlayInstantAnimation(cinematicHelper.FindCinematicUnit("HeroUnit"),"Victory")),
+		cinematicHelper.CameraFollowGroup(UnitGroup.GoodSide),
+		cinematicHelper.ShowFightResume(),
+	}))
+
+encounterLogic.AddCinematic("OnLose",cinematicHelper.Cinematic({
+		cinematicHelper.CameraLooksAtAllUnits(),
+		cinematicHelper.PlayAnimation(|| cinematicHelper.GetViewComponentsByGroup(UnitGroup.BadSide), || {"Victory"}),
+		cinematicHelper.ShowDefeated(),
+	}))
+
+return encounterLogic;

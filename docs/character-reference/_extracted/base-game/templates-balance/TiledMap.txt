@@ -1,0 +1,12 @@
+MonoBehaviour Base
+	PPtr<GameObject> m_GameObject
+		int m_FileID = 0
+		SInt64 m_PathID = -828612433737668625
+	UInt8 m_Enabled = 1
+	PPtr<MonoScript> m_Script
+		int m_FileID = 0
+		SInt64 m_PathID = 7170577135282975737
+	string m_Name = ""
+	int NumTilesWide = 1
+	int TileWidth = 2200
+	float ExportScale = 0.01

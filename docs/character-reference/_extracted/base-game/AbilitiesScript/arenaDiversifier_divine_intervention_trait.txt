@@ -1,0 +1,325 @@
+"arenaDiversifier_divine_intervention_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "numberOfProps"     "3"
+        }
+    }
+
+    "Modifiers"
+    {
+        "arenaDiversifier_divine_intervention_modifier"
+        {
+            "Passive" "1"
+
+            "OnStartFight"
+            {
+                "Conditional"
+                {
+                    "Condition" "isDiversifierActive(#divine_intervention)"
+
+                    "Actions" 
+                    {
+                        "SpawnUnit"
+                        {
+                            "UnitName"              "#DiversifierDivineInterventionControlUnit"
+                            "Nick"                  "#DiversifierDivineIntervention"
+                            "Position"              "newPoint(1000, 1000, 0)"
+                            "UnitGroup"             "@UnitGroup(BadSide)"
+                            "IsAI"                  "1"
+                            "OnSpawn"
+                            {
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+"arenaDiversifier_divine_intervention_telegraph"
+{
+    "AbilityBehavior"           "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter"         "TEAM_FRIENDLY"
+    "AbilityTargetFilterFlags"  "INCLUDE_NON_TARGETABLE"
+    "AnimationID"               "NOANIMATION"
+    "AbilityCastRange"          "0"
+    "AbilityCooldown"           "1"
+    "AbilityAPCost"             "1"
+   
+    "AbilitySpecial" 
+    {
+    }
+
+    "OnAbilityAction"
+    { 
+        "CallFunction"
+        {
+            "Function"              "Ironhide.Legends.Content.Abilities.QPADiversifierDivineIntervention"
+            "HeroFilter" 
+            {
+                "Center"            "%SOURCE"
+                "Radius"            "1000"
+                "Teams"             "TEAM_ENEMY"
+                "CustomFilter"  "customUnitFilter(#theUnit, not(isOnState(%theUnit, #PROP)))"
+            }
+
+            "MinDistanceToHeroes"           "1"
+            "MaxDistanceToHeroes"           "4"
+
+
+
+            "EnemiesFilter" 
+            {
+                "Center"            "%SOURCE"
+                "Radius"            "1000"
+                "Teams"             "TEAM_FRIENDLY"
+                "CustomFilter"  "customUnitFilter(#theUnit, not(isOnState(%theUnit, #PROP)))"
+            }
+
+            "MinDistanceToEnemies"           "0"
+            "MaxDistanceToEnemies"           "3"
+
+            "OldHexa"              "wrapContext(unitContext(%CASTER), %lastTarget)"
+            "OldHexaMinDistance"           "3"
+            "TargetHexaName"        "#hexa"
+
+
+            "Actions"
+            {
+                "SpawnUnit"
+                {
+                    "UnitName"              "#DiversifierDivineInterventionTarget"
+                    "Position"              "hexPosition(%hexa)"
+                    "UnitGroup"             "@UnitGroup(BadSide)"
+                    "IsAI"                  "1"
+                    "Nick"                  "#DiversifierDivineInterventionTarget"
+                    "AddToInitiativeOrder"  "1"
+                    "IsFlipped"             "randomBetween(0, 1) > 0.5"
+                    "OnSpawn"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"  "arenaDiversifier_divine_intervention_telegraph_vfx_modifier"
+                            "Target"        "%UNIT"
+                        }
+                    }
+                }
+
+                "SetStat"
+                {
+                    "Target"    "%SOURCE"
+                    "Stat"     "#TELEGRAPH"
+                    "Value"     "0"
+                }
+
+                "SetStat"
+                {
+                    "Target"    "%SOURCE"
+                    "Stat"     "#CANHIT"
+                    "Value"     "0"
+                }
+
+                "SetToContext"
+                {
+                    "Context" "unitContext(%SOURCE)"
+                    "Key" "#lastTarget"
+                    "Value" "%hexa"
+                    "Type" "FIELD_OBJECT"
+                }
+            }
+        }
+    }
+
+    "Modifiers"
+    {
+        "arenaDiversifier_divine_intervention_main_modifier"
+        {
+            "Passive"           "1"
+            "OnTurnStarted"
+            {
+
+                "SetStat"
+                {
+                    "Target"    "%TARGET"
+                    "Stat"     "#TELEGRAPH"
+                    "Value"     "1"
+                }
+
+                "SetStat"
+                {
+                    "Target"    "%TARGET"
+                    "Stat"     "#CANHIT"
+                    "Value"     "1"
+                }
+            }
+        }
+
+        "arenaDiversifier_divine_intervention_telegraph_vfx_modifier"
+        {
+            "EffectName"        "DivineInterventionTelegrafFXMega"
+        }
+    }
+
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "500"
+            "Considerations"
+            {
+                "Enabled"
+                {
+                    "Curve"             "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#TELEGRAPH"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}
+
+"arenaDiversifier_divine_intervention_hit"
+{
+    "AbilityBehavior"               "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter"             "TEAM_FRIENDLY"
+    "AbilityTargetFilterFlags"      "INCLUDE_NON_TARGETABLE"
+    "AnimationID"                   "NOANIMATION"
+    "AbilityCastRange"              "999"
+    "AbilityCooldown"               "1"
+    "AbilityAPCost"                 "1" 
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "heal" "3"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_FLOAT"
+            "aoeRadius" "1"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "StartLogicTick"
+        {
+            "Time"          "1.5"
+            "TickType"      "PriorityCenter"
+            "Position"      "unitPosition(%TARGET)"
+        }
+
+        "Delay"
+        {
+            "Time"          "1"
+            "Actions"
+            {
+                "AttachEffect"
+                {
+                    "EffectName" "DivineInterventionStrikeFXMega"
+                    "Target" "unitPosition(%TARGET)"
+                }
+
+                "Delay"
+                {
+                    "Time"          "0.5"
+                    "Actions"
+                    {
+                        "ActOnTargets"
+                        {
+                            "Target"
+                            {
+                                "Center"      "%TARGET"
+                                "Radius"     "%aoeRadius"
+                                "Teams"     "TEAM_ALL"
+                                "CustomFilter"  "customUnitFilter(#theUnit, not(isOnState(%theUnit, #PROP)))"
+                            }
+
+                            "IteratorName" "#newTarget"
+                        
+                            "Actions"    
+                            {
+                                "Heal"
+                                {
+                                    "Target"        "%newTarget"
+                                    "HealAmount"    "%heal"
+                                }
+
+                                "RemoveModifier"
+                                {
+                                    "ModifierTag"    "dot"
+                                    "Target"         "%newTarget"
+                                }
+
+                                "AttachEffect"
+                                {
+                                    "EffectName" "HealingFXMega"
+                                    "Target" "%newTarget"
+                                }
+                            }
+                        }
+                    }
+                }
+
+                "KillUnit"
+                {
+                    "Target"        "%TARGET"
+                    "InstaKill"     "1"
+                }
+            }
+        }       
+    }
+
+    "Modifiers"
+    {
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "999"
+            "Considerations"
+            {
+                "Enabled"
+                {
+                    "Curve"             "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#CANHIT"
+                        "Owner" "1"
+                    }
+                }
+
+                "isTarget"
+                {
+                    "Curve"             "Linear|1|1|0|0"
+                    "Consideration"     "UnitStateOn"
+                    "Params"
+                    {
+                        "State"         "#DIVINEINTERVENTIONTARGET"
+                        "Owner"         "0"
+                    }
+                }
+            }
+        }
+    }
+}

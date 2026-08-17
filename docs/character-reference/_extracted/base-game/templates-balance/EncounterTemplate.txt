@@ -1,0 +1,41 @@
+MonoBehaviour Base
+	PPtr<GameObject> m_GameObject
+		int m_FileID = 0
+		SInt64 m_PathID = -828612433737668625
+	UInt8 m_Enabled = 1
+	PPtr<MonoScript> m_Script
+		int m_FileID = 0
+		SInt64 m_PathID = 1701953994424710395
+	string m_Name = ""
+	vector encounterDefinitions
+		Array Array
+		int size = 1
+			[0]
+			PPtr<$EncounterDefinition> data
+				int m_FileID = 0
+				SInt64 m_PathID = -659304660534387388
+	vector encounterWallDefinitions
+		Array Array
+		int size = 0
+	vector encounterBkgDefinitions
+		Array Array
+		int size = 1
+			[0]
+			PPtr<$EncounterBkgDefinition> data
+				int m_FileID = 0
+				SInt64 m_PathID = -2395002948924408267
+	PPtr<$EncounterDefinition> selectedEncounterDef
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	PPtr<$EncounterWallDefinition> selectedEncounterWall
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	PPtr<$EncounterBkgDefinition> selectedEncounterBkg
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	UInt8 skipPreload = 1
+	int encounterNumber = 0
+	string nameAlias = ""
+	PPtr<$ParalaxPropDefinition> paralaxPropDefinition
+		int m_FileID = 1
+		SInt64 m_PathID = -7582515784313893400

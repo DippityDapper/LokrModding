@@ -1,0 +1,115 @@
+
+
+
+
+
+
+
+"wulf_rupture" 
+{
+     
+    
+    "AbilityBehavior"   "MELEE | HAS_CHANCE_TO_HIT"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+
+    "AnimationID"   "SpecialAttack"
+    "CastFXId" "WolfRuptureCastFXMega"
+    "Icon" "WulfRupture"
+
+    "AbilityCastRange" "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"   "2"
+    "AbilityAPCost"     "1"
+
+   
+
+    "AbilitySpecial"
+    {
+
+
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "totalDamage"  "stat(%CASTER, #attackDamage)-1"
+        }
+
+
+        "02"
+        {
+            "var_type"              "FIELD_INTEGER"
+            "duration"                "1"
+        }
+
+
+        "03"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "hitDamage"             "expr(%totalDamage)" 
+        } 
+    }
+
+
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "WulfRuptureHitFXMega" 
+            "Tags" "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"            "DAMAGE_PHYSICAL"
+                    "Damage"        "expr(%hitDamage)"
+                }
+            }
+
+            "Actions"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"  "modifier_new_bleeding"
+                    "Target"        "%HITTARGET"
+                    "Duration"      "%duration"
+                    "Refresh"   "1"
+                }
+            }
+        }   
+    }
+
+
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "4"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+
+                "Ignores targets already ruptured"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "TargetHasModifier"
+                    "Params"
+                    {
+                        "ModifierName" "modifier_new_bleeding"  
+                    }
+                }
+            }
+        }
+    }
+
+}

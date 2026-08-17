@@ -1,0 +1,27 @@
+"mbf_suicide_on_turn_end"
+{
+    "AbilityBehavior"       "UNIT_TARGET | PASSIVE"
+    "Icon" "SelfDestruct"
+
+     "AbilitySpecial"
+    {
+       
+    }
+
+    "Modifiers"
+    {
+        "mbf_suicide_on_turn_end_modifier"
+        {
+           "Passive" "1"
+
+            "OnTurnFinished"
+            {
+                "KillUnit"
+                {
+                    "Target"        "%TARGET"
+                }
+            }
+        }
+    }
+}
+

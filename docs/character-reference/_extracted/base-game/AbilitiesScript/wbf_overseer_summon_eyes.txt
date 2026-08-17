@@ -1,0 +1,124 @@
+
+"wbf_overseer_summon_eyes"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityTargetFilterFlags" "INCLUDE_NON_TARGETABLE"
+    
+    "AnimationID"   "Attack"
+    "Icon" "summon_beam_eyes" 
+    "AbilityShowDetailFilter" "stat(%CASTER, #eyes) > 0"
+
+    "AbilityCastRange" "0"
+    "AbilityCooldown"   "1"
+    "AbilityAPCost"     "1"
+
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "eyes"  "stat(%SOURCE, #eyes)"
+        }
+    }
+
+
+    "OnAbilityAction" 
+    {
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"      "%SOURCE"
+                "Radius"     "1000"
+                "Teams"     "TEAM_FRIENDLY"
+                "Flags"     "INCLUDE_NON_TARGETABLE"
+                "CustomFilter"  "customUnitFilter(#theUnit, isOnState(%theUnit, #BeamEyeSpawnPos) && not(isOnState(%theUnit, #BEAM_EYE_SPAWN_DISABLED)))"
+                "MaxTargets" "expr(%eyes)"
+                "Random" "1"
+            }
+
+            "IteratorName" "#unitTarget"
+        
+            "Actions"    
+            {
+                "SpawnUnit"
+                {
+                    "UnitName" "#WBFBeamEye"
+                    "Position" "unitPosition(%unitTarget)"
+                    "UnitGroup" "@UnitGroup(BadSide)"
+
+                    "IsAI" "1"
+                    "Nick" "#BeamEye"
+                    "AddToInitiativeOrder" "1"
+
+                    "IsFlipped" "unitIsFlipped(%unitTarget)"
+                    
+                    "OnSpawn"
+                    {
+                        "PlayActivityAnimation"
+                        {
+                            "Target" "%UNIT"
+                            "Animation" "Spawn"
+                        }
+
+                        "PlaySound"
+                        {
+                            "Sound" "#krl_sfx_combatWBF_beamEyeSpawn"
+                        }
+                    }
+                } 
+            }
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"      "%SOURCE"
+                "Radius"     "1000"
+                "Teams"     "TEAM_FRIENDLY"
+                "Flags"     "INCLUDE_NON_TARGETABLE"
+                "CustomFilter"  "customUnitFilter(#theUnit, isOnState(%theUnit, #BeamEyeSpawnPos) && isOnState(%theUnit, #BEAM_EYE_SPAWN_DISABLED))"
+            }
+
+            "IteratorName" "#eye"
+        
+            "Actions"    
+            {
+                "SetState"
+                {
+                    "Target"    "%eye"
+                    "State"     "#BEAM_EYE_SPAWN_DISABLED"
+                    "Value"     "-1"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "100"
+            "Considerations"
+            {
+                "shouldTrigger"
+                {
+                    "Curve" "Linear|1000|1|0|0.99"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "Min" "0"
+                        "Max" "1"
+                        "Stat" "#eyes"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}

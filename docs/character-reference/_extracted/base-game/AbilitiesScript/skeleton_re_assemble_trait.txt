@@ -1,0 +1,238 @@
+"skeleton_re_assemble_trait"
+{
+    "AbilityBehavior"       "UNIT_TARGET | PASSIVE"
+    "Icon" "Reassemble"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "turns"                  "1" 
+        }
+    }
+
+    "Modifiers"
+    {
+        "skeleton_re_assemble_trait_monitor_modifier"
+        {
+           "Passive" "1"
+
+            "OnHitPreResult"
+            {
+                "Conditional"
+                {
+                    "Condition" "safeEquals(stat(%TARGET, #health),0)"
+                    "Actions" 
+                    {
+                        "SetStat"
+                        {
+                            "Target" "%TARGET"
+                            "Stat" "#health"
+                            "Value" "1"
+                        }
+
+                        "RemoveModifier"
+                        {
+                            "ModifierTag"    "dot"
+                            "Target"         "%TARGET"
+                        }
+
+                        "RemoveModifier"
+                        {
+                            "ModifierTag"    "status_effect"
+                            "Target"         "%TARGET"
+                        }
+
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "skeleton_re_assemble_trait_monitor_modifier"
+                            "Target"         "%TARGET"
+                        }
+
+                        "ForceFXMegaWithTagToFinish"
+                        {
+                            "Unit"          "%TARGET"
+                            "Tag"           "#CAST"
+                        }
+
+                        "PlayActivityAnimation"
+                        {
+                            "Target"        "%TARGET"
+                            "Animation"     "ReassembleDeath"
+                        }
+
+                        "Delay"
+                        {
+                            "Time" "1"
+                            "Actions"
+                            {
+                                "PlaySound"
+                                {
+                                    "Sound"         "#krl_sfx_combatUndead_skeletonDisassemble"
+                                }
+                            }
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "skeleton_re_assemble_trait_remains_modifier"
+                            "Target"         "%TARGET"
+                            "Duration"      "2 + (equal(activeUnit(), %TARGET) ? 1 : 0)"
+                        }
+                    }
+                }
+           }
+
+        }
+
+        "skeleton_re_assemble_trait_remains_modifier"
+        {
+            "#EffectName" "ShieldOfShadowsFXMega"
+            "Icon" "Reassembling"
+            "IconPriority" "50"
+            "StayOnDeath"    "1"
+
+            "AnimationOverride" "ReassembleIdle"
+
+            "OnRemoved"
+            {
+                "SetStat"
+                {
+                    "Target" "%TARGET"
+                    "Stat" "#health"
+                    "Value" "stat(%TARGET, #reassemble_health)"
+                }
+
+                "RemoveHealth"
+                {
+                    "Target"                    "%SOURCE"
+                    "HealthToRemove"            "0"
+                }
+            }
+
+            "OnTurnStarted"
+            {
+                "Conditional"
+                {
+                    "Condition" "safeEquals(modifierTurnsRemaining(%MODIFIERINSTANCE), 1)"
+                    "Actions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "skeleton_re_assemble_trait_remains_modifier"
+                            "Target"         "%TARGET"
+                        }
+
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "skeleton_re_assemble_trait_monitor_modifier"
+                            "Target"         "%TARGET"
+                        }
+
+                        "PlayActivityAnimation"
+                        {
+                            "Target"        "%TARGET"
+                            "Animation"     "Reassemble"
+                        }
+
+                        "PlaySound"
+                        {
+                            "Sound" "#krl_sfx_combatUndead_skeletonReassemble"
+                        }
+
+                        "SetToContext"
+                        {
+                            "Context"   "encounterContext()"
+                            "Key"       "#noRespawnUndeadWinAchievement"
+                            "Type"      "FIELD_INTEGER"
+                            "Value"     "1"
+                        }
+                    }
+
+                    "ElseActions"
+                    {
+                        "#UnitRaiseMessage"
+                        {
+                            "Unit"          "%TARGET"
+                            "Text"          "RATTLE!!"
+                        }
+
+                        "PlayActivityAnimation"
+                        {
+                            "Target"        "%TARGET"
+                            "Animation"     "ReassembleActive"
+                        }
+
+                        "PlaySound"
+                        {
+                            "Sound"         "#krl_sfx_combatUndead_skeletonRattlingAwake"
+                        }
+
+                        "Delay"
+                        {
+                            "Time" "2"
+                            "Actions"
+                            {
+                                "PlaySound"
+                                {
+                                    "Sound"         "#krl_sfx_combatUndead_skeletonRattlingRest"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            "States"
+            {
+                "NON_TARGETABLE" "1"
+
+                "CANT_BE_POISONED" "1"
+                "CANT_BE_BURNT" "1"
+                "CANT_BE_BLED" "1"
+                "CANT_BE_STUNNED" "1"
+                "CANT_BE_ROOTED" "1"
+                "CANT_BE_ASLEPT" "1"
+                "CANT_BE_FROZEN" "1"
+
+                "NO_CHECK_END_FIGHT" "1"
+                "NO_LIFEBAR" "1"
+                "STUNNED" "1"
+            }
+        }
+
+        "no_respawn_undead_win_achievement_modifier"
+        {
+           "Passive"        "1"
+           "StayOnDeath"    "1"
+
+            "#OnAdded"
+            {
+                "SetToContext"
+                {
+                    "Context"   "encounterContext()"
+                    "Key"       "#noRespawnUndeadWinAchievement"
+                    "Type"      "FIELD_INTEGER"
+                    "Value"     "0"
+                }
+            }
+
+            "OnVictory"
+            {
+                "Conditional" 
+                {
+                    "Condition" "safeEquals(wrapContext(encounterContext(), %noRespawnUndeadWinAchievement), 0)"
+                    "Actions"
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#no_respawn_undead_win"
+                        }
+                    }
+                }     
+            }
+        }
+    }
+}
+

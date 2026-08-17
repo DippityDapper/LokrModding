@@ -1,0 +1,40 @@
+MonoBehaviour Base
+	PPtr<GameObject> m_GameObject
+		int m_FileID = 0
+		SInt64 m_PathID = 3150425827565339800
+	UInt8 m_Enabled = 1
+	PPtr<MonoScript> m_Script
+		int m_FileID = 0
+		SInt64 m_PathID = -4594120600786868909
+	string m_Name = ""
+	EncounterData encounterData
+		UInt8 isActive = 0
+		UInt8 hasEnded = 0
+		SpawnUnitData spawnDataHeroes
+			Array Array
+			int size = 0
+		SpawnUnitData spawnDataEnemies
+			Array Array
+			int size = 0
+		SpawnUnitData spawnDataCinematicUnits
+			Array Array
+			int size = 0
+		TemplateObjectData encounterObjs
+			Array Array
+			int size = 0
+		AABB encounterLimits
+			Vector3f m_Center
+				float x = 0
+				float y = 0
+				float z = 0
+			Vector3f m_Extent
+				float x = 0
+				float y = 0
+				float z = 0
+	Vector2f gridPos
+		float x = 0
+		float y = 0
+	PPtr<$Transform> transformWithData
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	UInt8 skipUnitTiledOffset = 1

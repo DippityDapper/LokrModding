@@ -1,0 +1,33 @@
+"silveroak_treefolk_kill_by_burning_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        silveroak_treefolk_kill_by_burning_achievement_trait_modifier"
+        {
+            "Passive"        "1"
+            "StayOnDeath"    "1"
+
+            "OnPostHit"
+            {
+                "Conditional" 
+                {
+                    "Condition" "isOnState(%ATTACKED, #DEAD) && hasTags(hitTags(%HIT), #BURNDAMAGE)"
+                    "Actions"
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#treefolk_kill_by_burning"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,23 @@
+"mighty_upgrades_modifiers"
+{
+    
+    
+    "AbilityBehavior"       "PASSIVE"
+   
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "upgrades_mighty_extrahp_modifier"
+        {
+            "Passive" "1"
+
+            "PropertiesAdd"
+            {
+                "health_max" "2"
+            }
+        }
+    }
+}

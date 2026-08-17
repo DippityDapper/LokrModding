@@ -1,0 +1,78 @@
+
+
+
+
+
+
+
+"holy_wrath"
+{
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+
+
+    "AnimationID"   "SpellCastA"
+    "CastFXId" "GenericHolyCastFXMega"
+    "Icon" "HolyWrath"
+
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"      "3"
+    "AbilityAPCost"       "2"
+
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage" "stat(%CASTER, #attackDamage)"
+        }
+
+        "02" 
+        {
+           "var_type" "FIELD_EXPRESSION"
+            "minDamage" "expr(%damage)/2"
+        }
+
+        "03" 
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "maxDamage" "expr(%damage)*2"
+        }
+
+
+    }
+
+
+    "OnAbilityAction"
+    {
+        "Delay"
+        {
+            "Time" "1"
+            "Actions"
+            {
+
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "Tags" "stringList(#MAGICAL, #TARGETED)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_TRUE"
+                            "Damage"        "randomBetween(expr(%minDamage), expr(%maxDamage))" 
+                        }
+                    }
+                }
+            }
+        }        
+
+        "AttachEffect"
+        {
+            "EffectName" "HolyStrikeHitFXMega"
+            "Target" "%TARGET"
+        }
+    }
+}

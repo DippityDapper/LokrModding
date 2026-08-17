@@ -1,0 +1,98 @@
+"sasquatch_ground_spike"
+{
+    "AbilityBehavior"           "UNIT_TARGET"
+    "AbilityTeamFilter"         "TEAM_ENEMY"
+    "AbilityCastRange"          "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCastMinRange"       "1" 
+    "AbilityCooldown"           "3"
+    "AbilityAPCost"             "1"
+    "AnimationID"               "SpellCastC"
+    "Icon"                      "GroundSpike" 
+
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "damage"            "stat(%CASTER, #attackDamage)"
+        }
+        "02"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "pull"            "1"
+        }
+
+    }
+
+
+    "OnAbilityAction"
+    {
+        "Conditional"
+        {
+            "Condition" "matchesTeam(unitGroup(%SOURCE), unitGroup(%TARGET), @TeamFilter(TEAM_ENEMY))"
+
+            "Actions" 
+            {
+                "Hit"
+                {
+                    "Target"        "%TARGET"
+                    "Tags"          "stringList(#PROJECTILE, #TARGETED)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_TRUE"
+                            "Damage"        "expr(%damage)"
+                        }
+                    }
+
+                    "Actions"
+                    {   
+                        "AttachEffect"
+                        {
+                            "EffectName"    "SasquatchGroundSpikeHitFXMega"
+                            "Target"        "unitPosition(%TARGET)"
+                        }
+
+                        "Conditional"
+                        {
+                            "Condition" "not(safeEquals(hexDistance(unitHex(%SOURCE), unitHex(%TARGET)),1))"
+                            "Actions" 
+                            {
+                                "Knockback" 
+                                {
+                                    "Target"        "%HITTARGET"
+                                    "Center"        "hexPosition(hexNeighbour(unitHex(%HITTARGET), unitHex(%HITSOURCE), 3))"
+                                    "Strength"      "%pull"
+                                }
+                            }     
+                        }
+                    }                    
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.3"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+            }
+        }
+    }
+}

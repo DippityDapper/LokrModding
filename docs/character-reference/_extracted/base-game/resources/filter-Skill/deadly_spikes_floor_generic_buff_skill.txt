@@ -1,0 +1,66 @@
+"deadly_spikes_floor_generic_buff_skill"
+{
+    "AbilityBehavior"       "POINT_TARGET | PASSIVE"
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "minDamage"           "2"
+        }
+
+        "02"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "maxDamage"           "4"
+        }
+    }
+
+    "Modifiers"
+    {
+        "deadly_spikes_floor_modifier"
+        {
+            "EffectName"        "DeadlySpikesFXMega"
+            "Tags"              "floor_effect"
+            "Passive"           "1"
+
+            "OnUnitEnteredNode"
+            {
+               "AreaControl"
+               {
+                    "Center"        "unitHex(%TARGET)"
+                    "Range"         "0"
+                    "From"          "%from"
+                    "To"            "%to"
+                    "EnterActions"
+                    {
+                        "Conditional" 
+                        {
+                            "Condition" "matchesTeam(unitGroup(%SOURCE), unitGroup(%UNIT), @TeamFilter(TEAM_ALL))"
+                            "Actions"
+                            {
+                                "Hit"
+                                {
+                                    "Target"        "%UNIT"
+                                    "Source"        "%TARGET"
+                                    "EffectName"    "RuptureHitFXMega" 
+                                    "Tags"          "stringList(#ENVIRONMENTAL)"
+
+                                    "InitActions"
+                                    {
+                                        "AddDamage"
+                                        {
+                                            "Type"          "DAMAGE_PHYSICAL"
+                                            "Damage"        "randomI(%minDamage, %maxDamage)"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+               }
+            }
+        }
+    }
+}

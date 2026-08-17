@@ -1,0 +1,419 @@
+"arenaDiversifier_fireworks_rain_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "numberOfProps"     "3"
+        }
+    }
+
+    "Modifiers"
+    {
+        "arenaDiversifier_fireworks_rain_modifier"
+        {
+            "Passive" "1"
+
+            "OnStartFight"
+            {
+                "Conditional"
+                {
+                    "Condition" "isDiversifierActive(#fireworks_rain)"
+
+                    "Actions" 
+                    {
+                        "SpawnUnit"
+                        {
+                            "UnitName"              "#DiversifierFireworksRainControlUnit"
+                            "Nick"                  "#DiversifierFireworksRain"
+                            "Position"              "newPoint(1000, 1000, 0)"
+                            "UnitGroup"             "@UnitGroup(BadSide)"
+                            "IsAI"                  "1"
+                            "OnSpawn"
+                            {
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+"arenaDiversifier_fireworks_rain_telegraph"
+{
+    "AbilityBehavior"           "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter"         "TEAM_FRIENDLY"
+    "AbilityTargetFilterFlags"  "INCLUDE_NON_TARGETABLE"
+    "AnimationID"               "NOANIMATION"
+    "AbilityCastRange"          "0"
+    "AbilityCooldown"           "1"
+    "AbilityAPCost"             "1"
+   
+    "AbilitySpecial" 
+    {
+    }
+
+    "OnAbilityAction"
+    { 
+        "CallFunction"
+        {
+            "Function"              "Ironhide.Legends.Content.Abilities.QPADiversifierFireworksRain"
+            "HeroFilter" 
+            {
+                "Center"            "%SOURCE"
+                "Radius"            "1000"
+                "Teams"             "TEAM_ENEMY"
+                "CustomFilter"      "customUnitFilter(#theUnit, not(isOnState(%theUnit, #PROP)))"
+            }
+
+            "MinDistanceToHeroes"           "0"
+            "MaxDistanceToHeroes"           "5"
+
+            "OldHexa"                       "wrapContext(unitContext(%CASTER), %lastTarget)"
+            "OldHexaMinDistance"            "3"
+
+            "TensionCutoff"                 "0.3"
+            "TargetHexaName"                "#hexa"
+
+
+            "Actions"
+            {
+                "SpawnUnit"
+                {
+                    "UnitName"              "#DiversifierFireworksRainTarget"
+                    "Position"              "hexPosition(%hexa)"
+                    "UnitGroup"             "@UnitGroup(BadSide)"
+                    "IsAI"                  "1"
+                    "Nick"                  "#DiversifierFireworksRainTarget"
+                    "AddToInitiativeOrder"  "1"
+                    "IsFlipped"             "randomBetween(0, 1) > 0.5"
+                    "OnSpawn"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"  "arenaDiversifier_fireworks_rain_telegraph_vfx_modifier"
+                            "Target"        "%UNIT"
+                        }
+                    }
+                }
+
+                "SetStat"
+                {
+                    "Target"    "%SOURCE"
+                    "Stat"     "#TELEGRAPH"
+                    "Value"     "0"
+                }
+
+                "SetStat"
+                {
+                    "Target"    "%SOURCE"
+                    "Stat"     "#CANHIT"
+                    "Value"     "0"
+                }
+
+                "SetToContext"
+                {
+                    "Context" "unitContext(%SOURCE)"
+                    "Key" "#lastTarget"
+                    "Value" "%hexa"
+                    "Type" "FIELD_OBJECT"
+                }
+            }
+        }
+    }
+
+    "Modifiers"
+    {
+        "arenaDiversifier_fireworks_rain_main_modifier"
+        {
+            "Passive"           "1"
+            "OnTurnStarted"
+            {
+
+                "SetStat"
+                {
+                    "Target"    "%TARGET"
+                    "Stat"     "#TELEGRAPH"
+                    "Value"     "1"
+                }
+
+                "SetStat"
+                {
+                    "Target"    "%TARGET"
+                    "Stat"     "#CANHIT"
+                    "Value"     "1"
+                }
+            }
+        }
+
+        "arenaDiversifier_fireworks_rain_telegraph_vfx_modifier"
+        {
+            "EffectName"        "FireworksRainTelegrafFXMega"
+        }
+    }
+
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "500"
+            "Considerations"
+            {
+                "Enabled"
+                {
+                    "Curve"             "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#TELEGRAPH"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}
+
+"arenaDiversifier_fireworks_rain_hit"
+{
+    "AbilityBehavior"               "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter"             "TEAM_FRIENDLY"
+    "AbilityTargetFilterFlags"      "INCLUDE_NON_TARGETABLE"
+    "AnimationID"                   "NOANIMATION"
+    "AbilityCastRange"              "999"
+    "AbilityCooldown"               "1"
+    "AbilityAPCost"                 "1" 
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "aoeRadius" "1"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_EXPRESSION"        
+            "damage"            "3"
+        }
+
+        "03"
+        {
+            "var_type"          "FIELD_FLOAT"        
+            "numberOfBolts"     "5"
+        }
+
+        "04"
+        {
+            "var_type"          "FIELD_FLOAT"        
+            "dotDuration"       "2"
+        }
+
+        "20"
+        {
+            "var_type"          "FIELD_STRING"
+            "iconDamageType"    "damagePhysical"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "StartLogicTick"
+        {
+            "Time"          "6"
+            "TickType"      "PriorityCenter"
+            "Position"      "unitPosition(%TARGET)"
+        }
+
+        "Delay"
+        {
+            "Time"          "1"
+
+            "Actions"
+            {
+                "ActOnHexas"
+                {
+                    "Center"                "unitHex(%TARGET)"
+                    "Range"                 "0"
+                    "IteratorName"          "#hexa"
+                    "RequireEmpty"          "0"
+                    "Max"                   "1"
+                    "Random"                "0"
+                    "Actions"    
+                    {
+                        "TrackingProjectile"
+                        {
+                            "SourcePos"             "pointAdd(hexPosition(%hexa), newPoint(0, 5, 0))"
+                            "TargetPos"             "hexPosition(%hexa)"
+                            "Model"                 "FireworksRainProjectile"
+                            "Params"
+                            {
+                                "damage" 
+                                {
+                                    "type"      "FIELD_FLOAT"
+                                    "value"     "expr(%damage)"
+                                }
+                            }
+                        }
+
+                        "PlaySound"
+                        {
+                            "Sound" "#krl_sfx_arenaCombat_diversifiers_fireworksRainProjectile"
+                        }
+                    }
+                }
+
+                "Times"
+                {
+                    "Times"             "%numberOfBolts - 1"
+                    "IteratorName"      "#index"
+                    "Actions"
+                    {
+                        "Delay"
+                        {
+                            "Time"          "0.2 + (%index * 0.2)"
+                            "Actions"
+                            {
+                                "ActOnHexas"
+                                {
+                                    "Center"                "unitHex(%TARGET)"
+                                    "Range"                 "%aoeRadius"
+                                    "IteratorName"          "#hexa"
+                                    "RequireEmpty"          "0"
+                                    "Max"                   "1"
+                                    "Random"                "1"
+                                    "Actions"    
+                                    {
+                                        "TrackingProjectile"
+                                        {
+                                            "SourcePos"             "pointAdd(hexPosition(%hexa), newPoint(0, 5, 0))"
+                                            "TargetPos"             "hexPosition(%hexa)"
+                                            "Model"                 "FireworksRainProjectile"
+                                            "Params"
+                                            {
+                                                "damage" 
+                                                {
+                                                    "type"      "FIELD_FLOAT"
+                                                    "value"     "expr(%damage)"
+                                                }
+                                            }
+                                        }
+
+                                        "PlaySound"
+                                        {
+                                            "Sound" "#krl_sfx_arenaCombat_diversifiers_fireworksRainProjectile"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                "KillUnit"
+                {
+                    "Target"        "%TARGET"
+                    "InstaKill"     "1"
+                }
+            }
+        }
+    }
+
+    "OnProjectileDestinationReached" 
+    {
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"    "%TARGET"
+                "Radius"    "0"
+                "Teams"     "TEAM_ALL"
+            }
+
+            "IteratorName" "#newTarget"
+        
+            "Actions"    
+            {
+                "Hit"
+                {
+                    "Target" "%newTarget"
+                    "Tags" "stringList(#PROJECTILE, #TARGETED, #AOE, #ENVIRONMENTAL)"
+                    "EffectName" "FireworksRainHitFXMega" 
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "%damage"
+                        }
+                    }
+
+                    "Actions" 
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"  "modifier_burning"
+                            "Target"        "%HITTARGET"
+                            "Duration"      "%dotDuration"
+                            "Refresh"   "1"
+                        }
+                    }
+                }
+            }
+
+            "ActionsIfNotFound"
+            {
+                "AttachEffect"
+                {
+                    "EffectName"        "FireworksRainHitFloorFXMega"
+                    "Target"            "%TARGET"
+                }
+            }
+        }
+    }
+
+    "Modifiers"
+    {
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "999"
+            "Considerations"
+            {
+                "Enabled"
+                {
+                    "Curve"             "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#CANHIT"
+                        "Owner" "1"
+                    }
+                }
+
+                "isTarget"
+                {
+                    "Curve"             "Linear|1|1|0|0"
+                    "Consideration"     "UnitStateOn"
+                    "Params"
+                    {
+                        "State"         "#FIREWORKSRAINTARGET"
+                        "Owner"         "0"
+                    }
+                }
+            }
+        }
+    }
+}

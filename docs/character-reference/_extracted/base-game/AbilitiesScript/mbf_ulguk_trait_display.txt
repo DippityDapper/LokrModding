@@ -1,0 +1,37 @@
+
+
+
+
+
+
+
+"mbf_ulguk_trait_display"
+{
+    
+    
+   "AbilityBehavior"       "UNIT_TARGET | POSITIVE_EFFECT | PASSIVE"
+   "Icon" "Lifelink"
+
+    "AbilitySpecial"
+    {
+    	"01"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "crystals"            "3" 
+        }
+
+        "02"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "crystalDamage"            "3" 
+        }
+
+        "03"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "crystalHeal"            "3" 
+        }
+    } 
+
+
+}

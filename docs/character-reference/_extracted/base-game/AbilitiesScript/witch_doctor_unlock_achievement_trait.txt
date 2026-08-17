@@ -1,0 +1,62 @@
+"witch_doctor_unlock_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "witch_doctor_unlock_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnVictory"
+            {
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"        "%TARGET"
+                        "Radius"        "1000"
+                        "Teams"         "TEAM_ALL"
+                        "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(GoodSide)) && matchesCinematicId(%theUnit, #Heroe) && safeEquals(stat(%theUnit, #deaths_in_fights), 0))"
+                    }
+
+                    "ActionsIfFound"
+                    {
+                        "Conditional"
+                        {
+                            "Condition"     "safeEquals(listCount(%foundUnits), 1) && not(playingTutorial())"
+                            "Actions" 
+                            {
+                                "EachInList"
+                                {
+                                    "List"              "%foundUnits"
+                                    "IteratorName"      "#unit"
+                                    "Actions"
+                                    {
+                                        "Conditional"
+                                        {
+                                            "Condition"     "safeEquals(stat(%unit, #health), 1)"
+                                            "Actions" 
+                                            {
+                                                "AchievementIncrement"
+                                                {
+                                                    "Achievement" "#witch_doctor_unlock"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+

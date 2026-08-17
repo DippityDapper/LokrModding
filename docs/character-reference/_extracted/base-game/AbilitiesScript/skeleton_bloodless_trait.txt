@@ -1,0 +1,23 @@
+"skeleton_bloodless_trait"
+{
+    "AbilityBehavior"       "UNIT_TARGET | PASSIVE"
+    "Icon" "Bloodless"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "skeleton_bloodless_trait_modifier"
+        {
+            "Passive" "1"
+
+            "states"
+            {
+                "CANT_BE_POISONED" "1"
+                "CANT_BE_BLED" "1"
+            }
+        }
+    }
+}

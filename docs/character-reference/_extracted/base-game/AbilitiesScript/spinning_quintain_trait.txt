@@ -1,0 +1,126 @@
+"spinning_quintain_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "damage"                "2"
+        }
+
+        
+    }
+
+    "Modifiers"
+    {
+        "spinning_quintain_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnPreHit"
+            {
+                "CancelHit"
+                {
+                }
+            }
+
+            "OnPostHit"
+            {
+                "Conditional"
+                {
+                    "Condition" "max(0, hitDamageOfType(%HIT, @DamageType(DAMAGE_TRUE)), hitDamageOfType(%HIT, @DamageType(DAMAGE_MAGICAL)), hitDamageOfType(%HIT, @DamageType(DAMAGE_PHYSICAL)), hitDamageOfType(%HIT, @DamageType(DAMAGE_ARMOR))) > 0"
+
+                    "Actions"
+                    {
+                        "StartLogicTick"
+                        {
+                            "Time" "2"
+                            "TickType" "ActiveUnit "
+                            "Position" "unitPosition(%TARGET)"
+                        }
+
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "disable_unit_modifier"
+                            "Target"         "%TARGET"
+                        }
+
+                        "PlaySound"
+                        {
+                            "Sound" "#krl_sfx_arenaCombat_spinningQuintain"
+                        }
+                                
+                        "PlayActivityAnimation"
+                        {
+                            "Target" "%TARGET"
+                            "Animation" "Attack"
+                            "Events" 
+                            {
+                                "AbilityAction"
+                                {
+                                    "ActOnTargets"
+                                    {
+                                        "Target"
+                                        {
+                                            "Center"      "%TARGET"
+                                            "Radius"     "1"
+                                            "Teams"     "TEAM_ALL"
+                                            "ExcludedUnits" "objectList(%TARGET, %ATTACKER)"
+                                        }
+
+                                        "IteratorName" "#newTarget"
+                                    
+                                        "Actions"    
+                                        {
+                                            "QueueHit"
+                                            {
+                                                "Target" "%newTarget"
+                                                "EffectName" "BarbarianWhirlwindHitFXMega" 
+                                                "Tags" "stringList(#MELEE, #ENVIRONMENTAL)"
+
+                                                "InitActions"
+                                                {
+                                                    "AddDamage"
+                                                    {
+                                                        "Type"          "DAMAGE_PHYSICAL"
+                                                        "Damage"        "%damage"
+                                                    }
+                                                }
+
+                                                "Actions"
+                                                {
+                                                    "Knockback" 
+                                                    {
+                                                        "Target" "%HITTARGET"
+                                                        "Center" "unitPosition(%HITSOURCE)"
+                                                        "Strength" "1"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    "Delay"
+                                    {
+                                        "Time" "1"
+                                        "Actions"
+                                        {
+                                            "RemoveModifier"
+                                            {
+                                                "ModifierName"    "disable_unit_modifier"
+                                                "Target"         "%TARGET"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } 
+        }
+    }
+}

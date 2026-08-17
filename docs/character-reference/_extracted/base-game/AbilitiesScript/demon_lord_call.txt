@@ -1,0 +1,103 @@
+"demon_lord_call"
+{
+    
+    
+    "AbilityBehavior"           "POINT_TARGET | POSITIVE_EFFECT | NEEDS_CLEAR_TERRAIN"
+    "AbilityCastRange"          "2"
+    "AbilityCooldown"           "3"
+    "AbilityAPCost"             "1"
+    "CastFXId"                  "DemonicDuplicationCastFXMega"
+    "AnimationID"               "SpellCastC"
+    "Icon"                      "DemonlordCall"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "duration"          "4"
+        }
+    }
+
+     "OnAbilityAction"
+    { 
+        "SpawnUnit"
+        {
+            "UnitName"                  "#DemonSpawn"
+            "Position"                  "%TARGET"
+            "UnitGroup"                 "unitGroup(%CASTER)"
+            "IsAI"                      "isAI(%CASTER)"
+            "AddToInitiativeOrder"      "0"
+
+            "OnSpawn"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"      "demon_lord_call_summoned_modifier"
+                    "Target"            "%UNIT"
+                    "Duration"          "%duration"
+                }
+            }
+        }
+
+         "AttachEffect"
+        {
+            "EffectName"                "DemonLordCallFXMega"
+            "Target"                    "%TARGET"
+        }
+    }
+
+
+    "Modifiers"
+    {
+        "demon_lord_call_summoned_modifier"
+        {
+            "Icon"                      "Summoned"
+            "IconPriority"              "60"
+            "LocalizationId"            "generic_modifier_summoned"
+
+            "OnRemoved"
+            {
+                "KillUnit"
+                {
+                    "Target"            "%TARGET"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "20"
+            "Considerations"
+            {
+                "Close to enemies"
+                {
+                    "Curve" "Linear|100|1|100|1"
+                    "Consideration" "InfluenceMap"
+                    "Params"
+                    {
+                        "MapId" "#CloseToEnemies"  
+                        "Max" "3"
+                        "Min" "0"
+                    }
+                }
+
+                "Amenaza"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "InfluenceMap"
+                    "Params"
+                    {
+                        "MapId" "#Threat"  
+                        "Max" "3"
+                        "Min" "0"
+                    }
+                }
+            }
+        }
+    }
+
+}

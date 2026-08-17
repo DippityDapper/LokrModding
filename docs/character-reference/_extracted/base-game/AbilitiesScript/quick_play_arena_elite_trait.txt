@@ -1,0 +1,23 @@
+"quick_play_arena_elite_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+    "Icon"                  "Elite"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "quick_play_arena_elite_modifier"
+        {
+            "Passive"           "1"
+
+            "States"
+            {
+                "QUICK_PLAY_ARENA_ELITE" "1"
+            }
+        }
+    }
+}
+

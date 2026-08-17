@@ -1,0 +1,56 @@
+"walk_to_closest_melee_ai"
+{
+    "AbilityBehavior"   "MELEE"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "999"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "0"
+    "AnimationID"   "Attack"
+
+    "AbilitySpecial" 
+    {
+    }
+
+
+
+    "OnThink"
+    {
+        "GetCloseToUnitAI"
+        {
+            "BrainId" "#Custom"
+        }
+    }
+
+    "AIBrainCustom"
+    {
+        "Selection" 
+        {
+            "Weight" "1"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "PathDistance"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+
+                "Has a minimum of health missing"
+                {
+                    "Curve" "Linear|1000|1|0|0.99"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "0"
+                        "Stat" "#walkSpeedUsed"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}

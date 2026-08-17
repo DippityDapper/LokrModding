@@ -1,0 +1,150 @@
+"arenaDiversifier_ultra_ultras_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "numberOfProps"     "3"
+        }
+    }
+
+    "Modifiers"
+    {
+        "arenaDiversifier_ultra_ultras_modifier"
+        {
+            "Passive" "1"
+
+            "OnStartFight"
+            {
+                "Conditional"
+                {
+                    "Condition" "isDiversifierActive(#ultra_ultras)"
+
+                    "Actions" 
+                    {
+                        "SpawnUnit"
+                        {
+                            "UnitName"              "#DiversifierUltraUltrasControlUnit"
+                            "Nick"                  "#DiversifierUltraUltras"
+                            "Position"              "newPoint(1000, 1000, 0)"
+                            "UnitGroup"             "@UnitGroup(BadSide)"
+                            "IsAI"                  "1"
+                            "OnSpawn"
+                            {
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+"arenaDiversifier_ultra_ultras_summon_exploding_props"
+{
+    "AbilityBehavior"           "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter"         "TEAM_FRIENDLY"
+    "AbilityTargetFilterFlags"  "INCLUDE_NON_TARGETABLE"
+    "AnimationID"               "NOANIMATION"
+    "AbilityCastRange"          "0"
+    "AbilityCooldown"           "2"
+    "AbilityAPCost"             "1"
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "numberOfProps"     "3"
+        }
+    }
+
+    "OnAbilityAction" 
+    {
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_arenaCombat_diversifiers_ultraUltrasBooing"
+        }
+
+        "StartLogicTick"
+        {
+            "Time"          "1"
+            "TickType"      "PriorityCenter"
+            "Position"      "cinematicPosition(#CenterPos)"
+        }
+
+        "CallFunction"
+        {
+            "Function"          "Ironhide.Legends.Content.Abilities.QPADiversifierUltraUltras"
+            "ExplosiveProps"    "%numberOfProps"
+            "UnitFilter" 
+            {
+                "Center"        "%TARGET"
+                "Radius"        "1000"
+                "Teams"         "TEAM_ALL"
+                "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(GoodSide))"
+            }
+            "IteratorName"      "#hexa"
+            "IteratorIndexName" "#hexaIndex"
+            "Actions"
+            {
+                "Delay"
+                {
+                    "Time"          "0 + (%hexaIndex * 0.4)"
+                    "Actions"
+                    {
+                        "AttachEffect"
+                        {
+                            "EffectName"    "UltraUltrastFXMega"
+                            "Target"        "hexPosition(%hexa)"
+                            "IsFlipped"     "randomBetween(0, 1) > 0.5"
+                        }
+
+                        "Delay"
+                        {
+                            "Time"          "1"
+                            "Actions"
+                            {
+                                "SpawnUnit"
+                                {
+                                    "UnitName"                  "#ExplosiveBarrel"
+                                    "Position"                  "hexPosition(%hexa)"
+                                    "UnitGroup"                 "@UnitGroup(BadSide)"
+                                    "IsAI"                      "1"
+                                    "AddToInitiativeOrder"      "1"
+                                    
+                                    "OnSpawn"
+                                    {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "500"
+            "Considerations"
+            {
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+            }
+        }
+    }
+}

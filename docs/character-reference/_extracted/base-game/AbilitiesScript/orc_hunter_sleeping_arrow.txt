@@ -1,0 +1,157 @@
+"orc_hunter_sleeping_arrow"
+{
+    "AbilityBehavior"           "UNIT_TARGET"
+    "AbilityTeamFilter"         "TEAM_ENEMY"
+    
+    "AnimationID"               "SpecialAttack"
+    "CastFXId"                  "OrcHunterSleepingArrowCastFXMega"
+    "Icon"                      "SleepingArrow" 
+
+    "AbilityCastRange"          "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCastMinRange"       "stat(%CASTER, #rangedAttackMinRange)"  
+    "AbilityCooldown"           "3"
+    "AbilityAPCost"             "1"
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "sleepDuration"     "2"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "damage"            "stat(%CASTER, #attackDamage)"
+        }
+
+        "20"
+        {
+            "var_type"          "FIELD_STRING"
+            "iconDamageType"    "damagePhysical"
+        }
+    }
+
+    "OnAbilityAction" 
+    {
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"            "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"            "unitPosition(%TARGET, #Chest)"
+            "Model"                "SleepingArrowProjectile"
+            
+            "WillHit"               "hitChanceCalc(%TARGET)"
+            "MissPosition"          "unitPosition(%TARGET)"
+
+            "Params" 
+            {
+                "damage" 
+                {
+                    "type"          "FIELD_FLOAT" 
+                    "value"         "expr(%damage)"
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "Hit"
+        {
+            "Target"                "%TARGET"
+            "EffectName"            "OrcHunterSleepingArrowHitFXMega" 
+            "Tags"                  "stringList(#PROJECTILE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_PHYSICAL"
+                    "Damage"        "%damage"
+                }
+                
+            }
+
+            "Actions"
+            {
+                "Conditional" 
+                {
+                    "Condition" "hitConnected(%HIT) && hitEffectiveDamage(%HIT) > 0 && not(isOnState(%TARGET, #DEAD))"
+                    "Actions"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"  "modifier_asleep"
+                            "Target"        "%HITTARGET"
+                            "Duration"      "%sleepDuration"
+                            "Refresh"       "1"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "8"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+
+                "Ignores targets already asleep"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "TargetHasModifier"
+                    "Params"
+                    {
+                        "ModifierName" "modifier_asleep"  
+                    }
+                }
+
+                "Ignores targets stunned"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "TargetHasModifier"
+                    "Params"
+                    {
+                        "ModifierName" "modifier_stunned"  
+                    }
+                }
+
+                "Ignores targets rooted"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "TargetHasModifier"
+                    "Params"
+                    {
+                        "ModifierName" "modifier_rooted"  
+                    }
+                }
+
+                "Ignores targets frozen"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "TargetHasModifier"
+                    "Params"
+                    {
+                        "ModifierName" "modifier_new_freeze"  
+                    }
+                }
+            }
+        }
+    }
+}

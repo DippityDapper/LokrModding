@@ -1,0 +1,81 @@
+"darkknight_impervious"
+{
+    
+    
+    "AbilityBehavior"       "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_FRIENDLY"
+
+    "AnimationID"   "SpellCastB"
+    "CastFXId" "DarkKnightImperviouslCastFXMega"
+    "Icon" "ShieldWall"
+
+    "AbilityCastRange" "0"
+    "AbilityCooldown"      "3"
+    "AbilityAPCost"       "1"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "armorBonus" "4"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_FLOAT"
+            
+            
+            "duration" "3"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "RemoveModifier"
+        {
+            "ModifierTag"    "dot"
+            "Target"         "%TARGET"
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"    "darkknight_impervious_modifier"
+            "Target"         "%TARGET"
+            
+            "Duration"      "%duration"
+            "Refresh"   "1"
+        }
+
+        "GiveArmor"
+        {
+            "Target" "%TARGET"
+            "ArmorAmount" "1000"
+        }
+    }
+
+    "Modifiers"
+    {
+        "darkknight_impervious_modifier"
+        {
+
+           "EffectName" "DarkKnightImperviousStatusFXMega"
+
+           "OnRemoved"
+           {
+                "GiveArmor"
+                {
+                    "Target" "%TARGET"
+                    "ArmorAmount" "0"
+                }
+           }
+           
+
+            "PropertiesAdd"
+            {
+                "armor_max" "%armorBonus"
+            }
+        }
+    }
+}

@@ -1,0 +1,226 @@
+"magma_elemental_eruption"
+{
+    "AbilityBehavior"           "UNIT_TARGET"
+    "AbilityTeamFilter"         "TEAM_ALL"
+    "AbilityCastRange"          "0"
+    "AbilityCooldown"           "2"
+    "AbilityAPCost"             "2"
+    "AnimationID"               "SpellCastA"
+    "Icon"                      "Eruption"
+    "CastFXId"                  "MagmaElementalEruptionCastFXMega"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "aoeRadius"         "2"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_FLOAT"        
+            "burnDuration"      "2"
+        }
+
+        "03"
+        {
+            "var_type"          "FIELD_FLOAT"        
+            "numberOfHits"      "3"
+        }
+
+        "04"
+        {
+            "var_type"          "FIELD_FLOAT"        
+            "skillRange"      "2"
+        }
+        "05"
+        {
+            "var_type"          "FIELD_FLOAT"        
+            "damage"      "3" 
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "SetToContext"
+        {
+            "Context"       "currentContext()"
+            "Type"          "FIELD_INTEGER"
+            "Key"           "#numberOfHitsDone"
+            "Value"         "0" 
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"            "unitPosition(%TARGET)"
+                "Source"            "%CASTER"
+                "Radius"            "%aoeRadius"
+                "Teams"             "TEAM_ENEMY"
+                "MaxTargets"        "%numberOfHits"
+                "Random"            "1"
+            }
+            "IteratorName"          "#newTarget"
+            "Actions"  
+            {
+                "TrackingProjectile"
+                {
+                    "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+                    "Target"                "%newTarget"
+                    "TargetPos"             "unitPosition(%newTarget, #Chest)"
+                    "Model"                 "MagmaElementalEruptionProjectile"
+                }
+
+                "SetToContext"
+                {
+                    "Context"       "currentContext()"
+                    "Type"          "FIELD_INTEGER"
+                    "Key"           "#numberOfHitsDone"
+                    "Value"         "%numberOfHitsDone + 1" 
+                }
+            }
+        }
+
+        "Conditional"
+        {
+            "Condition"             "%numberOfHits - %numberOfHitsDone > 0"
+            "Actions" 
+            {
+                "ActOnHexas"
+                {
+                    "Center"        "unitHex(%TARGET)"
+                    "Range"         "%aoeRadius"
+                    "IteratorName"  "#hexa"
+                    "RequireEmpty"  "1"
+                    "Max"           "%numberOfHits - %numberOfHitsDone"
+                    "Random"        "1"
+                    "Actions"    
+                    {
+                        "TrackingProjectile"
+                        {
+                            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+                            "TargetPos"             "hexPosition(%hexa)"
+                            "Model"                 "MagmaElementalEruptionProjectile"
+                            "Params"
+                            {
+                                "floorPoryectile" 
+                                {
+                                    "type"      "FIELD_FLOAT"
+                                    "value"     "1"
+                                }
+
+                                "damage"
+                                {
+                                    "type"      "FIELD_FLOAT"
+                                    "value"     "%damage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "Conditional"
+        {
+            "Condition" "%floorPoryectile"
+            "Actions" 
+            {
+                "AttachEffect"
+                {
+                    "EffectName"    "FireballExplosionFXMega"
+                    "Target"        "%TARGET"
+                }
+
+                "#SpawnUnit"
+                {
+                    "UnitName"      "#DummyUnit"
+                    "Position"      "%TARGET"
+                    "UnitGroup"     "unitGroup(%CASTER)"
+                    "IsAI" "0"
+                    "InheritsInitiative" "1"
+                    "OnSpawn"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "fire_floor_tile_modifier"
+                            "Target"            "%UNIT"
+                            "Duration"          "%burnDuration"
+                        }
+
+                    }
+                }
+            }
+
+            "ElseActions"
+            {
+                "Hit"
+                {
+                    "Target"                "%TARGET"
+                    "EffectName"            "FireballExplosionFXMega" 
+                    "Tags"                  "stringList(#PROJECTILE, #AOE)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "%damage"
+                        }
+                    }
+
+                    "Actions"
+                    {
+                        "Conditional"
+                        {
+                            "Condition" "not(isOnState(%HITTARGET, #DEAD))"
+                            "Actions" 
+                            {
+                                "RemoveModifier"
+                                {
+                                    "ModifierTag"       "dot"
+                                    "Target"            "%HITTARGET"
+                                }
+
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"      "modifier_burning"
+                                    "Target"            "%HITTARGET"
+                                    "Duration"          "%burnDuration"
+                                    "Refresh"           "1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "3"
+            "Considerations"
+            {
+                "surrounded by several units"
+                {
+                    "Curve" "Logistic|500|5|-4|0"
+                    "Consideration" "UnitsSurrounding"
+                    "Params"
+                    {
+                        "Max" "10"  
+                        "TeamFilter" "TEAM_ENEMY"
+                        "Range" "%skillRange"
+                    }
+                }
+            }
+        }
+    }
+}

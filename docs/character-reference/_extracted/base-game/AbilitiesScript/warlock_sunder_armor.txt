@@ -1,0 +1,76 @@
+"warlock_sunder_armor"
+{
+    "AbilityBehavior"           "MELEE | HAS_CHANCE_TO_HIT"
+    "AbilityTeamFilter"         "TEAM_ENEMY"
+    "AbilityCastRange"          "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"           "0"
+    "AbilityAPCost"             "stat(%CASTER, #attackCostAP)"
+    "AnimationID"               "SpellCastA"
+    "Icon"                      "SunderArmor"
+    "CastFXId"                  "WarlockSunderArmorCastFXMega"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "damage"                "stat(%CASTER, #attackDamage) * 2"
+        }
+        "20"
+        {
+            "var_type" "FIELD_STRING"
+            "iconDamageType"  "damageArmor"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target"                "%TARGET"
+            "EffectName"            "WarlockSunderArmorHitFXMega" 
+            "Tags"                  "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"              "DAMAGE_ARMOR"
+                    "Damage"            "expr(%damage)"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"            "3"
+            "Considerations"
+            {
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve"             "Linear|-0.1|1|1|0"
+                    "Consideration"     "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange"      "10"  
+                    }
+                }
+
+                "Has at least 3 armor"
+                {
+                    "Curve"             "Logistic|500|5|-4|-0.1"
+                    "Consideration"     "UnitStat"
+                    "Params"
+                    {
+                        "Min"           "3"
+                        "Max"           "10"
+                        "Stat"          "#armor"
+                    }
+                }
+            }
+        }
+    }
+}

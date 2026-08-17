@@ -1,0 +1,95 @@
+"darkknight_armor_of_thorns_trait"
+{
+    "AbilityBehavior"               "POSITIVE_EFFECT | PASSIVE"
+    
+    "Icon"                          "ArmorOfThorns"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "thornsDefaultDamage"       "1"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "thornsDamage"      "stat(%CASTER, #armorOfThornsDamage) > 0 ? stat(%CASTER, #armorOfThornsDamage) : %thornsDefaultDamage"
+        }
+    }
+
+    "Modifiers"
+    {
+        "darkknight_armor_of_thorns_trait_modifier"
+        {
+            "Passive"       "1"
+            "StayOnDeath"   "1"
+
+            "OnPostHit"
+            {
+                "Conditional"
+                {
+                    "Condition" "hitConnected(%HIT) && hasTags(hitTags(%HIT), #MELEE) && not(hasTags(hitTags(%HIT), #REFLECTED))"
+                    "Actions" 
+                    {
+                        "QueueHit"
+                        {
+                            "Target" "%ATTACKER"
+                            "Source" "%TARGET"
+                            "Tags" "stringList(#MAGICAL, #REFLECTED)"
+
+                            "InitActions"
+                            {
+                                "AddDamage"
+                                {
+                                    "Type"          "DAMAGE_TRUE"
+                                    "Damage"        "stat(%HITSOURCE, #armorOfThornsDamage) > 0 ? stat(%HITSOURCE, #armorOfThornsDamage) : %thornsDefaultDamage"
+                                }
+                            }
+
+                            "Actions"
+                            {
+                                "Conditional"
+                                {
+                                    "Condition" "hasModifier(%HITSOURCE, #darkknight_spike_reforge_modifier)"
+
+                                    "Actions"
+                                    {
+                                        "AttachEffect"
+                                        {
+                                            "EffectName"    "ArmorOfThornsHitFXMega"
+                                            "Target"        "%HITTARGET"
+                                        }
+
+                                        "AttachEffect"
+                                        {
+                                            "EffectName"    "ArmorOfThornsReforgedTriggeredFXMega"
+                                            "Target"        "%HITSOURCE"
+                                        }
+                                    }
+
+                                    "ElseActions"
+                                    {
+                                        "AttachEffect"
+                                        {
+                                            "EffectName"    "ArmorOfThornsHitFXMega"
+                                            "Target"        "%HITTARGET"
+                                        }
+
+                                        "AttachEffect"
+                                        {
+                                            "EffectName"    "ArmorOfThornsTriggeredFXMega"
+                                            "Target"        "%HITSOURCE"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+           
+        }
+    }
+}

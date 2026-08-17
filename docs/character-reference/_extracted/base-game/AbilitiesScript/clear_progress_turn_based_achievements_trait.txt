@@ -1,0 +1,190 @@
+"clear_progress_turn_based_achievements_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "clear_progress_turn_based_achievements_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnTurnFinished"
+            {
+                "AchievementClearProgress"
+                {
+                    "Achievement" "#round_big_damage"
+                }
+            }
+
+            "OnTurnFinishedGlobal"
+            {
+                "AchievementClearProgress"
+                {
+                    "Achievement" "#pentakill"
+                }
+
+                "Conditional"
+                {
+                    "Condition" "wrapContext(encounterContext(), %arenaKillCounter) > 0.5"
+
+                    "Actions" 
+                    {
+                        "Conditional"
+                        {
+                            "Condition" "safeEquals(wrapContext(encounterContext(), %arenaKillCounter), 2)"
+
+                            "Actions" 
+                            {
+                                "AdventureSummaryIncrement"
+                                {
+                                    "Id" "#summary.double_kills"
+                                }
+                            }
+
+                            "ElseActions"
+                            {
+                                "Conditional"
+                                {
+                                    "Condition" "safeEquals(wrapContext(encounterContext(), %arenaKillCounter), 3)"
+
+                                    "Actions" 
+                                    {
+                                        "AdventureSummaryIncrement"
+                                        {
+                                            "Id" "#summary.triple_kills"
+                                        }
+                                    }
+
+                                    "ElseActions"
+                                    {
+                                        "Conditional"
+                                        {
+                                            "Condition" "safeEquals(wrapContext(encounterContext(), %arenaKillCounter), 4)"
+
+                                            "Actions" 
+                                            {
+                                                "AdventureSummaryIncrement"
+                                                {
+                                                    "Id" "#summary.quadra_kills"
+                                                }
+                                            }
+
+                                            "ElseActions"
+                                            {
+                                                "Conditional"
+                                                {
+                                                    "Condition" "wrapContext(encounterContext(), %arenaKillCounter) > 4.5"
+
+                                                    "Actions" 
+                                                    {
+                                                        "AdventureSummaryIncrement"
+                                                        {
+                                                            "Id" "#summary.over_kills"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                "SetToContext"
+                {
+                    "Context" "encounterContext()"
+                    "Key" "#arenaKillCounter"
+                    "Value" "0"
+                    "Type" "FIELD_INTEGER"
+                }
+            }
+
+            "OnFightFinished"
+            {
+                "Conditional"
+                {
+                    "Condition" "wrapContext(encounterContext(), %arenaKillCounter) > 0.5"
+
+                    "Actions" 
+                    {
+                        "Conditional"
+                        {
+                            "Condition" "safeEquals(wrapContext(encounterContext(), %arenaKillCounter), 2)"
+
+                            "Actions" 
+                            {
+                                "AdventureSummaryIncrement"
+                                {
+                                    "Id" "#summary.double_kills"
+                                }
+                            }
+
+                            "ElseActions"
+                            {
+                                "Conditional"
+                                {
+                                    "Condition" "safeEquals(wrapContext(encounterContext(), %arenaKillCounter), 3)"
+
+                                    "Actions" 
+                                    {
+                                        "AdventureSummaryIncrement"
+                                        {
+                                            "Id" "#summary.triple_kills"
+                                        }
+                                    }
+
+                                    "ElseActions"
+                                    {
+                                        "Conditional"
+                                        {
+                                            "Condition" "safeEquals(wrapContext(encounterContext(), %arenaKillCounter), 4)"
+
+                                            "Actions" 
+                                            {
+                                                "AdventureSummaryIncrement"
+                                                {
+                                                    "Id" "#summary.quadra_kills"
+                                                }
+                                            }
+
+                                            "ElseActions"
+                                            {
+                                                "Conditional"
+                                                {
+                                                    "Condition" "wrapContext(encounterContext(), %arenaKillCounter) > 4.5"
+
+                                                    "Actions" 
+                                                    {
+                                                        "AdventureSummaryIncrement"
+                                                        {
+                                                            "Id" "#summary.over_kills"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                "SetToContext"
+                {
+                    "Context" "encounterContext()"
+                    "Key" "#arenaKillCounter"
+                    "Value" "0"
+                    "Type" "FIELD_INTEGER"
+                }
+            }
+        }
+    }
+}
+

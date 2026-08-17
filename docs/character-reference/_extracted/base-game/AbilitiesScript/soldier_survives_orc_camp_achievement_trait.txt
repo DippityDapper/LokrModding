@@ -1,0 +1,32 @@
+"soldier_survives_orc_camp_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "soldier_survives_orc_camp_achievement_modifier"
+        {
+            "Passive" "1"
+
+            "OnVictory"
+            {
+                "Conditional" 
+                {
+                    "Condition" "not(isOnState(%TARGET, #DEAD))"
+                    "Actions"
+                    {   
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#soldier_survives_orc_camp"
+                        }
+                    }
+                }       
+            }
+        }
+    }
+}
+

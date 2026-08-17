@@ -1,0 +1,50 @@
+"blasteon_engulfed_in_flames_trait"
+{
+    "AbilityBehavior"               "POSITIVE_EFFECT | PASSIVE"
+    "Icon"                          "EngulfedInFlames"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "burningDuration"       "2"
+        }
+    }
+
+    "Modifiers"
+    {
+        "blasteon_engulfed_in_flames_trait_modifier"
+        {
+            "Passive"       "1"
+            "StayOnDeath"   "1"
+
+            "OnPostHit"
+            {
+                "Conditional"
+                {
+                    "Condition" "hitConnected(%HIT) && hasTags(hitTags(%HIT), #MELEE) && not(hasTags(hitTags(%HIT), #REFLECTED))"
+                    "Actions" 
+                    {
+                        "QueueHit"
+                        {
+                            "Target"        "%ATTACKER"
+                            "Tags"          "stringList(#MAGICAL, #REFLECTED)"
+
+                            "Actions"
+                            {
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"  "modifier_burning"
+                                    "Target"        "%HITTARGET"
+                                    "Duration"      "%burningDuration"
+                                    "Refresh"       "1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

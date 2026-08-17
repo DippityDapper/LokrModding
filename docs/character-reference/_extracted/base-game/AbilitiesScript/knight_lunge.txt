@@ -1,0 +1,144 @@
+
+
+
+
+
+
+
+"knight_lunge"
+{
+    "AbilityBehavior"   "MELEE"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"   "1"
+    "AbilityAPCost"     "1"
+
+    "AnimationID"   "SpecialAttack"
+    "CastFXId" "HeavyStrikeCastFXMega"
+    "Icon" "BrutalStrike"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "MinDamage"  "stat(%CASTER, #attackDamage)-1"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "MaxDamage"  "stat(%CASTER, #attackDamage)+1"
+        }
+
+        "03"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "extraDamage"  "2"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "SetToContext"
+        {
+            "Context" "currentContext()"
+            "Key" "#knockbackCenter"
+            "Value" "hexPosition(hexNeighbour(unitHex(%SOURCE), unitHex(%TARGET), 3))"
+            "Type" "FIELD_OBJECT"
+        }
+
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "HeavyStrikeHitFXMega" 
+            "Tags" "stringList(#MELEE, #TARGETED, #CANTBEBLOCKED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_PHYSICAL"
+                    "Damage"        "randomI(expr(%MinDamage), expr(%MaxDamage))"
+                }
+
+                "Conditional"
+                {
+                    "Condition" "isOnState(%HITTARGET, #IMMOBILIZED)"
+
+                    "Actions" 
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "expr(%extraDamage)"
+                        }
+
+                        "MarkHitLegendary"
+                        {
+                        }
+                    }
+                }
+            }
+
+            "Actions"
+            {
+                "Knockback" 
+                {
+                    "Target" "%HITTARGET"
+                    "Center" "unitPosition(%HITSOURCE)"
+                    "Strength" "1"
+                }
+
+                "StartLogicTick"
+                {
+                    "Time" "0.8"
+                    "TickType" "ActiveUnit "
+                    "Position" "unitPosition(%HITSOURCE)"
+                }
+
+                "Delay"
+                {
+                    "Time" "0.8"
+                    "Actions"
+                    {
+                        "#UnitRaiseMessage"
+                        {
+                            "Unit" "%HITSOURCE"
+                            "Text" "LUNGEDDD!!"
+                        }
+
+                        "Knockback" 
+                        {
+                            "Target" "%HITSOURCE"
+                            "Center" "%knockbackCenter"
+                            "Strength" "1"
+                        }
+                    }
+                }     
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "4"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+            }
+        }
+    }
+}

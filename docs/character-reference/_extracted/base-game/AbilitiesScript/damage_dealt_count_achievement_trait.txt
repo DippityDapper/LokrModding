@@ -1,0 +1,39 @@
+"damage_dealt_count_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "damage_dealt_count_achievement_trait_modifier"
+        {
+            "Passive" "1"
+            
+            "OnPostHitGlobal"
+            {
+                "Conditional" 
+                {
+                    "Condition" "matchesGroup(unitGroup(%ATTACKED), @UnitGroup(BadSide))"
+                    "Actions"
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement"   "#damage_dealt_count"
+                            "Increment"     "hitEffectiveDamage(%HIT)"
+                        }
+
+                        "AchievementIncrement"
+                        {
+                            "Achievement"   "#round_big_damage"
+                            "Increment"     "hitEffectiveDamage(%HIT)"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

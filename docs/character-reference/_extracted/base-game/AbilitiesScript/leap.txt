@@ -1,0 +1,182 @@
+
+
+
+
+
+
+
+"leap"
+{
+    
+    
+    "AbilityBehavior"   "POINT_TARGET | AOE | NEEDS_CLEAR_TERRAIN"
+
+    "AnimationID"   "JumpOut"
+    "CastFXId" "BarbarianLeapCastFXMega"
+    "Icon" "Leap" 
+
+    "AbilityAOETeamFilter" "TEAM_ENEMY"
+    "AbilityAOERange" "expr(%aoe)"
+
+    "AbilityAOEKind" "RANGE_CIRCLE"
+
+    "AbilityAOECenterOnCaster" "0"
+
+    "AbilityAOEAffectsCaster" "0"
+
+    "AbilityCastRange" "expr(%range)"
+    "AbilityCooldown"   "3"
+ 
+    "AbilityAPCost"     "2"
+
+
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage"  "2" 
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"
+           
+            "range"  "4"
+        }
+
+        "03"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "aoe"  "1"
+        }
+        "04"
+        {
+            "var_type" "FIELD_FLOAT"
+            "duration"  "1"
+        }
+    }
+
+    "OnAbilityAction"
+    { 
+        "AttachEffect"
+        {
+            "EffectName" "BarbarianLeapOutFXMega" 
+            "Target" "unitPosition(%SOURCE)"
+        }
+
+        "PlaySound"
+        {
+            "Sound"         "#krl_sfx_combatBarbarian_leapTravel"
+        }
+
+        "TrackingProjectile"
+        {
+            "SourcePos"             "unitPosition(%SOURCE, #Chest)"
+            "TargetPos"             "%TARGET"
+            "Model" "BarbarianLeapProjectile"
+        }  
+
+        "ApplyModifier"
+        {
+            "ModifierName"    "disable_unit_modifier"
+            "Target"         "%SOURCE"
+        }
+
+        "MoveUnit"
+        {
+            "Target"        "%SOURCE"
+            "Position"    "newPoint(1000, 1000, 0)"
+        }
+    }
+
+
+    "OnProjectileHitUnit"
+    { 
+        "AttachEffect"
+        {
+            "EffectName" "BarbarianLeapInFXMega" 
+            "Target" "%TARGET"
+        }
+
+        "StopSound"
+        {
+            "Sound"         "#krl_sfx_combatBarbarian_leapTravel"
+        }
+
+        "MoveUnit"
+        {
+            "Target"      "%SOURCE"
+            "Position"    "%TARGET"
+        }
+
+        "RemoveModifier"
+        {
+            "ModifierName"    "disable_unit_modifier"
+            "Target"         "%SOURCE"
+        }
+
+        "PlayActivityAnimation"
+        {
+            "Target" "%SOURCE"
+            "Animation" "JumpIn"
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"      "%TARGET"
+                "Radius"     "expr(%aoe)"
+                "Teams"     "TEAM_ENEMY"
+            }
+
+            "IteratorName" "#newTarget"
+        
+            "Actions"    
+            {
+                "Hit"
+                {
+                    "Target" "%newTarget"
+                    "EffectName" "GenericHitFXMega" 
+                    "Tags" "stringList(#AOE)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "2"
+                        }
+                    }
+
+                    "Actions"
+                    {
+                        "Knockback" 
+                        {
+                            "Target" "%HITTARGET"
+                            "Center" "%TARGET" 
+                            "Strength" "1"
+                        }
+
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "modifier_stunned"
+                            "Target"         "%HITTARGET"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "modifier_stunned"
+                            "Target"         "%HITTARGET"
+                            "Duration"  "%duration"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+  

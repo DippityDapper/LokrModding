@@ -1,0 +1,33 @@
+"heal_count_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "heal_count_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnUnitHealedGlobal"
+            {
+                "Conditional" 
+                {
+                    "Condition" "matchesGroup(unitGroup(%UNIT_HEALED), @UnitGroup(GoodSide))"
+                    "Actions"
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement"   "#heal_total_count"
+                            "Increment"     "%HEALED_ACTUALLY"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

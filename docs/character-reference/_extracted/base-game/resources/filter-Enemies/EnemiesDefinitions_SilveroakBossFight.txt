@@ -1,0 +1,587 @@
+"units"
+{
+	"SBFMorganok" 
+	{
+		"Model" "SilveroakBossMorganok"
+		"Name" "WBF_OVERSEER"
+		"InheritsFrom" "Base"
+		"cinematicTags" "Morganok"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "1"
+			"armor_max" "0"
+			"armor_regen_per_turn" "1"
+			"armor_gain_passTurn" "0"
+
+			"baseDamage"  "3"
+			
+			"rangedAttackRange" "0"
+			"rangedAttackMinRange" "0"
+			
+			"walkSpeed" "0"
+			
+			"aspect_summoner" "1"
+			"aspect_magic" "1"
+			"aspect_physical" "1"
+		}
+
+		"skills"
+		{
+			"1" "sbf_morganok_summon_speakers"
+ 		}
+
+ 		"states"
+		{
+			"NON_TARGETABLE" "1"
+			"FIXED_POSITION" "1"
+			"ROOTED" "1"
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"CANT_BE_KNOCKED_BACK" "1"
+			"CANT_BE_POISONED" "1"
+			"CANT_BE_BURNT" "1"
+			"CANT_BE_BLED" "1"
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+  			"LEAVE_CORPSE_VISIBLE" "1"
+  			"PREVENT_END_FIGHT" "1"
+
+  			"NO_SKULL" "1"
+			"CANT_SELECT_IN_INITIATIVE_BAR" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+
+ 		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupSilveroakBFSounds"
+			"sounds"
+			{
+			}
+		}
+	}
+
+	"SBFAspectSummonnerLvl1" 
+	{
+		"Model" "SilveroakBossAspectSummoner"
+		"Name" "MOR"
+		"InheritsFrom" "Base"
+		"cinematicTags" "AspectMor|AspectMorBaloon"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "12"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+
+			"visualMoveSpeed" "0.5" 
+			"visualRunSpeed" "0.5"
+
+			"rangedAttackRange" "1"
+
+			"baseDamage"  "5"
+
+			"walkSpeed" "0"
+
+			"turnsToRegrowth" "3"
+
+			"shield_min_health" "1"
+        	"shield_activation_health" "5"
+
+			"actionsAvailableMax" "2"
+			"initiativeModifier" "-600"
+		}
+
+		"configs"
+ 		{
+ 			"aspectStat" "aspect_summoner"
+ 		}
+
+		"skills"
+		{
+			"1" "sbf_aspect_summoner_attack2"
+			
+			"10" "sbf_aspect_summoner_select_teleport"
+			"11" "sbf_aspect_teleport_with_target"
+			"12" "sbf_aspect_teleport_cinematic"
+			"100" "sbf_aspect_dead_monitor"
+			"101" "sbf_aspect_shield_trait"
+  		}
+
+
+ 		"defaultSkill" "no_attack_ability"
+
+ 		"states"
+		{
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+  			"NO_SKULL" "1"
+  			"FORCE_KILL_COUNT" "1"
+
+  			
+			
+
+			"SBF_ASPECT" "1"
+			"SBF_ASPECT_SUMMONER" "1"
+ 		}
+
+ 		"soundConfig"
+		{
+			"sounds"
+			{
+				"realDeath" 	"krl_sfx_combatSBF_summonerDeath"
+				"finalDeath" 	"krl_sfx_combatSBF_summonerDeath"
+				"teleportOut" 	"krl_sfx_combatSBF_summonerTeleportOut"
+				"teleportIn" 	"krl_sfx_combatSBF_summonerTeleportIn"
+			}
+		}
+	}
+
+	"SBFAspectSummonnerLvl2" 
+	{
+		"InheritsFrom" "SBFAspectSummonnerLvl1"
+
+		"stats"
+		{
+			"level" "2"
+			"rangedAttackRange" "2"
+			"health_max" "12"
+			"armor_max" "3"
+		}
+	}
+
+	"SBFAspectSummonnerLvl3" 
+	{
+		"InheritsFrom" "SBFAspectSummonnerLvl1"
+
+		"stats"
+		{
+			"level" "3"
+			"rangedAttackRange" "3"
+			"health_max" "15"
+			"armor_max" "5"
+		}
+	}
+
+	"SBFAspectMagicLvl1" 
+	{
+		"Model" "SilveroakBossAspectMagic"
+		"Name" "GA"
+		"InheritsFrom" "Base"
+		"cinematicTags" "AspectGa|AspectGaBaloon"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "10"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+
+			"visualMoveSpeed" "0.5" 
+			"visualRunSpeed" "0.5"
+
+			"rangedAttackRange" "3"
+
+			"baseDamage"  "3"
+
+			"walkSpeed" "0"
+
+			"asleep_duration" "2"
+
+			"shield_min_health" "1"
+        	"shield_activation_health" "5"
+
+			"actionsAvailableMax" "2"
+			"initiativeModifier" "-400"
+		}
+
+		"configs"
+ 		{
+ 			"aspectStat" "aspect_magic"
+ 		}
+
+		"skills"
+		{
+			"1" "sbf_aspect_magic_attack"
+			
+			"10" "sbf_aspect_magic_select_teleport"
+			"11" "sbf_aspect_teleport_with_target"
+			"12" "sbf_aspect_teleport_cinematic"
+			"100" "sbf_aspect_dead_monitor"
+			"101" "sbf_aspect_shield_trait"
+ 		}
+
+
+ 		"defaultSkill" "no_attack_ability"
+
+ 		"states"
+		{
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+  			"NO_SKULL" "1"
+  			"FORCE_KILL_COUNT" "1"
+
+  			
+			
+
+			"SBF_ASPECT" "1"
+			"SBF_ASPECT_MAGIC" "1"
+ 		}
+
+ 		"soundConfig"
+		{
+			"sounds"
+			{
+				"realDeath" 	"krl_sfx_combatSBF_magicalDeath"
+				"finalDeath" 	"krl_sfx_combatSBF_magicalDeath"
+				"teleportOut" 	"krl_sfx_combatSBF_magicalTeleportOut"
+				"teleportIn" 	"krl_sfx_combatSBF_magicalTeleportIn"
+			}
+		}
+	}
+
+	"SBFAspectMagicLvl2" 
+	{
+		"InheritsFrom" "SBFAspectMagicLvl1"
+
+		"stats"
+		{
+
+			"level" "2"
+			"health_max" "15"
+			"baseDamage"  "4"
+
+		}
+	}
+
+	"SBFAspectMagicLvl3" 
+	{
+		"InheritsFrom" "SBFAspectMagicLvl1"
+
+		"stats"
+		{
+
+			"level" "3"
+			"health_max" "20"
+			"baseDamage"  "5"
+		}
+	}
+
+	"SBFAspectPhysicalLvl1" 
+	{
+		"Model" "SilveroakBossAspectPhysical"
+		"Name" "NOK"
+		"InheritsFrom" "Base"
+		"cinematicTags" "AspectNok|AspectNokBaloon"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "15"
+			"armor_max" "3"
+			"armor_regen_per_turn" "1"
+			"armor_gain_passTurn" "0"
+
+
+			"visualMoveSpeed" "0.5" 
+			"visualRunSpeed" "0.5"
+
+			"rangedAttackRange" "2"
+
+			"baseDamage"  "3"
+
+			"walkSpeed" "0"
+
+			"nextTargetRange" "2"
+			"maxTargets" "1"
+ 
+ 			"shield_min_health" "1"
+        	"shield_activation_health" "5"
+
+			"actionsAvailableMax" "2"
+			"initiativeModifier" "-200"
+		}
+
+		"configs"
+ 		{
+ 			"aspectStat" "aspect_physical"
+ 		}
+
+
+		"skills"
+		{
+			"1" "sbf_aspect_physical_attack"
+			
+			"10" "sbf_aspect_physical_select_teleport"
+			"11" "sbf_aspect_teleport_with_target"
+			"12" "sbf_aspect_teleport_cinematic"
+			"100" "sbf_aspect_dead_monitor"
+			"101" "sbf_aspect_shield_trait"
+ 		}
+
+
+ 		"defaultSkill" "no_attack_ability"
+
+ 		"states"
+		{
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+  			"NO_SKULL" "1"
+  			"FORCE_KILL_COUNT" "1"
+
+  			
+			
+
+			"SBF_ASPECT" "1"
+			"SBF_ASPECT_PHYSICAL" "1"
+ 		}
+
+ 		"soundConfig"
+		{
+			"sounds"
+			{
+				"realDeath" "krl_sfx_combatSBF_physicalDeath"
+				"finalDeath" "krl_sfx_combatSBF_physicalDeath"
+				"teleportOut" 	"krl_sfx_combatSBF_physicalTeleportOut"
+				"teleportIn" 	"krl_sfx_combatSBF_physicalTeleportIn"
+			}
+		}
+	}
+
+	"SBFAspectPhysicalLvl2" 
+	{
+		"InheritsFrom" "SBFAspectPhysicalLvl1"
+
+		"stats"
+		{
+
+			"level" "2"
+			"health_max" "15"
+			"armor_max" "6"
+			"armor_regen_per_turn" "2"
+			"baseDamage"  "4"
+			"maxTargets" "2"
+		}
+	}
+
+	"SBFAspectPhysicalLvl3" 
+	{
+		"InheritsFrom" "SBFAspectPhysicalLvl1"
+
+		"stats"
+		{
+
+			"level" "3"
+			"rangedAttackRange" "2"
+			"health_max" "20"
+			"armor_max" "8"
+			"armor_regen_per_turn" "2"
+			"maxTargets" "3"
+			"baseDamage"  "5"
+		}
+	}
+
+	"SBFSpeakerMor" 
+	{
+		"Model" "SilveroakBossSpeakerMorganok"
+		"Name" "SBFSpeakerMor"
+		"InheritsFrom" "Base"
+		"cinematicTags" "SpeakerMor|AspectMorBaloon"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"SBFSpeakerGa" 
+	{
+		"Model" "SilveroakBossSpeakerMorganok"
+		"Name" "SBFSpeakerGa"
+		"InheritsFrom" "Base"
+		"cinematicTags" "SpeakerGa|AspectGaBaloon"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"SBFSpeakerNok" 
+	{
+		"Model" "SilveroakBossSpeakerMorganok"
+		"Name" "SBFSpeakerNok"
+		"InheritsFrom" "Base"
+		"cinematicTags" "SpeakerNok|AspectNokBaloon"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"SBFEyesMor" 
+	{
+		"Model" "SilveroakBossEyesSummoner"
+		"Name" "SBFEyesMor"
+		"InheritsFrom" "Base"
+		"cinematicTags" "EyesMor"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"SBFEyesGa" 
+	{
+		"Model" "SilveroakBossEyesMagic"
+		"Name" "SBFEyesGa"
+		"InheritsFrom" "Base"
+		"cinematicTags" "EyesGa"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"SBFEyesNok" 
+	{
+		"Model" "SilveroakBossEyesPhysical"
+		"Name" "SBFEyesNok"
+		"InheritsFrom" "Base"
+		"cinematicTags" "EyesNok"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+}

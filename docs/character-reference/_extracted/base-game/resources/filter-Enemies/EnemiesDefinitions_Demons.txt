@@ -1,0 +1,225 @@
+"units"
+{
+	"DemonSpawn" 
+	{
+		"Model" "DemonSpawn"
+		"Name" "DEMON_SPAWN"
+		"InheritsFrom" "Base"
+		"cinematicTags" "Demon"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "5"
+			"armor_max" "0"	
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+			"rangedAttackRange" "0"
+			
+			"baseDamage"  "3"
+
+			"walkSpeed" "3"
+
+			"initiativeModifier" "0"
+
+			"infernalSacrificeDamage" "5"
+		}
+
+		"skills"
+		{
+			"1" "infernal_sacrifice"
+			"100" "wasteland_forged_by_fire_trait"
+ 		}
+
+ 		"defaultSkill" "common_melee_attack"
+
+ 		"states"
+ 		{
+ 			"demonlordsacrificecandidate" "1"
+ 		}
+
+ 		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupDemonSpawnSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_va_combatDemonSpawn_hit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_va_combatDemonSpawn_death"
+			}
+		}
+	}
+
+	"DemonFlareon" 
+	{
+		"Model" "DemonFlareon"
+		"Name" "DEMON_FLAREON"
+		"InheritsFrom" "Base"
+		"cinematicTags" "Demon"
+
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "4"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+
+			"baseDamage"  "2"
+
+			"rangedAttackRange" "4"
+			"rangedAttackMinRange" "2"
+
+			"walkSpeed" "2"
+
+			"infernalSacrificeDamage" "5"
+		}
+
+
+		"skills"
+		{
+			"1" "infernal_sacrifice"
+			"2" "wasteland_forged_by_fire_trait"
+			"100" "keepDistance_ai"
+			"101" "get_in_range_ai"
+			"102" "walk_to_closest_ranged_ai"
+ 		}
+
+ 		"defaultSkill" "demon_flareon_magic_attack"
+
+ 		"states"
+ 		{
+ 			"demonlordsacrificecandidate" "1"
+ 		}
+
+ 		"soundConfig"
+		{	
+			"assetId" "DynamicSoundGroupDemonFlareonSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_va_combatDemonFlareon_hit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_va_combatDemonFlareon_death"
+			}
+		}
+	}
+		
+
+	"DemonLord" 
+	{
+		"Model" "DemonLord"
+		"Name" "DEMON_LORD"
+		"InheritsFrom" "Base"
+		"cinematicTags" "Demon"
+
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "12"
+			"armor_max" "4"
+			"armor_regen_per_turn" "2"
+			"armor_gain_passTurn" "0"
+
+
+			"baseDamage"  "4"
+
+			"rangedAttackRange" "3"
+			"rangedAttackMinRange" "2"
+
+			"walkSpeed" "2"
+
+			"infernalSacrificeDamage" "5"
+		}
+
+
+		"skills"
+		{
+			"1" "demon_lord_nethershield"
+			"2" "demon_lord_call"
+			"3" "demon_lord_sacrifice"
+			"100" "wasteland_forged_by_fire_trait"
+			"100" "keepDistance_ai"
+			"101" "get_in_range_ai"
+			"102" "walk_to_closest_ranged_ai"
+ 		}
+
+ 		"defaultSkill" "demon_flareon_magic_attack"
+ 		
+
+ 		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupDemonLordSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_va_combatDemonLord_hit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_va_combatDemonLord_death"
+			}
+		}
+	}
+
+	"DemonHound" 
+	{
+		"Model" "DemonHound"
+		"Name" "DEMON_HOUND"
+		"InheritsFrom" "Base"
+		
+		"stats"
+		{
+
+			"level" "1"
+				
+
+			"health_max" "8" 
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+			"evasion" "0.3"  
+
+			"visualMoveSpeed" "2.25" 
+			"visualRunSpeed" "2.25"
+			"rangedAttackRange" "0"
+
+			"baseDamage"  "3"
+
+			"walkSpeed" "3"
+			"infernalSacrificeDamage" "5"
+
+			"initiativeModifier" "-4"
+
+		}
+
+
+		"skills"
+		{
+			
+			"1" "infernal_sacrifice"
+			"10" "dodge_trait"
+			"100" "wasteland_forged_by_fire_trait"
+ 		}
+
+
+ 		"defaultSkill" "demon_hound_blazing_bite"
+
+ 		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupDemonHoundSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatDemons_houndHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatDemons_houndDeath"
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+[submodule "LokrModAPI"]
+	path = LokrModAPI
+	url = https://github.com/DippityDapper/LokrModAPI.git
+[submodule "LokrCharacterLoader"]
+	path = LokrCharacterLoader
+	url = https://github.com/DippityDapper/LokrCharacterLoader.git
+[submodule "LokrLabApi"]
+	path = LokrLabApi
+	url = https://github.com/DippityDapper/LokrLabApi.git
+[submodule "LokrLab"]
+	path = LokrLab
+	url = https://github.com/DippityDapper/LokrLab.git
+[submodule "LokrEncyclopedia"]
+	path = LokrEncyclopedia
+	url = https://github.com/DippityDapper/LokrEncyclopedia.git
+[submodule "LokrModMenu"]
+	path = LokrModMenu
+	url = https://github.com/DippityDapper/LokrModMenu.git
+[submodule "LokrPatch"]
+	path = LokrPatch
+	url = https://github.com/DippityDapper/LokrPatch.git
+[submodule "SimpleUI"]
+	path = SimpleUI
+	url = https://github.com/DippityDapper/SimpleUI.git
+[submodule "docs/api"]
+	path = docs/api
+	url = https://github.com/DippityDapper/lokr-modding-docs.git

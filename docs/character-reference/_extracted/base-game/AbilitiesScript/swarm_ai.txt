@@ -1,0 +1,65 @@
+"swarm_ai"
+{
+    "AbilityBehavior"   "MELEE"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "stat(%CASTER, #walkSpeedAvailable)"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "0"
+    "AnimationID"   "Attack"
+
+    "AbilitySpecial" 
+    {
+    }
+
+    "OnThink"
+    {
+        "GetCloseToUnitAI"
+        {
+            "BrainId" "#Custom"
+        }
+    }
+
+    "AIBrainCustom"
+    {
+        "Selection" 
+        {
+            "Weight" "10"
+            "Considerations"
+            {
+                "surrounded by several units"
+                {
+                    "Curve" "Logistic|500|5|-4|-0.1"
+                    "Consideration" "UnitsSurrounding"
+                    "Params"
+                    {
+                        "Max" "5"  
+                        "TeamFilter" "TEAM_FRIENDLY"
+                        "Range" "1"
+                    }
+                }
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.05|1|1|0"
+                    "Consideration" "PathDistance"
+                    "Params"
+                    {
+                        "MaxRange" "stat(%CASTER, #walkSpeedAvailable)"  
+                    }
+                }
+
+                "Descartar fuera de rango"
+                {
+                    "Curve" "Linear|-100|1|1|0.99"
+                    "Consideration" "PathDistance"
+                    "Params"
+                    {
+                        "MinRange" "stat(%CASTER, #walkSpeedAvailable)"
+                        "MaxRange" "stat(%CASTER, #walkSpeedAvailable) + 1"
+                        "IncludeUnreachable" "1"
+                    }
+                }
+            }
+        }
+    }
+}

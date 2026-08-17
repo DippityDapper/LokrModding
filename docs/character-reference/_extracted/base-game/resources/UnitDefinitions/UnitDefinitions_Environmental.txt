@@ -1,0 +1,152 @@
+"units"
+{
+	"AcidFloor" 
+	{
+		"Name" "AcidFloor"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			"1" "acid_floor_generic_buff_skill"
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_LIFEBAR" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "common_melee_attack"
+	}
+
+	"FireFloor" 
+	{
+		"Name" "FireFloor"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			"1" "fire_floor_generic_buff_skill"
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_LIFEBAR" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "common_melee_attack"
+	}
+
+	"Brambles" 
+	{
+		"Name" "Brambles"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			"1" "brambles_floor_generic_buff_skill"
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_LIFEBAR" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "common_melee_attack"
+	}
+
+	"Thorns" 
+	{
+		"Name" "Thorns"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			"1" "thorns_floor_generic_buff_skill"
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_LIFEBAR" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "common_melee_attack"
+	}
+
+	"DeadlySpikes" 
+	{
+		"Name" "DeadlySpikes"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			"1" "deadly_spikes_floor_generic_buff_skill"
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_LIFEBAR" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "common_melee_attack"
+	}
+}

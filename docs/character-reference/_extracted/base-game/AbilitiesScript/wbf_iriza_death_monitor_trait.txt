@@ -1,0 +1,161 @@
+"wbf_iriza_death_monitor_trait"
+{
+    "AbilityBehavior"       "UNIT_TARGET | PASSIVE"
+    
+
+    "AbilitySpecial"
+    {
+        
+    }
+
+    "Modifiers"
+    {
+        "wbf_iriza_death_monitor_modifier"
+        {
+
+            "Passive" "1"
+
+            "OnHitPreResult"
+            {
+                "Conditional"
+                {
+                    "Condition" "safeEquals(stat(%TARGET, #health),0)"
+                    "Actions" 
+                    {
+                        "ActOnTargets"
+                        {
+                            "Target"
+                            {
+                                "Center"            "%TARGET"
+                                "Radius"            "1000"
+                                "Teams"             "TEAM_ALL"
+                                "Flags"             "INCLUDE_NON_TARGETABLE"
+                                "CustomFilter"      "customUnitFilter(#theUnit, isOnState(%theUnit, #IrizaTeleportTarget))"
+                            }
+
+                            "IteratorName" "#newTarget"
+                        
+                            "Actions"    
+                            {
+                                "KillUnit"
+                                {
+                                    "Target"        "%newTarget"
+                                    "InstaKill" "1"
+                                }
+                            }
+                        }
+
+                        "SetStat"
+                        {
+                            "Target" "%TARGET"
+                            "Stat" "#health"
+                            "Value" "1"
+                        }
+
+                        "PlayActivityAnimation"
+                        {
+                            "Target" "%TARGET"
+                            "Animation" "TakeDamage"
+                            "Events" 
+                            {
+                                "AbilityEnd"
+                                {
+                                    "ApplyModifier"
+                                    {
+                                        "ModifierName"    "wbf_iriza_gone_modidfier"
+                                        "Target"         "%TARGET"
+                                    }
+                                }
+                            }
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "disable_unit_modifier"
+                            "Target"         "%TARGET"
+                        }
+
+                        "RemoveModifier"
+                        {
+                            "ModifierTag"    "iriza_charging"
+                            "Target"         "%TARGET"
+                        }
+                        
+                        "HideInitiativeBar"
+                        {
+                        }
+
+                        "Conditional"
+                        {
+                            "Condition" "isOnState(%TARGET, #PHASE1)"
+                            "Actions" 
+                            {
+                                "QueueCinematic"
+                                {
+                                    "Cinematic" "#IrizaDied1"
+                                }
+                            }
+
+                            "ElseActions"
+                            {
+                                "Conditional"
+                                {
+                                    "Condition" "isOnState(%TARGET, #PHASE2)"
+                                    "Actions" 
+                                    {
+                                        "QueueCinematic"
+                                        {
+                                            "Cinematic" "#IrizaDied2"
+                                        }
+                                    }
+
+                                    "ElseActions"
+                                    {
+                                        "ActOnTargets"
+                                        {
+                                            "Target"
+                                            {
+                                                "Center"      "%TARGET"
+                                                "Radius"     "999"
+                                                "Teams"     "TEAM_ALL"
+                                                "Flags"     "INCLUDE_NON_TARGETABLE"
+                                                "CustomFilter"      "customUnitFilter(#theUnit, isOnState(%theUnit, #DIES_WITH_IRIZA))"
+                                            }
+
+                                            "IteratorName" "#newTarget"
+                                        
+                                            "Actions"    
+                                            {
+                                                "KillUnit"
+                                                {
+                                                    "Target"        "%newTarget"
+                                                }
+                                            }
+                                        }  
+
+                                        "ApplyModifier"
+                                        {
+                                            "ModifierName"    "wbf_iriza_phase3Cry_modidfier"
+                                            "Target"         "%TARGET"
+                                        }
+
+                                        "QueueCinematic"
+                                        {
+                                            "Cinematic" "#IrizaDied3"
+                                        }
+
+                                        "CameraControl"
+                                        {
+                                            "TakeOver" "1"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,134 @@
+"mbf_ulgukhai_summon_crystals"
+{
+    "AbilityBehavior"   "DOESNT_CONSUME_MOVE"
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityCastRange" "0"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID" "SpellCastC"
+    "CastFXId" "MBFHarbingerCastFXMega"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "crystals"            "3" 
+        }
+
+        "02"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "crystalDamage"            "5" 
+        }
+
+        "03"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "crystalHeal"            "3" 
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "CallFunction"
+        {
+            "Function" "Ironhide.Legends.Content.Abilities.MBFUlgukHaiSummonTargets"
+
+            "HeroFilter" 
+            {
+                "Center"      "%SOURCE"
+                "Radius"     "1000"
+                "Teams"     "TEAM_ENEMY"
+            }
+
+            "MainHexa" "unitHex(%SOURCE)"
+            "MaxDistance" "5"
+
+            "IteratorName" "#hexa"
+            "IteratorCountName" "#hexaCount"
+            "IteratorIndexName" "#index"
+
+            "Actions"
+            {
+                "Delay"
+                {
+                    "Time" "0.3 * %index"
+                    "Actions"
+                    {
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#MBFHealingCrystalMinion"
+                            "Position" "hexPosition(%hexa)"
+                            "UnitGroup" "unitGroup(%SOURCE)"
+                            "IsAI" "1"
+                            "AddToInitiativeOrder" "1"
+
+                            "OnSpawn"
+                            {
+                                "PlayActivityAnimation"
+                                {
+                                    "Target" "%UNIT"
+                                    "Animation" "Spawn"
+                                }
+
+                                "AttachEffect"
+                                {
+                                    "EffectName" "MBFCrystalSummonFXMega"
+                                    "Target" "%UNIT"
+                                }
+
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"    "mbf_healingcrystal_detroyed_link"
+                                    "Target"         "%UNIT"
+                                    "Duration"  "0"
+
+                                    "Params"
+                                    {
+                                        "linkedTarget" {
+                                            "type" "FIELD_OBJECT"
+                                            "value" "%SOURCE"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+
+    "OnThink"
+    {
+        "RunThisSkillAI"
+        {
+            "BrainId" "#Custom"
+            "Target" "%UNIT"
+        }
+    }
+
+    "AIBrainCustom"
+    {
+        "Selection" 
+        {
+            "Weight" "100"
+            "Considerations"
+            {
+                "is first action"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "0"
+                        "Stat" "#actionsTaken"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}

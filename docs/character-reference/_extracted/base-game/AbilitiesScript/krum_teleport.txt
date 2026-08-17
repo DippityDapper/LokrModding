@@ -1,0 +1,337 @@
+"krum_teleport"
+{
+    
+    
+    "AbilityBehavior"   ""
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityTargetFilterFlags" "INCLUDE_NON_TARGETABLE"
+
+    "AnimationID"   "TeleportOut"
+    
+
+    "AbilityCastRange" "1000"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "0"
+
+
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "teleportDamage"  "stat(%CASTER, #teleportDamage)"
+        }
+    }
+
+    "OnAbilityStart"
+    {
+        "StartLogicTick"
+        {
+            "Time" "1.1"
+            "TickType" "PriorityCenter"
+            "Position" "unitPosition(%SOURCE)"
+        }
+    }
+
+    "OnAbilityAction"
+    { 
+        "SetStat"
+        {
+            "Target" "%SOURCE"
+            "Stat" "#canTeleport"
+            "Value" "0"
+        }
+
+        "Conditional"
+        {
+            "Condition" "stat(%SOURCE, #willGoDown) > 0"
+
+            "Actions"
+            {
+                "AttachEffect"
+                {
+                    "EffectName" "KrumLightningTeleportOutThroneFXMega" 
+                    "Target" "pointAdd(unitPosition(%SOURCE), newPoint(0, -2, 0))"
+                }
+            }
+
+            "ElseActions"
+            {
+                "AttachEffect"
+                {
+                    "EffectName" "KrumLightningTeleportOutFXMega" 
+                    "Target" "unitPosition(%SOURCE)"
+                }
+            }
+        }
+
+        "SetToContext"
+        {
+            "Context" "currentContext()"
+            "Key" "#sourcePosition"
+            "Value" "unitPosition(%SOURCE)"
+            "Type" "FIELD_OBJECT"
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"    "disable_unit_modifier"
+            "Target"         "%SOURCE"
+        }
+
+        "MoveUnit"
+        {
+            "Target"        "%SOURCE"
+            "Position"    "newPoint(1000, 1000, 0)"
+        }
+
+        "StartLogicTick"
+        {
+            "Time" "3.5"
+            "TickType" "PriorityCenter"
+            "Position" "unitPosition(%TARGET)"
+        }
+
+        "Delay"
+        {
+            "Time" "2"
+            "Actions"
+            {
+                "AttachEffect"
+                {
+                    "EffectName" "KrumLightningTeleportInFXMega" 
+                    "Target" "unitPosition(%TARGET)"
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"      "%TARGET"
+                        "Radius"     "0"
+                        "Teams"     "TEAM_ALL"
+                    }
+
+                    "IteratorName" "#targetToMove"
+                
+                    "Actions"
+                    {
+                        "ActOnHexas"
+                        {
+                            "Center" "unitHex(%targetToMove)"
+                            "Range" "1"
+                            "MinRange" "1"
+                            "RequireEmpty" "1"
+                            "IteratorName" "#hexa"
+                            "Max" "1"
+                            "Random" "1"
+                        
+                            "Actions"    
+                            {
+                                "MoveUnit"
+                                {
+                                    "Target"      "%targetToMove"
+                                    "Position"    "hexPosition(%hexa)"
+                                }
+
+                                "Hit"
+                                {
+                                    "Target" "%targetToMove"
+                                    "EffectName" "KrumElectricStrikeHitFXMega" 
+                                    "Tags" "stringList(#MAGICAL, #ENVIRONMENTAL)"
+
+                                    "InitActions"
+                                    {
+                                        "AddDamage"
+                                        {
+                                            "Type"          "DAMAGE_MAGICAL"
+                                            "Damage"        "expr(%teleportDamage)"
+                                        }
+                                    }
+                                }
+                            }
+
+                            "ActionsIfNotFound"
+                            {
+                                "ActOnHexas"
+                                {
+                                    "Center" "unitHex(%targetToMove)"
+                                    "Range" "2"
+                                    "MinRange" "2"
+                                    "RequireEmpty" "1"
+                                    "IteratorName" "#hexa2"
+                                    "Max" "1"
+                                    "Random" "1"
+                                
+                                    "Actions"    
+                                    {
+                                        "MoveUnit"
+                                        {
+                                            "Target"      "%targetToMove"
+                                            "Position"    "hexPosition(%hexa2)"
+                                        }
+
+                                        "Hit"
+                                        {
+                                            "Target" "%targetToMove"
+                                            "EffectName" "KrumElectricStrikeHitFXMega" 
+                                            "Tags" "stringList(#MAGICAL, #ENVIRONMENTAL)"
+
+                                            "InitActions"
+                                            {
+                                                "AddDamage"
+                                                {
+                                                    "Type"          "DAMAGE_MAGICAL"
+                                                    "Damage"        "expr(%teleportDamage)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                "Lua"
+                {
+                    "Action" "return function(ctx)  ctx.GetObject('SOURCE').unitView.SetHeightOffset(0) end"
+                }
+
+                "MoveUnit"
+                {
+                    "Target"      "%SOURCE"
+                    "Position"    "unitPosition(%TARGET)"
+                }
+
+                "PlayActivityAnimation"
+                {
+                    "Target" "%SOURCE"
+                    "Animation" "TeleportIn"
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "disable_unit_modifier"
+                    "Target"         "%SOURCE"
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"  "krum_onfloor_trait_modifier"
+                    "Target"        "%SOURCE"
+                    "Duration"      "0"
+                    "Refresh"   "1"
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"      "%CASTER"
+                        "Radius"      "1000"
+                        "Teams"       "TEAM_ENEMY"
+                    }
+
+                    "IteratorName" "#targetToLookAt"
+                
+                    "Actions"
+                    {
+                        "Conditional"
+                        {
+                            "Condition" "isOnState(%targetToLookAt, #HERO)"
+
+                            "Actions"
+                            {
+                                "LookAt"
+                                {
+                                    "Target" "%CASTER"
+                                    "LookAt" "unitPosition(%targetToLookAt)"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }  
+    }
+
+    "Modifiers"
+    {
+        "krum_teleport_modifier"
+        {
+            "States"
+            {
+                "krumTeleport" "1"
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "10"
+            "Considerations"
+            {
+                "is second action"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "Min" "1"
+                        "Max" "2"
+                        "Stat" "#actionsTaken"
+                        "Owner" "1"
+                    }
+                }
+
+                "canTeleport"
+                {
+                    "Curve" "Linear|20|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#canTeleport"
+                        "Owner" "1"
+                    }
+                }
+
+                "isTarget"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStateOn"
+                    "Params"
+                    {
+                        "State" "#krumTeleport"
+                        "Owner" "0"
+                    }
+                }
+
+                "Priorizacion Por Distance mas lejano"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MinRange" "1"
+                        "MaxRange" "10"  
+                    }
+                }
+
+                "Priorizacion Random"
+                {
+                    "Curve" "Linear|0.01|1|0.99|0"
+                    "Consideration" "Random"
+                }
+            }
+        }
+    }
+}
+
+
+  

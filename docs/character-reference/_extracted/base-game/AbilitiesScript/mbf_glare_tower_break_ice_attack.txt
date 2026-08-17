@@ -1,0 +1,104 @@
+"mbf_glare_tower_break_ice_attack"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET | CINEMATIC"
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityCastRange" "1000"
+    "AbilityCastMinRange" "0" 
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "AttackDeath"
+    
+
+   
+    "AbilitySpecial"
+    {
+     
+    }
+
+    "OnAbilityStart"
+    {
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerBase)"
+            "Animation" "AttackDeath"
+        }
+
+        "AttachEffect"
+        {
+            "EffectName" "ArcaneTowerDeathCastFXMega"
+            "Target" "wrapContext(unitContext(%CASTER), %towerGem)"
+            "Dependant" "1"
+        }
+
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerGem)"
+            "Animation" "AttackDeath"
+        }
+
+        "KillUnit"
+        {
+            "Target"        "wrapContext(unitContext(%CASTER), %towerPriest1)"
+        }
+        "KillUnit"
+        {
+            "Target"        "wrapContext(unitContext(%CASTER), %towerPriest2)"
+        }
+        "KillUnit"
+        {
+            "Target"        "wrapContext(unitContext(%CASTER), %towerPriest3)"
+        }
+        "KillUnit"
+        {
+            "Target"        "wrapContext(unitContext(%CASTER), %towerPriest4)"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "AttachEffect"
+        {
+            "EffectName" "ArcaneTowerDeathPillarFXMega"
+            "Target" "unitPosition(%CASTER)"
+        }
+
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"             "pointAdd(unitPosition(%SOURCE), newPoint(0, 2, 0))"
+            "TargetPos"             "unitPosition(%TARGET, #Chest)"
+            "Model" "ArcaneTowerSuperBeamRayIceProjectile"
+
+            "Params" 
+            {
+            }
+        }
+    }
+
+    "OnAbilityCustomEvent"
+    {
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction2)"
+
+            "Actions" 
+            {
+                "KillUnit"
+                {
+                    "Target"        "%CASTER"
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "InvokeCallback"
+        {
+            "Callback" "wrapContext(abilityCinematicContext(%ABILITY), %onHit)"
+        }
+    }
+}

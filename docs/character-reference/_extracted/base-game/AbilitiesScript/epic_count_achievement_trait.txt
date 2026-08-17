@@ -1,0 +1,42 @@
+"epic_count_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "epic_count_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnPostHitGlobal"
+            {
+                "Conditional" 
+                {
+                    "Condition" "hitIsLegendary(%HIT)"
+                    "Actions"
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#epic_count"
+                        }
+
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.epics_triggered"
+                        }
+
+                        "AdventureSummaryIncrement"
+                        {
+                            "Id" "#summary.epics_triggered_arena"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

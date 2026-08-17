@@ -1,0 +1,319 @@
+"pokeoak_poke"
+{
+    "AbilityBehavior"           "MELEE"
+    "AbilityTeamFilter"         "TEAM_ALL"
+    "AbilityCastRange"          "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"           "1"
+    "AbilityAPCost"             "1"
+    "AnimationID"               "Attack"
+    "Icon"                      "Poke"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "mainDamage"        "stat(%CASTER,#attackDamage)"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "sideDamage"        "stat(%CASTER,#attackDamage)"
+        }
+        
+        "20"
+        {
+            "var_type" "FIELD_STRING"
+            "iconDamageType"  "damagePhysical"
+        }
+    }
+
+    "OnCustomTargeting"
+    {
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"            "hexPosition(hexNeighbour(%DESTINATIONHEXA, unitHex(%TARGET), -1))"
+                "Radius"            "0"
+                "Teams"             "TEAM_ENEMY"
+                "ExcludedUnits"     "objectList(%SOURCE)"
+            }
+
+            "IteratorName"          "#newTarget"
+        
+            "Actions"    
+            {
+                "AddAsAffected"
+                {
+                    "Unit"          "%newTarget"
+                }
+            }
+        }
+
+        "ActOnHexas"
+        {
+            "Center"                "hexNeighbour(%DESTINATIONHEXA, unitHex(%TARGET), -1)"
+            "Range"                 "0"
+            "IteratorName"          "#hexa"
+        
+            "Actions"    
+            {
+                "AddAsAffected"
+                {
+                    "Hexa"          "%hexa"
+                }
+            }
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"            "hexPosition(hexNeighbour(%DESTINATIONHEXA, unitHex(%TARGET), 1))"
+                "Radius"            "0"
+                "Teams"             "TEAM_ENEMY"
+                "ExcludedUnits"     "objectList(%SOURCE)"
+            }
+
+            "IteratorName"          "#newTarget"
+        
+            "Actions"    
+            {
+                "AddAsAffected"
+                {
+                    "Unit"          "%newTarget"
+                }
+            }
+        }
+
+        "ActOnHexas"
+        {
+            "Center"                "hexNeighbour(%DESTINATIONHEXA, unitHex(%TARGET), 1)"
+            "Range"                 "0"
+            "IteratorName"          "#hexa"
+        
+            "Actions"    
+            {
+                "AddAsAffected"
+                {
+                    "Hexa"          "%hexa"
+                }
+            }
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "SetToContext"
+        {
+            "Context"   "unitContext(%CASTER)"
+            "Key"       "#enemyHit"
+            "Type"      "FIELD_INTEGER"
+            "Value"     "0"
+        }
+
+        "Hit"
+        {
+            "Target"                "%TARGET"
+            "EffectName"            "WarlockSunderArmorHitFXMega" 
+            "Tags"                  "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_PHYSICAL"
+                    "Damage"        "expr(%mainDamage)"
+                }
+            }
+
+            "Actions"
+            {
+                "Knockback" 
+                {
+                    "Target"        "%HITTARGET"
+                    "Center"        "unitPosition(%HITSOURCE)"
+                    "Strength"      "1"
+                }
+
+                "Conditional"
+                {
+                    "Condition" "matchesGroup(unitGroup(%HITTARGET), @UnitGroup(BadSide))"
+                    "Actions" 
+                    {
+                        "SetToContext"
+                        {
+                            "Context"   "unitContext(%CASTER)"
+                            "Key"       "#enemyHit"
+                            "Type"      "FIELD_INTEGER"
+                            "Value"     "1"
+                        }
+                    }
+                }
+            }
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"                "hexPosition(hexNeighbour(unitHex(%SOURCE), unitHex(%TARGET), -1))"
+                "Radius"                "0"
+                "Teams"                 "TEAM_ENEMY"
+                "ExcludedUnits"         "objectList(%SOURCE)"
+            }
+
+            "IteratorName"              "#newTarget"
+        
+            "Actions"    
+            {
+                "Hit"
+                {
+                    "Target"            "%newTarget"
+                    "EffectName"        "WarlockSunderArmorHitFXMega" 
+                    "Tags"              "stringList(#MELEE, #TARGETED)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"      "DAMAGE_PHYSICAL"
+                            "Damage"    "expr(%sideDamage)"
+                        }
+                    }
+
+                    "Actions"
+                    {
+                        "Knockback" 
+                        {
+                            "Target"        "%HITTARGET"
+                            "Center"        "unitPosition(%HITSOURCE)"
+                            "Strength"      "1"
+                        }
+
+                        "Conditional"
+                        {
+                            "Condition" "matchesGroup(unitGroup(%HITTARGET), @UnitGroup(BadSide))"
+                            "Actions" 
+                            {
+                                "SetToContext"
+                                {
+                                    "Context"   "unitContext(%CASTER)"
+                                    "Key"       "#enemyHit"
+                                    "Type"      "FIELD_INTEGER"
+                                    "Value"     "1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"                "hexPosition(hexNeighbour(unitHex(%SOURCE), unitHex(%TARGET), 1))"
+                "Radius"                "0"
+                "Teams"                 "TEAM_ENEMY"
+                "ExcludedUnits"         "objectList(%SOURCE)"
+            }
+
+            "IteratorName"              "#newTarget"
+        
+            "Actions"    
+            {
+                "Hit"
+                {
+                    "Target"            "%newTarget"
+                    "EffectName"        "WarlockSunderArmorHitFXMega" 
+                    "Tags"              "stringList(#MELEE, #TARGETED)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"      "DAMAGE_PHYSICAL"
+                            "Damage"    "expr(%sideDamage)"
+                        }
+                    }
+                    
+                    "Actions"
+                    {
+                        "Knockback" 
+                        {
+                            "Target"        "%HITTARGET"
+                            "Center"        "unitPosition(%HITSOURCE)"
+                            "Strength"      "1"
+                        }
+
+                        "Conditional"
+                        {
+                            "Condition" "matchesGroup(unitGroup(%HITTARGET), @UnitGroup(BadSide))"
+                            "Actions" 
+                            {
+                                "SetToContext"
+                                {
+                                    "Context"   "unitContext(%CASTER)"
+                                    "Key"       "#enemyHit"
+                                    "Type"      "FIELD_INTEGER"
+                                    "Value"     "1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        "Conditional" 
+        {
+            "Condition" "safeEquals(wrapContext(unitContext(%CASTER), %enemyHit), 1)"
+            "Actions"
+            {
+                "AchievementIncrement"
+                {
+                    "Achievement"   "#oak_multiple_hit_win"
+                    "Index"         "0"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "4"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve"             "Linear|-0.1|1|1|0"
+                    "Consideration"     "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange"          "10"  
+                    }
+                }
+
+                "surrounded by several units"
+                {
+                    "Curve"             "Logistic|500|5|-4|0.05"
+                    "Consideration"     "UnitsSurrounding"
+                    "Params"
+                    {
+                        "Max"               "5"  
+                        "TeamFilter"        "TEAM_ALL"
+                        "Range"             "1"
+                    }
+                }
+            }
+        }
+    }
+}

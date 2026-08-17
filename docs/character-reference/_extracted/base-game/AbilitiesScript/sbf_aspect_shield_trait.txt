@@ -1,0 +1,259 @@
+"sbf_aspect_shield_trait"
+{
+    "AbilityBehavior"       "UNIT_TARGET | PASSIVE"
+    "Icon" "EtherealShield"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "shield_min_health"                  "stat(%CASTER, #shield_min_health)"
+        }
+
+        "02"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "shield_activation_health"                  "stat(%CASTER, #shield_activation_health) + 1"
+        }
+       
+    }
+
+    "Modifiers"
+    {
+        "sbf_aspect_shield_trait_modifier"
+        {
+           "Passive" "1"
+
+           "OnAdded"
+            {
+                "Conditional"
+                {
+                    "Condition" "safeEquals(stat(%TARGET, #level), 3)"
+
+                    "Actions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "sbf_aspect_shield_trait_modifier"
+                            "Target"         "%TARGET"
+                        }
+
+                    }
+
+                    "ElseActions"
+                    {
+                        "SetStat"
+                        {
+                            "Target" "%TARGET"
+                            "Stat" "#shield_active"
+                            "Value" "1"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "sbf_aspect_shield_trait_visual_over_min_modifier"
+                            "Target"            "%TARGET"
+
+                            "Params"
+                            {
+                                "shield_min_health" {
+                                    "type" "FIELD_FLOAT"
+                                    "value" "stat(%TARGET, #shield_min_health)"
+                                }
+
+                                "shield_activation_health" {
+                                    "type" "FIELD_FLOAT"
+                                    "value" "stat(%TARGET, #shield_activation_health) + 1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            "OnHitPreResult"
+            {
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"            "%TARGET"
+                        "Radius"            "1000"
+                        "Teams"             "TEAM_FRIENDLY"
+                        
+                        "CustomFilter"      "customUnitFilter(#theUnit, isOnState(%theUnit, #SBF_ASPECT) && (stat(%theUnit, #health) >  stat(%TARGET, #shield_activation_health))"
+                    }
+
+                    "IteratorName" "#newTarget"
+
+                    "Actions"
+                    {
+                        "Conditional"
+                        {
+                            "Condition" "not(equal(%TARGET, %newTarget))"
+                            "Actions" 
+                            {
+                                "AttachEffect"
+                                {
+                                    "EffectName" "SBFEtherealLinkHitFXMega" 
+                                    "Target" "%newTarget"
+                                }
+                            }
+                        }
+                    }
+                
+                    "ActionsIfNotFound"    
+                    {
+                        "SetStat"
+                        {
+                            "Target" "%TARGET"
+                            "Stat" "#shield_active"
+                            "Value" "0"
+                        }
+                    }
+                }
+
+                "Conditional"
+                {
+                    "Condition" "not(stat(%TARGET, #health) > stat(%TARGET, #shield_activation_health))"
+                    "Actions" 
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "sbf_aspect_shield_trait_visual_over_min_modifier"
+                            "Target"         "%TARGET"
+                        }
+                    }
+                }
+
+                "Conditional"
+                {
+                    "Condition" "stat(%TARGET, #shield_active)"
+                    "Actions" 
+                    {
+                        "Conditional"
+                        {
+                            "Condition" "stat(%TARGET, #health) < stat(%TARGET, #shield_min_health)"
+                            "Actions" 
+                            {
+                                "Conditional" 
+                                {
+                                    "Condition" "not(hasModifier(%TARGET, #sbf_aspect_shield_trait_visual_modifier))"
+
+                                    "Actions"
+                                    {
+                                        "ActOnTargets"
+                                        {
+                                            "Target"
+                                            {
+                                                "Center"            "%TARGET"
+                                                "Radius"            "1000"
+                                                "Teams"             "TEAM_FRIENDLY"
+                                                "CustomFilter"      "customUnitFilter(#theUnit, isOnState(%theUnit, #SBF_ASPECT) && hasModifier(%theUnit, #sbf_aspect_shield_trait_visual_modifier))"
+                                            }
+
+                                            "IteratorName" "#newTarget"
+                                        
+                                            "ActionsIfNotFound"    
+                                            {
+                                                "SetToContext"
+                                                {
+                                                    "Context"   "encounterContext()"
+                                                    "Key"       "#aspectShieldActivatedUnitCinematicId"
+                                                    "Type"      "FIELD_OBJECT"
+                                                    "Value"     "getUnitCinematicId(%TARGET)"
+                                                }
+
+                                                "QueueCinematic"
+                                                {
+                                                    "Cinematic" "stringWithIndex(#AspectShieldActivated, stat(%TARGET, #level))"
+                                                    "Optional"  "1"
+                                                } 
+                                            }
+                                        }
+
+
+
+                                        "ApplyModifier"
+                                        {
+                                            "ModifierName"      "sbf_aspect_shield_trait_visual_modifier"
+                                            "Target"            "%TARGET"
+                                        }
+                                    }
+                                }  
+
+
+
+                                "SetStat"
+                                {
+                                    "Target" "%TARGET"
+                                    "Stat" "#health"
+                                    "Value" "stat(%TARGET, #shield_min_health)"
+                                }
+
+                                "AttachEffect"
+                                {
+                                    "EffectName" "MBFHarbingerShieldHitFXMega" 
+                                    "Target" "%TARGET"
+                                }
+                                "UnitRaiseMessage"
+                                {
+                                    "Unit" "%TARGET"
+                                    
+                                    "Icon" "EtherealShield"
+                                }
+                            }
+                        }
+                    }
+
+                    "ElseActions"
+                    {
+                        "ActOnTargets"
+                        {
+                            "Target"
+                            {
+                                "Center"            "%TARGET"
+                                "Radius"            "1000"
+                                "Teams"             "TEAM_FRIENDLY"
+                                "CustomFilter"      "customUnitFilter(#theUnit, isOnState(%theUnit, #SBF_ASPECT))"
+                            }
+
+                            "IteratorName" "#newTarget"
+                        
+                            "Actions"    
+                            {
+                                "RemoveModifier"
+                                {
+                                    "ModifierName"    "sbf_aspect_shield_trait_modifier"
+                                    "Target"         "%newTarget"
+                                }
+
+                                "RemoveModifier"
+                                {
+                                    "ModifierName"    "sbf_aspect_shield_trait_visual_modifier"
+                                    "Target"         "%newTarget"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        "sbf_aspect_shield_trait_visual_modifier"
+        {
+            "EffectName" "SBFEtherealShieldFXMega"
+            "Icon" "EtherealLink"
+            "IconPriority" "50"
+        }
+
+        "sbf_aspect_shield_trait_visual_over_min_modifier"
+        {
+            "EffectName" "SBFEtherealLinkAuraFXMega"
+            "Icon" "EtherealLink"
+            "IconPriority" "50"
+        }
+    }
+}
+

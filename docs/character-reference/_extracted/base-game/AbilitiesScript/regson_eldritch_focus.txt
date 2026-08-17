@@ -1,0 +1,87 @@
+"regson_eldritch_focus"
+{
+    "AbilityBehavior"        "UNIT_TARGET | POSITIVE_EFFECT | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter"     "TEAM_FRIENDLY"
+
+    "AnimationID"           "SpellCastA"
+    "CastFXId"              "RegsonEldritchFocusCastFXMega"
+    "Icon"                  "EldritchFocus"
+
+    "AbilityCastRange"      "0"
+    "AbilityCastMinRange"   "0"  
+    "AbilityCooldown"       "3"
+    "AbilityAPCost"         "0"
+
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"      "FIELD_EXPRESSION"
+            "heal"          "stat(%CASTER,#level)"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "extraDamage"        "1"
+        }
+
+        "03"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "duration"        "1"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "Heal"
+        {
+            "Target"          "%TARGET"
+            "HealAmount"      "expr(%heal)"
+        }
+
+        "AttachEffect"
+        {
+            "EffectName"      "RegsonHealingFXMega"
+            "Target"          "%TARGET"
+        }
+
+        "RemoveModifier"
+        {
+            "ModifierTag"     "status_effect"
+            "Target"          "%TARGET"
+        }
+
+        "RemoveModifier"
+        {
+            "ModifierTag"     "dot"
+            "Target"          "%TARGET"
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"    "regson_eldritch_focus_extra_damage"
+            "Target"          "%TARGET"
+            "Duration"        "%duration"
+        }
+    }
+
+    "Modifiers"
+    {
+        "regson_eldritch_focus_extra_damage"
+        {
+            "EffectName"    "BarbarianBerserkStatusFXMega"
+
+            "Icon"          "Enraged01"
+            "IconPriority"  "50"
+
+            "PropertiesAdd"
+            {
+                "extraDamage"       "%extraDamage"
+            }
+        }
+    }
+}

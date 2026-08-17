@@ -1,0 +1,686 @@
+"units"
+{
+	"WBFOverseer" 
+	{
+		"Model" "WBFOverseer"
+		"Name" "WBF_OVERSEER"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "1"
+			"armor_max" "0"
+			"armor_regen_per_turn" "1"
+			"armor_gain_passTurn" "0"
+
+			"baseDamage"  "3"
+			
+			"rangedAttackRange" "6"
+			"rangedAttackMinRange" "0"
+			
+			"walkSpeed" "0"
+
+			"cocoons" "3"
+			"cocoons_phase2" "1"
+			"cocoons_phase3" "3"
+			"tentacles" "0"
+			"tentacles_phase2" "3"
+			"tentacles_phase3" "3"
+			"eyes" "0"
+			"eyes_phase2" "0"
+			"eyes_phase3" "3"
+		}
+
+		"skills"
+		{
+			"1" "wbf_overseer_main_trait"
+			"2" "wbf_overseer_summon_cocoon"
+
+			"20" "wbf_overseer_summon_massive_tentacle"
+
+			"30" "wbf_overseer_summon_eyes"
+ 		}
+
+ 		"states"
+		{
+			"NON_TARGETABLE" "1"
+			"FIXED_POSITION" "1"
+			"ROOTED" "1"
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"CANT_BE_KNOCKED_BACK" "1"
+			"CANT_BE_POISONED" "1"
+			"CANT_BE_BURNT" "1"
+			"CANT_BE_BLED" "1"
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+  			"LEAVE_CORPSE_VISIBLE" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+
+  			"NO_SKULL" "1"
+			"CANT_SELECT_IN_INITIATIVE_BAR" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFOverseerPortal" 
+	{
+		"Model" "WBFOverseerPortal"
+		"Name" "OverseerPortal"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFOverseerRocks" 
+	{
+		"Model" "WBFOverseerRocks"
+		"Name" "OverseerRocks"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFOverseerSpeaker" 
+	{
+		"Model" "WBFOverseerSpeaker"
+		"Name" "OverseerSpeaker"
+		"InheritsFrom" "Base"
+		"cinematicTags" "OverseerPossessed|OverseerSpeaker"
+
+		"stats"
+		{
+		}
+
+		"skills"
+		{
+ 		}
+
+ 		"states"
+		{
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"NO_SKULL" "1"
+  			"NO_CHECK_END_FIGHT" "1"
+  			"SKIP_TURN" "1"
+ 		}
+
+ 		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFCocoon" 
+	{
+		"Name" "WBF_COCOON"
+		"InheritsFrom" "Base"
+		"Model" "WBFCocoon"
+
+		"stats"
+		{
+			"health_max" "1"
+			"skipsInitiative" "0"
+			"initiative" "-99"
+			"explodeRadius" "1"
+			"explodeDamage" "1"
+			"dotDuration" "1"
+			"floorDuration" "3"
+			"baseDamage" "0"
+		}
+
+		"skills"
+		{ 
+ 			"0" "wbf_cocoon_explode_on_turn"
+  		}
+
+  		"states"
+  		{
+  			"HIDE_DAMAGE" "1"
+			"CANT_BE_POISONED" "1"
+			"CANT_BE_BURNT" "1"
+			"CANT_BE_BLED" "1"
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+			"NO_SKULL" "1"
+			"NO_CHECK_END_FIGHT" "1"
+
+			"FIXED_POSITION" "1"
+			"DIES_WITH_IRIZA" "1"
+  		}
+
+  		"defaultSkill" "no_attack_ability"
+
+  		"soundConfig"
+		{
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_plantHit"
+				"death" "krl_sfx_combatWBF_cocoonDeath"
+			}
+		}
+	}
+
+	"WBFMassiveTentacle" 
+	{
+		"Name" "WBF_BIG_TENTACLE"
+		"InheritsFrom" "Base"
+		"Model" "WBFMassiveTentacle"
+
+		"stats"
+		{
+			"health_max" "1"
+			"skipsInitiative" "0"
+			"initiative" "-99"
+			"baseDamage" "0"
+		}
+
+		"skills"
+		{ 
+			"100" "disable_default_walk_ai"
+  		}
+
+  		"states"
+  		{
+  			"HIDE_DAMAGE" "1"
+			"CANT_BE_POISONED" "1"
+			"CANT_BE_BURNT" "1"
+			"CANT_BE_BLED" "1"
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+			"NO_SKULL" "1"
+			"FIXED_POSITION" "1"
+			"NON_TARGETABLE" "1"
+			"ROOTED" "1"
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+			"CANT_BE_KNOCKED_BACK" "1"
+			"MASSIVE_TENTACLE" "1"
+			"NO_COLLISION" "1"
+			"NO_CHECK_END_FIGHT" "1"
+			"CANT_SELECT_IN_INITIATIVE_BAR" "1"
+
+			"DIES_WITH_IRIZA" "1"
+  		}
+
+  		"defaultSkill" "wbf_massive_tentacle_attack"
+
+  		"soundConfig"
+		{
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_plantHit"
+				"death" "krl_sfx_combatGeneric_plantHit"
+			}
+		}
+	}
+
+	"WBFMassiveTentacleSpawnPos" 
+	{
+		"Name" "MassiveTentacleSpawnPos"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"MassiveTentacleSpawnPos" "1"
+  			"SKIP_TURN" "1"
+  		}
+
+  		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFBeamEye" 
+	{
+		"Model" "WBFBeamEye"
+		"Name" "WBF_BEAM_EYE"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "1"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+			"baseDamage"  "1"
+			
+			"rangedAttackRange" "5"
+			"rangedAttackMinRange" "0"
+			
+			"walkSpeed" "0"
+
+			"rayDamage" "3"
+			"rayRange" "5"
+
+		}
+
+		"skills"
+		{
+			"100" "disable_default_walk_ai"
+ 		}
+
+ 		"states"
+		{
+			"FIXED_POSITION" "1"
+			"NON_TARGETABLE" "1"
+			"ROOTED" "1"
+			"CANT_BE_KNOCKED_BACK" "1"
+			"NO_FLIP_ON_HIT" "1"
+			"NO_FLIP_ON_SKILL" "1"
+
+			"CANT_BE_POISONED" "1"
+			"CANT_BE_BURNT" "1"
+			"CANT_BE_BLED" "1"
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+
+			"NO_SKULL" "1"
+
+			"BEAM_EYE" "1"
+
+			"HIDE_DAMAGE" "1"
+			"NO_COLLISION" "1"
+
+			"NO_CHECK_END_FIGHT" "1"
+			"CANT_SELECT_IN_INITIATIVE_BAR" "1"
+
+			"DIES_WITH_IRIZA" "1"
+ 		}
+
+ 		"defaultSkill" "wbf_beameye_attack"
+
+ 		"soundConfig"
+		{	
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatMBF_redCrystalHit"
+				"receiveArmorDamage" "krl_sfx_combatMBF_redCrystalHit"
+				"death" "krl_sfx_combatWBF_beamEyeDeath"
+			}
+		}
+	}
+
+	"WBFBeamEyeSpawnPos" 
+	{
+		"Name" "BeamEyeSpawnPos"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"BeamEyeSpawnPos" "1"
+  			"SKIP_TURN" "1"
+  		}
+
+  		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFIriza" 
+	{
+		"Model" "WBFIriza"
+		"Name" "WBF_IRIZA"
+		"InheritsFrom" "Base"
+		"cinematicTags" "Cultist"
+		
+		"stats"
+		{
+			"level" "1"
+				
+			"health_max" "12"
+			"armor_max" "0"
+			"health_max_phase2" "15"
+			"armor_max_phase2" "0"
+			"health_max_phase3" "20"
+			"armor_max_phase3" "0"
+
+
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+			"visualMoveSpeed" "0.5" 
+			"visualRunSpeed" "0.5"
+
+			"rangedAttackRange" "20"
+			"rangedAttackMinRange" "0"
+
+			"baseDamage"  "5"
+
+			"walkSpeed" "0"
+
+			"actionsAvailableMax" "1"
+
+			"clones" "4"
+			"glare_bolt_damage" "2"
+			"glare_bolt_asleep_duration" "1"
+
+			"phase2_damage" "3"
+			"phase3_damage" "2"
+		}
+
+
+		"skills"
+		{
+			"1" "wbf_iriza_one_hit_shield_trait"
+			"2" "wbf_iriza_teleport_respawn"
+			"3" "wbf_iriza_main_trait"
+			"4" "wbf_iriza_death_monitor_trait"
+
+			"10" "wbf_iriza_summon_clones"
+			"11" "wbf_iriza_glare_bolt"
+
+			"20" "wbf_iriza_phase2_attack"
+			"21" "wbf_iriza_phase2_telegraph"
+			"22" "wbf_iriza_phase2_telegraph_cinematic"
+
+
+			"30" "wbf_iriza_phase3_attack"
+
+			"100" "disable_default_walk_ai"
+			"101" "kill_all_allies"
+ 		}
+
+ 		"states"
+		{
+			"BOSS" "1"
+
+			"CANT_BE_POISONED" "1"
+			"CANT_BE_BURNT" "1"
+			"CANT_BE_BLED" "1"
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+
+			"CANT_BE_HEXED" "1"
+
+			"FIXED_POSITION" "1"
+			"CANT_BE_KNOCKED_BACK" "1"
+
+			"NO_SKULL" "1"
+			"CANT_SELECT_IN_INITIATIVE_BAR" "1"
+ 		}
+ 		
+
+ 		"defaultSkill" "no_attack_ability"
+
+ 		"soundConfig"
+		{	
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatWBF_irizaHit"
+				"receiveArmorDamage" "krl_sfx_combatWBF_irizaHit"
+			}
+		}
+	}
+
+	"WBFIrizaClone" 
+	{
+		"Model" "WBFIriza"
+		"Name" "MBF_IRIZA"
+		"InheritsFrom" "Base"
+		
+		"stats"
+		{
+			"level" "1"
+				
+			"health_max" "9"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+			"visualMoveSpeed" "0.5" 
+			"visualRunSpeed" "0.5"
+
+			"rangedAttackRange" "20"
+			"rangedAttackMinRange" "1"
+
+			"baseDamage"  "5"
+
+			"walkSpeed" "0"
+
+			"actionsAvailableMax" "2"
+		}
+
+
+		"skills"
+		{
+			"1" "wbf_iriza_clone_hithandler_trait"
+			"100" "disable_default_walk_ai"
+ 		}
+
+ 		"states"
+		{
+			"BOSS" "1"
+			"NOT_IN_INITIATIVE_BAR" "1"
+			"FORCE_SHOW_LIFEBAR" "1"
+			"CANT_BE_POISONED" "1"
+			"CANT_BE_BURNT" "1"
+			"CANT_BE_BLED" "1"
+			"CANT_BE_STUNNED" "1"
+			"CANT_BE_ROOTED" "1"
+			"CANT_BE_ASLEPT" "1"
+			"CANT_BE_FROZEN" "1"
+
+			"CANT_BE_HEXED" "1"
+
+			"NO_SKULL" "1"
+			"IRIZA_CLONE" "1"
+ 		}
+ 		
+
+ 		"defaultSkill" "no_attack_ability"
+
+ 		"soundConfig"
+		{	
+			"sounds"
+			{
+				"death" "krl_sfx_combatWBF_cloneHit"
+			}
+		}
+	}
+
+	"IrizaTeleportTarget" 
+	{
+		"Name" "IrizaTeleportTarget"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"IrizaTeleportTarget" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "no_attack_ability"
+	}
+
+	"IrizaTeleportTargetWithVisual" 
+	{
+		"Name" "IrizaTeleportTarget"
+		"InheritsFrom" "Base"
+		"Model" "DummyUnit"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"IrizaTeleportTarget" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFLavaTentacleBig" 
+	{
+		"Name" "WBFLavaTentacleBig"
+		"InheritsFrom" "Base"
+		"Model" "WBFLavaTentacleBig"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"SKIP_TURN" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "no_attack_ability"
+	}
+
+	"WBFLavaTentacleSmall" 
+	{
+		"Name" "WBFLavaTentacleSmall"
+		"InheritsFrom" "Base"
+		"Model" "WBFLavaTentacleSmall"
+
+		"stats"
+		{
+			"health_max" "80"
+			"skipsInitiative" "1"
+			"initiative" "-99"
+		}
+
+		"skills"
+		{ 
+ 			
+  		}
+
+  		"states"
+  		{
+  			"NOT_IN_INITIATIVE_BAR" "1"
+  			"NON_TARGETABLE" "1"
+  			"NO_COLLISION" "1"
+  			"SKIP_TURN" "1"
+  			"NO_SKULL" "1"
+  		}
+
+  		"defaultSkill" "no_attack_ability"
+	}
+}

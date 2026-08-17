@@ -1,0 +1,132 @@
+
+
+
+
+
+
+
+"summon_multiple_tentacles"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    
+    "AnimationID"   "SpecialAttack"
+    "CastFXId" "SummonTentaclesCastFXMega"
+    "Icon" "DarkSacrifice" 
+
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"   "2"
+    "AbilityAPCost"     "2"
+
+    
+
+   
+    "AbilitySpecial" 
+    {
+
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "duration"  "1"
+        }
+
+
+        "02"
+        {
+            "var_type" "FIELD_FLOAT"
+            "aoeRadius"  "1"
+        }
+
+        "03"
+        {
+            "var_type" "FIELD_INTEGER"
+            "tentacles"  "3" 
+        }
+        "04"
+        {
+            "var_type" "FIELD_FLOAT"
+            "timeBetweenSummons"  "0.2" 
+        }
+        
+
+    }
+
+    "OnAbilityAction"
+    {
+        "ActOnHexas"
+        {
+            "Center" "unitHex(%TARGET)"
+            "Range" "%aoeRadius"
+            "IteratorName" "#hexa"
+            "IteratorIndexName" "#index"
+            "RequireEmpty" "1"
+            "Max" "%tentacles"
+            "Random" "1"
+            
+            "Actions"    
+            {
+                "Delay"
+                {
+                    "Time" "%timeBetweenSummons * %index" 
+                    "Actions"
+                    {
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#CultistDarkTentacle"
+                            "Position" "hexPosition(%hexa)"
+                            "UnitGroup" "@UnitGroup(BadSide)"
+
+                            "IsAI" "1"
+                            "Nick" "#NextToEnemeyExample"
+                            "AddToInitiativeOrder" "1"
+                            "OnSpawn"
+                            {
+                                "PlayActivityAnimation"
+                                {
+                                    "Target" "%UNIT"
+                                    "Animation" "Born"
+                                }
+                               
+                               "LookAt"
+                                {
+                                    "Target" "%UNIT"
+                                    "LookAt" "unitPosition(%TARGET)"
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.5"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+
+
+            }
+        }
+    }
+
+
+}

@@ -1,0 +1,6 @@
+{
+	"pixelsPerUnit" : 200,
+	"maxTextureSize" : 4096,
+	"textureFormat" : "AutomaticTruecolor",
+	"packTagNO" : "NewParticlesx2"
+}

@@ -1,0 +1,94 @@
+"vinepaw_headbutt"
+{
+    "AbilityBehavior"           "MELEE"
+    "AbilityTeamFilter"         "TEAM_ENEMY"
+    "AbilityCastRange"          "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"           "0"
+    "AbilityAPCost"             "stat(%CASTER, #attackCostAP)"
+    "AnimationID"               "SpellCastA"
+    "Icon"                      "Headbutt"
+    "CastFXId"                  "VinepawHeadbuttCastFXMega"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "damage"                "stat(%CASTER, #attackDamage)"
+        }
+
+        "02"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "damageExtraPerHex"     "1"
+        }
+        "20"
+        {
+            "var_type" "FIELD_STRING"
+            "iconDamageType"  "damagePhysical"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target"                "%TARGET"
+            "EffectName"            "EnchantressSylvanBoltHitFXMega" 
+            "Tags"                  "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"              "DAMAGE_PHYSICAL"
+                    "Damage"            "expr(%damage) + stat(%CASTER, #walkSpeedUsed)"
+                }
+            }
+
+            "Actions"
+            {
+                "Knockback" 
+                {
+                    "Target"            "%HITTARGET"
+                    "Center"            "unitPosition(%HITSOURCE)"
+                    "Strength"          "1"
+                }
+
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"            "3"
+            "Considerations"
+            {
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve"             "Linear|-0.1|1|1|0"
+                    "Consideration"     "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange"      "10"  
+                    }
+                }
+
+                "Has moved at least 1 hex"
+                {
+                    "Curve"             "Logistic|1000|5|-4|-0.1"
+                    "Consideration"     "UnitStat"
+                    "Params"
+                    {
+                        "Min"           "0"
+                        "Max"           "4"
+                        "Stat"          "#walkSpeedUsed"
+                        "Owner"         "1"
+                    }
+                }
+            }
+        }
+    }
+}

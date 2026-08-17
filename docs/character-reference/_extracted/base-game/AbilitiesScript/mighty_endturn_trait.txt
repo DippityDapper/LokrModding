@@ -1,0 +1,79 @@
+"mighty_endturn_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+
+    "Icon" "Fortify"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "extraArmor"            "2"
+        }
+    }
+
+    "Modifiers"
+    {
+        "mighty_endturn_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnEndTurnSkillCheck"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"    "mighty_endturn_trait_modifier_active"
+                    "Target"         "%TARGET"
+                    "Duration"  "0"
+                    "Params"
+                    {
+                        "pass_turn_extra_armor_bonus" {
+                            "type" "FIELD_FLOAT"
+                            "value" "%extraArmor"
+                        }
+                    }
+                }
+            }
+        }
+
+        "mighty_endturn_trait_modifier_active"
+        {
+            "Icon" "Fortify"
+            "IconPriority" "25"
+
+            "OnAdded"
+            {
+                "GiveArmor"
+                {
+                    "Target" "%TARGET"
+                    "ArmorAmount" "%pass_turn_extra_armor_bonus" 
+                }
+            }
+
+            "OnRemoved"
+            {
+                "GiveArmor"
+                {
+                    "Target" "%TARGET"
+                    "ArmorAmount" "0"
+                }
+            }
+
+            "OnTurnStarted"
+            {
+               "RemoveModifier"
+                {
+                    "ModifierName"    "mighty_endturn_trait_modifier_active"
+                    "Target"         "%TARGET"
+                }
+            }
+           
+
+            "PropertiesAdd"
+            {
+                "armor_max" "%pass_turn_extra_armor_bonus" 
+            }
+        }
+    }
+}

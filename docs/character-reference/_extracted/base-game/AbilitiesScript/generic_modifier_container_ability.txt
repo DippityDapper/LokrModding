@@ -1,0 +1,10 @@
+"generic_modifier_container_ability"
+{
+    
+    
+    "AbilityBehavior"       "PASSIVE"
+   
+    "AbilitySpecial"
+    {
+    }
+}

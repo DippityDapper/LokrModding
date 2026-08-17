@@ -1,0 +1,214 @@
+"venom_vine_attack"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_FRIENDLY"
+    "AbilityCastRange" "0"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "Attack"
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "MinDamage"  "stat(%CASTER, #attackDamage)-1"
+        }
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "MaxDamage"  "stat(%CASTER, #attackDamage)+1"
+        }
+    }
+    
+    "OnAbilityAction"
+    {
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_combatGeneric_fumesExplosion"
+        }
+
+        "CreateObjectList"
+        {
+            "Name" "#hexCandidates"
+        }
+
+        "ActOnHexas"
+        {
+            "Center" "hexNeighbour(unitHex(%CASTER), unitHexSide(%CASTER), 0)"
+            "Range" "0"
+            "IteratorName" "#hexa"
+        
+            "Actions"    
+            {
+                "AddObjectToList" 
+                {
+                    "List" "%hexCandidates"
+                    "Value" "%hexa"
+                }
+                "ActOnHexas"
+                {
+                    "Center" "hexInLine(unitHex(%CASTER), %hexa, 2)"
+                    "Range" "0"
+                    "IteratorName" "#hexa2"
+                
+                    "Actions"    
+                    {
+                        "AddObjectToList" 
+                        {
+                            "List" "%hexCandidates"
+                            "Value" "%hexa2"
+                        }
+                    }
+                }
+            }
+        }
+        "ActOnHexas"
+        {
+            "Center" "hexNeighbour(unitHex(%CASTER), unitHexSide(%CASTER), 2)"
+            "Range" "0"
+            "IteratorName" "#hexa"
+        
+            "Actions"    
+            {
+                "AddObjectToList" 
+                {
+                    "List" "%hexCandidates"
+                    "Value" "%hexa"
+                }
+                "ActOnHexas"
+                {
+                    "Center" "hexInLine(unitHex(%CASTER), %hexa, 2)"
+                    "Range" "0"
+                    "IteratorName" "#hexa2"
+                
+                    "Actions"    
+                    {
+                        "AddObjectToList" 
+                        {
+                            "List" "%hexCandidates"
+                            "Value" "%hexa2"
+                        }
+                    }
+                }
+            }
+        }
+        "ActOnHexas"
+        {
+            "Center" "hexNeighbour(unitHex(%CASTER), unitHexSide(%CASTER), -2)"
+            "Range" "0"
+            "IteratorName" "#hexa"
+        
+            "Actions"    
+            {
+                "AddObjectToList" 
+                {
+                    "List" "%hexCandidates"
+                    "Value" "%hexa"
+                }
+                "ActOnHexas"
+                {
+                    "Center" "hexInLine(unitHex(%CASTER), %hexa, 2)"
+                    "Range" "0"
+                    "IteratorName" "#hexa2"
+                
+                    "Actions"    
+                    {
+                        "AddObjectToList" 
+                        {
+                            "List" "%hexCandidates"
+                            "Value" "%hexa2"
+                        }
+                    }
+                }
+            }
+        }
+        "EachInList"
+        {
+            "List" "%hexCandidates"
+            "IteratorName" "#hexa"
+            "IteratorIndexName" "#hexaIndex"
+            "Actions"
+            {
+                "AddAsAffected"
+                {
+                    "Hexa" "%hexa"
+                }
+
+                "AttachEffect"
+                {
+                    "EffectName" "VenomVineFXMega"
+                    "Target" "hexPosition(%hexa)"
+                }
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"      "hexPosition(%hexa)"
+                        "Radius"      "0"
+                        "Teams"       "TEAM_ALL"
+                    }
+
+                    "IteratorName" "#newTarget"
+                
+                    "Actions"    
+                    {
+                        "Hit"
+                        {
+                            "Target" "%newTarget"
+                            "Tags" "stringList(#ENVIRONMENTAL, #AOE)"
+
+                            "Actions"
+                            {
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"  "modifier_new_poison"
+                                    "Target"        "%HITTARGET"
+                                    "Duration"      "%posionDuration"
+                                    "Refresh"       "1"
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"   "venom_vine_spent_modifier"
+            "Target"         "%SOURCE"
+            "Duration"       "2"
+        }
+
+        "RemoveModifier"
+        {
+            "ModifierName"    "venom_vine_triggered_modifier"
+            "Target"          "%SOURCE"
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.3"
+            "Considerations"
+            {
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+            }
+        }
+    }
+}

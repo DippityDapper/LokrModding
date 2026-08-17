@@ -1,0 +1,56 @@
+"wbf_iriza_clone_hithandler_trait"
+{
+    
+    
+   "AbilityBehavior"       "UNIT_TARGET | POSITIVE_EFFECT | PASSIVE"
+   
+    "AbilitySpecial"
+    {
+    } 
+
+
+    "Modifiers"
+    {
+        "wbf_iriza_clone_hithandler_trait_modifier"
+        {
+        	"Passive" "1"
+           
+            "AnimationOverride" "SummonCasting"
+
+            "OnAdded"
+            {
+                "OverrideAnimation"
+                {
+                    "Target"            "%TARGET"
+                    "BaseAnimationId"   "Death"
+                    "NewAnimation"      "CloneDeath"
+                    "OverrideId"        "novalue"
+                    "Priority"          "20"
+                }
+            }
+
+            "OnPreHit"
+            {
+            	
+                "CancelHit"
+                {
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "wbf_iriza_clone_hithandler_trait_modifier"
+                    "Target"         "%TARGET"
+                } 
+            }
+
+            "OnRemoved"
+            {
+                "KillUnit"
+                {
+                    "Target"        "%TARGET"
+                    "#InstaKill" "1"
+                }
+            }
+        }
+    }
+}

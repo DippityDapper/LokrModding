@@ -1,0 +1,73 @@
+"snapvine_hit_handler_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+    "Icon" "Shutdown"
+
+     "AbilitySpecial"
+    {   
+        "01"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "duration"            "1"
+        }
+       
+    }
+
+    "Modifiers"
+    {
+        "snapvine_sleep_monitor_modifier"
+        {
+           "Passive" "1"
+
+           "OnHitPreResult"
+           {
+                "SetStat"
+                {
+                    "Target" "%TARGET"
+                    "Stat" "#health"
+                    "Value" "stat(%TARGET, #health_max)"
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "snapvine_sleep_monitor_modifier"
+                    "Target"          "%TARGET"
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"    "snapvine_sleeping_modifier"
+                    "Target"          "%TARGET"
+                    "Duration"        "%duration"
+                }
+           }
+
+        }
+
+        "snapvine_sleeping_modifier"
+        {
+            "AnimationOverride" "Crippled"
+
+            "States"
+            {
+                "NON_TARGETABLE" "1"
+            }
+
+            "OnRemoved"
+            {
+                "PlayActivityAnimation"
+                {
+                    "Target" "%TARGET"
+                    "Animation" "Activate"
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"    "snapvine_sleep_monitor_modifier"
+                    "Target"          "%TARGET"
+                }
+            }
+        }
+    }
+}
+

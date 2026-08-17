@@ -1,0 +1,11 @@
+bin/
+obj/
+*.user
+.vs/
+.idea/
+*.DotSettings.user
+.obsidian/
+__pycache__/
+*.pyc
+_tmp_fxdump/
+Directory.Build.local.props

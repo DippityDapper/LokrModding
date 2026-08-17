@@ -1,0 +1,113 @@
+"asra_shiv"
+{
+    "AbilityBehavior"       "MELEE"
+    "AbilityTeamFilter"     "TEAM_ENEMY"
+    "AbilityCastRange"      "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"       "2"
+    "AbilityAPCost"         "1"
+
+    "AnimationID"           "AttackMelee"
+    "Icon"                  "Shiv"
+    "CastFXId"              "AsraShivCastFXMega"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"      "FIELD_EXPRESSION"
+            "damage"        "ceil(stat(%CASTER, #attackDamage) * 1.5)"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target"        "%TARGET"
+            "EffectName"    "GenericHitFXMega" 
+            "Tags"          "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "Conditional"
+                {
+                    "Condition"     "not(isOnState(%TARGET, #CANT_BE_BACKSTABBED)) && %BACKSTAB"
+
+                    "Actions" 
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "expr(%damage)"
+                        }
+                        "MarkHitLegendary"
+                        {
+                        }
+                    }
+
+                    "ElseActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_ARMOR"
+                            "Damage"        "expr(%damage)"
+                        }
+                    }
+                }
+            }
+            "Actions"
+            {
+                "Conditional"
+                {
+                    "Condition" "hitIsLegendary(%HIT)"
+
+                    "Actions" 
+                    {
+                        "AttachEffect"
+                        {
+                            "EffectName" "RuptureHitFXMega"
+                            "Target" "%TARGET"
+                        }
+                    }
+                }
+
+                "Conditional"
+                {
+                    "Condition" "hitBrokenArmor(%HIT) == 0"
+
+                    "Actions"
+                    {
+                        "UnitRaiseMessage"
+                        {
+                            "Unit" "%TARGET"
+                            "Text" "0"
+                            "Prefab" "LabelPopUpArmorDamage"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "4"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+            }
+        }
+    }
+}

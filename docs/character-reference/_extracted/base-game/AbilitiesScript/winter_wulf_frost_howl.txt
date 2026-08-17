@@ -1,0 +1,112 @@
+"winter_wulf_frost_howl"
+{
+    "AbilityBehavior"   "MELEE"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"   "3"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "Attack"
+    "CastFXId" "WinterWulfFrostHowlCastFXMega"
+    "Icon" "FrostHowl"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "MinDamage"  "stat(%CASTER, #attackDamage)-2"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "MaxDamage"  "stat(%CASTER, #attackDamage)"
+        }
+
+
+        "03"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "duration"  "1"
+        }
+
+    }
+
+
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "IceLanceHitFXMega" 
+            "Tags" "stringList(#MAGICAL, #TARGETED, #FREEZEDAMAGE)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_TRUE"
+                    "Damage"        "randomI(expr(%MinDamage), expr(%MaxDamage))"
+                }
+            }
+
+            "Actions"
+            {
+                "Conditional"
+                {
+                    "Condition" "not(isOnState(%HITTARGET, #DEAD))"
+
+                    "Actions" 
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierTag"    "dot"
+                            "Target"         "%HITTARGET"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"  "modifier_new_freeze"
+                            "Target"        "%HITTARGET"
+                            "Duration"      "expr(%duration)"
+                            "Refresh"   "1"
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "3.3"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+
+                "Ignores targets already frozen"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "TargetHasModifier"
+                    "Params"
+                    {
+                        "ModifierName" "modifier_new_freeze"  
+                    }
+                }
+            }
+        }
+    }
+}

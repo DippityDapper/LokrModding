@@ -1,0 +1,96 @@
+"mbf_crystal_spell_attack"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCastMinRange" "stat(%CASTER, #rangedAttackMinRange)" 
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "Attack"
+    "CastFXId" "MBFCrystalAttackCastFXMega"
+    "Icon" "CrystalRay" 
+
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "MinDamage"  "stat(%CASTER, #attackDamage)"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "MaxDamage"  "stat(%CASTER, #attackDamage)+2"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "unitPosition(%TARGET, #Chest)"
+            "Model" "ArcaneTowerRayProjectile"
+
+            "Params" 
+            {
+                "damage" 
+                { 
+                    "type" "FIELD_FLOAT"
+                    "value" "randomI(expr(%MinDamage), expr(%MaxDamage))"
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "ArcaneTowerSuperBeamHitFXMega" 
+            "Tags" "stringList(#PROJECTILE, #TARGETED, #MAGICAL, #GLARE_TOWER_OR_CRYSTAL)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_MAGICAL"
+                    "Damage"        "%damage"
+                }
+            }
+        }
+
+        "KillUnit"
+        {
+            "Target"        "%SOURCE"
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.3"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+            }
+        }
+    }
+}

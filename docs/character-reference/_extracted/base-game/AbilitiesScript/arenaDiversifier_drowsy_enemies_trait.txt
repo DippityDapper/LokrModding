@@ -1,0 +1,73 @@
+"arenaDiversifier_drowsy_enemies_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+
+        "01"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "numberOfEnemies"              "3"
+        }
+
+        "02"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "duration"              "2"
+        }
+    }
+
+    "Modifiers"
+    {
+        "drowsy_enemies_modifier"
+        {
+            "Passive" "1"
+
+            "OnStartFight"
+            {
+                "Conditional"
+                {
+                    "Condition" "isDiversifierActive(#drowsy_enemies)"
+
+                    "Actions" 
+                    {
+                        "ActOnTargets"
+                        {
+                            "Target"
+                            {
+                                "Center"        "%TARGET"
+                                "Radius"        "9999"
+                                "Teams"         "TEAM_ALL"
+                                "MaxTargets"    "3"
+                                "Random"        "1"
+                                "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(BadSide))  && not(isOnState(%theUnit, #CANT_BE_ASLEPT)) && not(isOnState(%theUnit, #PROP)))"
+                            }
+                            "IteratorName" "#newTarget"
+                            "Actions"    
+                            {
+                                "ApplyModifier"
+                                {
+                                    "ModifierName"    "modifier_asleep"
+                                    "Target"          "%newTarget"
+                                    "Duration"        "2"
+                                }
+                            }
+                        }
+                    }
+
+                    "ElseActions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "arenaDiversifier_drowsy_enemies_modifier"
+                            "Target"          "%TARGET"
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}
+

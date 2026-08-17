@@ -1,0 +1,32 @@
+"villagers_survive_cliffhanger_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "villagers_survive_cliffhanger_achievement_modifier"
+        {
+            "Passive" "1"
+
+            "OnVictory"
+            {
+                "Conditional" 
+                {
+                    "Condition" "not(isOnState(%TARGET, #DEAD))"
+                    "Actions"
+                    {   
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#villagers_survive_cliffhanger"
+                        }
+                    }
+                }       
+            }
+        }
+    }
+}
+

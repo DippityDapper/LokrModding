@@ -1,0 +1,267 @@
+"units"
+{
+	"Wulf" 
+	{
+		"Model" "Wulf"
+		"Name" "FAUNA_WULF"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+
+			"health_max" "4" 
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+			"evasion" "0.25"  
+
+			"visualMoveSpeed" "1" 
+			"visualRunSpeed" "1"
+
+			"baseDamage"  "2"
+			"rangedAttackRange" "0"
+
+			"walkSpeed" "4"
+
+			"initiativeModifier" "-4"
+
+		}
+
+
+		"skills"
+		{
+			
+			"10" "dodge_trait"
+			"500" "attach_effect_on_death_trait"
+ 		}
+
+
+ 		"defaultSkill" "common_bite_attack"
+
+		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupWulfSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_faunaHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_faunaDeath"
+				"walk" "krl_sfx_genericCombat_smallWulfWalk"
+			}
+		}
+	}
+
+	
+
+	
+	"Warg" 
+	{
+		"Model" "Warg"
+		"Name" "FAUNA_WARG"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "10" 
+
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "2"
+
+
+			"evasion" "0.2"  
+
+			
+			"visualMoveSpeed" "3" 
+			"visualRunSpeed" "3"
+
+			"baseDamage"  "5"
+
+			"walkSpeed" "3"
+			"rangedAttackRange" "0"
+
+			"initiativeModifier" "0"
+		}
+
+
+		"skills"
+		{
+			"1" "wulf_rupture"
+			"10" "dodge_trait"
+			
+			"500" "attach_effect_on_death_trait"
+ 		}
+
+
+ 		"defaultSkill" "common_bite_attack"
+
+ 		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupWargSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_faunaHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_faunaDeath"
+				"walk" "krl_sfx_genericCombat_bigWulfWalk"
+			}
+		}
+	}
+
+
+
+
+	"Spiderling" 
+	{ 
+		"Model" "AracnoSpiderling"
+		"Name" "FAUNA_SPIDERLING"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "5"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+			"rangedAttackRange" "0"
+
+			"visualMoveSpeed" "3" 
+			"visualRunSpeed" "3"
+
+			"baseDamage"  "2"
+
+			"walkSpeed" "3"
+
+			"initiativeModifier" "-2"
+
+		}
+
+		"states"
+        {
+            "WONT_TRIGGER_ACID_FLOOR" 	"1"
+        }
+
+		"skills"
+		{
+			"1" "spider_poison_strike"
+			"12" "spawn_acid_on_death_trait"
+ 		}
+
+
+
+ 		"defaultSkill" "spiderling_melee_attack"
+
+ 		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupSpiderlingSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_spiderHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_spiderDeath"
+				"walk" "krl_sfx_genericCombat_smallSpiderWalk"
+			}
+		}
+	}
+
+	"AracnoGiantSpider" 
+	{ 
+		"Model" "AracnoGiantSpider"
+		"Name" "FAUNA_GIANT_SPIDER"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "8"
+			"armor_max" "0"
+			"armor_regen_per_turn" "0"
+			"armor_gain_passTurn" "0"
+
+			"walkSpeed" "2"
+
+			"visualMoveSpeed" "3" 
+			"visualRunSpeed" "2"
+
+			"rangedAttackRange" "3" 
+			"baseDamage"  "3"
+
+
+			"initiativeModifier" "2"
+
+		}
+
+		"states"
+        {
+            "WONT_TRIGGER_ACID_FLOOR" 	"1"
+        } 
+        
+		"skills"
+		{
+			"2" "spider_poison_spit"
+			"12" "spawn_acid_on_death_trait"
+ 		}
+
+ 		"defaultSkill" "spider_poison_strike"
+
+ 		"soundConfig"
+		{
+			"assetId" "DynamicSoundGroupAracnoGiantSpiderSounds"
+			"sounds"
+			{
+				"receiveDamage" "krl_sfx_combatGeneric_spiderHit"
+				"receiveArmorDamage" "krl_sfx_combatGeneric_armorHit"
+				"death" "krl_sfx_combatGeneric_spiderDeath"
+				"walk" "krl_sfx_genericCombat_bigSpiderWalk"
+			}
+		}
+	}
+
+	"Bulldog" 
+	{
+		"Model" "Bulldog"
+		"Name" "FAUNA_BULLDOG"
+		"InheritsFrom" "Base"
+
+		"stats"
+		{
+
+			"level" "1"
+				
+			"health_max" "4"
+			"armor_max" "0"
+			"evasion" "0.25" 
+			"rangedAttackRange" "0"
+
+			"visualMoveSpeed" "3" 
+			"visualRunSpeed" "3"
+
+			"baseDamage"  "2"
+
+			"walkSpeed" "3"
+
+		}
+
+
+		"skills"
+		{
+			"10" "counter_stance"
+			"11" "dodge_trait"
+ 		}
+
+
+ 		"defaultSkill" "common_bite_attack"
+	}
+}

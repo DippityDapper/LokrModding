@@ -1,0 +1,396 @@
+"new_modifiers"
+{
+    
+    
+    "AbilityBehavior"       "PASSIVE"
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "poisonDamage"      "1"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "burnDamage"        "1"
+        }
+
+        "03"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "bleedingDamage"    "2"
+        }
+
+
+    }
+
+    "Modifiers"
+    {
+    	"modifier_new_poison" 
+        {
+            "EffectName" "PoisonStatusFXMega"
+            "Tags" "dot"
+            "IncompatibleStates" "CANT_BE_POISONED"
+            "IncompatibleIcon" "PopupImmunePoison"
+
+            "Icon" "Poison"
+            "IconPriority" "25"
+
+            "OnTurnFinished"
+            {
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "EffectName" "RicochetHitFXMega" 
+                    "Tags" "stringList(#MODIFIER, #INTERNAL)"
+
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"    "DAMAGE_TRUE"
+                            "Damage"  "%poisonDamage"
+                        }
+                    }
+                }
+            }
+
+            "States"
+            {
+                "POISONED" "1"
+                "WEAKENED" "1"
+            }
+        }
+
+        "modifier_burning" 
+        {
+            "EffectName" "BurningStatusFXMega"
+            "Tags" "dot"
+            "IncompatibleStates" "CANT_BE_BURNT"
+            "IncompatibleIcon" "PopupImmuneBurning"
+            
+            "Icon" "Burn"
+            "IconPriority" "24"
+
+            "OnTurnFinished"
+            {
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "EffectName" "FireballHitFXMega" 
+                    "Tags" "stringList(#MODIFIER, #INTERNAL, #BURNDAMAGE)"
+
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"    "DAMAGE_TRUE"
+                            "Damage"  "max(0, %burnDamage + stat(%TARGET, #extraBurnDamage))"
+                        }
+
+                        "PlaySound"
+                        {
+                            "Sound" "#krl_sfx_combatGeneric_burningEffect"
+                        }
+                    }
+                }
+            }
+
+            "States"
+            {
+                "BURNING" "1"
+                "WEAKENED" "1"
+            }
+        }
+
+
+		"modifier_new_bleeding" 
+        {
+            "EffectName" "RuptureStatusFXMega"
+            "Tags" "dot"
+            "IncompatibleStates" "CANT_BE_BLED"
+            "IncompatibleIcon" "PopupImmuneBleeding"
+
+            "Icon" "Bleed"
+            "IconPriority" "23"
+
+            "OnAbilityStart"
+            {
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "EffectName" "RuptureHitFXMega" 
+                    "Tags" "stringList(#MODIFIER, #INTERNAL)"
+
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"    "DAMAGE_TRUE"
+                            "Damage"  "%bleedingDamage"
+                        }
+                    }
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "modifier_new_bleeding"
+                    "Target"         "%TARGET"
+                }
+            }
+
+            "OnUnitLeavingNode"
+            {
+                "Conditional"
+                {
+                    "Condition" "equal(%TARGET, %UNIT)"
+
+                    "Actions"
+                    {
+                        "QueueHit"
+		                {
+		                    "Target" "%TARGET"
+		                    "EffectName" "RuptureHitFXMega" 
+		                    "Tags" "stringList(#MODIFIER, #INTERNAL)"
+
+
+		                    "InitActions"
+		                    {
+		                        "AddDamage"
+		                        {
+		                            "Type"    "DAMAGE_TRUE"
+		                            "Damage"  "2"
+		                        }
+		                    }
+		                }
+
+		                "RemoveModifier"
+		                {
+		                    "ModifierName"    "modifier_new_bleeding"
+		                    "Target"         "%TARGET"
+		                }
+                    }
+                }
+            }
+
+            "States"
+            {
+                "BLEEDING" "1"
+                "WEAKENED" "1"
+            }
+        }
+
+
+    	"modifier_stunned"
+        {
+            "Tags" "status_effect"
+            "AutoRemoveTags" "status_effect"
+            "IncompatibleStates" "CANT_BE_STUNNED"
+            "IncompatibleIcon" "PopupImmuneStunned"
+            "EffectName" "StunStatusFXMega"
+            "AnimationOverride" "Crippled"
+
+
+            "Icon" "Stunned"
+            "IconPriority" "10"
+
+
+            "OnTurnStarted"
+            {
+                "UnitRaiseMessage"
+                {
+                    "Unit" "%TARGET"
+                    "Icon" "PopupStunned"
+                }
+
+                "PlaySound"
+                {
+                    "Sound" "#krl_sfx_combatGeneric_stunnedStatus"
+                }
+            }
+
+            "States"
+            {
+                "STUNNED" "1"
+                "IMMOBILIZED" "1"
+            }
+        }
+
+        "modifier_rooted"
+        {
+            "Tags" "status_effect"      
+            "AutoRemoveTags" "status_effect" 
+            "EffectName" "RootedStatusFXMega"
+            "IncompatibleStates" "CANT_BE_ROOTED"
+            "IncompatibleIcon" "PopupImmuneRooted"
+
+            "Icon" "Rooted"
+            "IconPriority" "20"
+
+            "OnTurnStarted"
+            {
+                "UnitRaiseMessage"
+                {
+                    "Unit" "%TARGET"
+                    "Icon" "PopupRooted"
+                }
+            }
+
+            "States"
+            {
+                "ROOTED" "1"
+                "IMMOBILIZED" "1"
+            }
+        }
+
+        "modifier_asleep"
+        {
+            "Tags" "status_effect"       
+            "AutoRemoveTags" "status_effect"
+            "EffectName" "AsleepStatusFXMega"
+            "AnimationOverride" "Crippled"
+            "IncompatibleStates" "CANT_BE_ASLEPT"
+            "IncompatibleIcon" "PopupImmuneAsleep"
+
+            "Icon" "Asleep"
+            "IconPriority" "20"
+
+            "OnTurnStarted"
+            {
+                "UnitRaiseMessage"
+                {
+                    "Unit" "%TARGET"
+                    "Icon" "PopupAsleep"
+                }
+            }
+
+
+            "OnPreHit"
+            {
+            	"ApplyModifier"
+                {
+                    "ModifierName"    "modifier_asleep_tmp_during_hit"
+                    "Target"         "%TARGET"
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "modifier_asleep"
+                    "Target"         "%TARGET"
+                }
+            }
+
+            "States"
+            {
+                "ASLEEP" "1"
+                "STUNNED" "1"
+                "IMMOBILIZED" "1"
+            }
+        }
+
+         "modifier_asleep_tmp_during_hit"
+        {
+            "OnPostHit"
+            {
+                "RemoveModifier"
+                {
+                    "ModifierName"    "modifier_asleep_tmp_during_hit"
+                    "Target"         "%TARGET"
+                }
+            }
+
+            "States"
+            {
+                "ASLEEP" "1"
+                "STUNNED" "1"
+                "IMMOBILIZED" "1"
+            }
+        }
+
+        "modifier_new_freeze"
+        {
+            "Tags" "status_effect"    
+            "AutoRemoveTags" "status_effect"   
+            "EffectName" "IceLanceStatusFXMega"
+            "AnimationOverride" "Frozen"
+            "IncompatibleStates" "CANT_BE_FROZEN"
+            "IncompatibleIcon" "PopupImmuneFrozen"
+
+            "Icon" "Frozen"
+            "IconPriority" "20"
+
+            "OnTurnStarted"
+            {
+                "UnitRaiseMessage"
+                {
+                    "Unit" "%TARGET"
+                    "Icon" "PopupFrozen"
+                }
+            }
+
+           
+            "States"
+            {
+                "STUNNED" "1"
+                "FROZEN" "1"
+                "IMMOBILIZED" "1"
+                "NO_FLIP_ON_HIT" "1"
+            }
+
+            "OnAdded"
+            {
+               "RemoveModifier"
+                {
+                    "ModifierTag"    "dot"
+                    "Target"         "%TARGET"
+                }
+
+                "PlayAnimation"
+                {
+                    "Target" "%TARGET"
+                    "Animation" "Idle"
+                }
+            }
+
+            "OnPreHit"
+            {
+                "Conditional"
+                {
+                    "Condition" "hitConnected(%HIT)"
+                    "Actions" 
+                    {
+                        "CancelHit"
+                        {
+
+                        }
+
+                        "Conditional"
+                        {
+                            "Condition" "not(hasTags(hitTags(%HIT), #FREEZEDAMAGE))"
+                            "Actions" 
+                            {
+                                "RemoveModifier"
+                                {
+                                    "ModifierName"    "modifier_new_freeze"
+                                    "Target"         "%TARGET"
+                                }
+
+                                "AchievementIncrement"
+                                {
+                                    "Achievement" "#sasquatch_unlock"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}

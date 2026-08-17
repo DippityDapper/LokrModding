@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <RootNamespace>LokrModding.Tests</RootNamespace>
+    <AssemblyName>LokrModding.Tests</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\LokrModAPI\Serialization\TextEscaping.cs" Link="Linked\TextEscaping.cs" />
+    <Compile Include="..\LokrModAPI\Files\ModPathLookup.cs" Link="Linked\ModPathLookup.cs" />
+    <Compile Include="..\LokrPatch\PatchRules.cs" Link="Linked\PatchRules.cs" />
+    <Compile Include="..\LokrCharacterLoader\ContentRules.cs" Link="Linked\ContentRules.cs" />
+    <Compile Include="..\LokrCharacterLoader\LabAliases.cs" Link="Linked\LabAliases.cs" />
+    <Compile Include="..\LokrCharacterLoader\LabExpressionIds.cs" Link="Linked\LabExpressionIds.cs" />
+    <Compile Include="..\LokrLab\LabCatalogRules.cs" Link="Linked\LabCatalogRules.cs" />
+    <Compile Include="..\LokrLab\VanillaOverrideRules.cs" Link="Linked\VanillaOverrideRules.cs" />
+    <Compile Include="..\LokrLab\ExoImportRules.cs" Link="Linked\ExoImportRules.cs" />
+    <Compile Include="..\LokrLab\AnimatorFeelRules.cs" Link="Linked\AnimatorFeelRules.cs" />
+    <Compile Include="..\LokrLab\Ability\Editor\AbilityEventNames.cs" Link="Linked\AbilityEventNames.cs" />
+    <Compile Include="..\LokrLab\Ability\Editor\AbilityPickerRules.cs" Link="Linked\AbilityPickerRules.cs" />
+    <Compile Include="..\LokrLab\Ability\Editor\AbilityLuaRules.cs" Link="Linked\AbilityLuaRules.cs" />
+    <Compile Include="..\LokrLab\Ability\Editor\AbilityHoverCopy.cs" Link="Linked\AbilityHoverCopy.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterFileModel.cs" Link="Linked\EncounterFileModel.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterPlacementRules.cs" Link="Linked\EncounterPlacementRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterPlayRules.cs" Link="Linked\EncounterPlayRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterTemplateRules.cs" Link="Linked\EncounterTemplateRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterEditRules.cs" Link="Linked\EncounterEditRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterBoardRules.cs" Link="Linked\EncounterBoardRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterGrowRules.cs" Link="Linked\EncounterGrowRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterPaintRules.cs" Link="Linked\EncounterPaintRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterTileRules.cs" Link="Linked\EncounterTileRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterTerrainRules.cs" Link="Linked\EncounterTerrainRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterPropRules.cs" Link="Linked\EncounterPropRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterCatalogueRules.cs" Link="Linked\EncounterCatalogueRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterCameraRules.cs" Link="Linked\EncounterCameraRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterExplorationRules.cs" Link="Linked\EncounterExplorationRules.cs" />
+    <Compile Include="..\LokrLab\Encounter\EncounterTriggerRules.cs" Link="Linked\EncounterTriggerRules.cs" />
+  </ItemGroup>
+
+</Project>

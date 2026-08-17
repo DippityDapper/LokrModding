@@ -1,0 +1,77 @@
+"krum_trigger_lightning_animation_ability"
+{
+    "AbilityBehavior"   ""
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityTargetFilterFlags" "INCLUDE_NON_TARGETABLE"
+    "AbilityCastRange" "0"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID" "SpecialAttack"
+
+    "AbilitySpecial" 
+    {
+    }
+
+    "OnAbilityAction"
+    {
+        "SetStat"
+        {
+            "Target" "%SOURCE"
+            "Stat" "#assignedTargets"
+            "Value" "0"
+        }
+
+        "CameraControl"
+        {
+            "TakeOver" "0"
+        }
+
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_combatKrum_thunderCast"
+        }
+    }
+
+    "OnThink"
+    {
+        "RunThisSkillAI"
+        {
+            "BrainId" "#Custom"
+            "Target" "%UNIT"
+        }
+    }
+
+    "AIBrainCustom"
+    {
+        "Selection" 
+        {
+            "Weight" "10"
+            "Considerations"
+            {
+                "is second action"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#actionsTaken"
+                        "Owner" "1"
+                    }
+                }
+
+                "shouldTrigger"
+                {
+                    "Curve" "Linear|20|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#assignedTargets"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}

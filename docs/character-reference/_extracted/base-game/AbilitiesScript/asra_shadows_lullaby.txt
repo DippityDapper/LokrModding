@@ -1,0 +1,130 @@
+"asra_shadows_lullaby"
+{
+    "AbilityBehavior"           "POINT_TARGET | AOE | NEEDS_CLEAR_TERRAIN"
+    "AbilityAOETeamFilter"      "TEAM_ALL"
+
+    "AbilityAOERange"           "1"
+    "AbilityAOEKind"            "RANGE_CIRCLE"
+    "AbilityAOECenterOnCaster"  "0"
+    "AbilityAOEAffectsCaster"   "0"
+
+    "AbilityCastRange"          "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"           "3"
+    "AbilityAPCost"             "2"
+    "AnimationID"               "SpellCastA"
+    "CastFXId"                  "ShadowStrikeCastFXMega"
+    "Icon"                      "ShadowsLullaby"
+
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "duration"          "2"
+        }
+        "02"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "aoeRadius"          "1"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "SetToContext"
+        {
+            "Context"           "currentContext()"
+            "Key"               "#sourcePosition"
+            "Value"             "unitPosition(%SOURCE)"
+            "Type"              "FIELD_OBJECT"
+        }
+
+        "SetToContext"
+        {
+            "Context"           "currentContext()"
+            "Key"               "#targetPosition"
+            "Value"             "%TARGET"
+            "Type"              "FIELD_OBJECT"
+        }
+
+
+
+        
+
+        "AttachEffect"
+        {
+            "EffectName"        "ShadowStrikeTeleportFXMega"
+            "Target"            "%sourcePosition"
+        }
+
+        "SetToContext"
+        {
+            "Context" "currentContext()"
+            "Key" "#teleportDelay"
+            "Value" "0.25"
+            "Type" "FIELD_FLOAT"
+        }
+
+        "StartLogicTick"
+        {
+            "Time" "%teleportDelay"
+            "TickType" "FX "
+            "Position" "unitPosition(%SOURCE)"
+        }
+        "Delay"
+        {
+            "Time" "%teleportDelay"
+            "Actions"
+            {
+                "MoveUnit"
+                {
+                    "Target"            %SOURCE"
+                    "Position"          "newPoint(1000, 1000, 0)"
+                }
+
+                "AttachEffect"
+                {
+                    "EffectName"        "SleepingFungusSmokeFXMega"
+                    "Target"            "%targetPosition"
+                }
+
+                "MoveUnit"
+                {
+                    "Target"            "%SOURCE"
+                    "Position"          "%targetPosition"
+                }
+
+                 "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"            "%TARGET"
+                        "Radius"            "%aoeRadius"
+                        "Teams"             "TEAM_ALL"
+                        "ExcludedUnits"     "objectList(%SOURCE)"
+                    }
+
+                    "IteratorName"          "#newTarget"
+                
+                    "Actions"    
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "modifier_asleep"
+                            "Target"            "%newTarget"
+                            "Duration"          "%duration"
+                            "Refresh"           "1"
+                        }
+
+                        "AttachEffect"
+                        {
+                            "EffectName"        "SleepingFungusSmokeFXMega"
+                            "Target"            "%newTarget"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

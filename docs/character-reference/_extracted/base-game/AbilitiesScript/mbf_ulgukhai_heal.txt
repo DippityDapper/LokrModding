@@ -1,0 +1,122 @@
+"mbf_ulgukhai_heal"
+{
+    "AbilityBehavior"   "DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter" "TEAM_FRIENDLY"
+    "AbilityTargetFilterFlags" "INCLUDE_NON_TARGETABLE"
+    "AbilityCastRange" "1000"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID" "SpellCastC"
+
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "heal"  "3"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"      "%CASTER"
+                "Radius"     "1000"
+                "Teams"     "TEAM_FRIENDLY"
+                "CustomFilter" "customUnitFilter(#theUnit, isOnState(%theUnit, #mbfCrystal))"
+            }
+
+            "IteratorName" "#newTarget"
+        
+            "Actions"    
+            {
+                "Heal"
+                {
+                    "Target"        "%CASTER"
+                    "HealAmount"    "expr(%heal)"
+                }
+
+                "AttachEffect"
+                {
+                    "EffectName" "HealingFXMega"
+                    "Target" "%newTarget"
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "mbf_healingcrystal_detroyed_link"
+                    "Target"         "%newTarget"
+                }
+
+                "KillUnit"
+                {
+                    "Target"        "%newTarget"
+                }
+            }
+        }
+
+        "AttachEffect"
+        {
+            "EffectName" "HealingFXMega"
+            "Target" "%CASTER"
+        }
+    }
+
+    "AIBrainCustom"
+    {
+        "Selection" 
+        {
+            "Weight" "100"
+            "Considerations"
+            {
+                
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "1000"
+            "Considerations"
+            {
+                "is first action"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "0"
+                        "Stat" "#actionsTaken"
+                        "Owner" "1"
+                    }
+                }
+
+                "isTarget"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStateOn"
+                    "Params"
+                    {
+                        "State" "#mbfCrystal"
+                    }
+                }
+
+                "Priorizacion Por Distance mas lejano"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MinRange" "1"
+                        "MaxRange" "10"  
+                    }
+                }
+            }
+        }
+    }
+}

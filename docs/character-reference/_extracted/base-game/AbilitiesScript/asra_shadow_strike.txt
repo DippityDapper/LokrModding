@@ -1,0 +1,148 @@
+"asra_shadow_strike"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ALL"
+    "AbilityCustomTargetFilter" "not(isOnState(%UNIT, #FIXED_POSITION)) && not(isOnState(%UNIT, #BOSS))"
+
+    
+    
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"   "3"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "SpellCastA"
+    "CastFXId"  "ShadowStrikeCastFXMega"
+    "Icon" "ShadowStrike"
+
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage"  "max(ceil(stat(%CASTER, #attackDamage)/2),1)"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "SetToContext"
+        {
+            "Context" "currentContext()"
+            "Key" "#sourcePosition"
+            "Value" "unitPosition(%SOURCE)"
+            "Type" "FIELD_OBJECT"
+        }
+
+        "SetToContext"
+        {
+            "Context" "currentContext()"
+            "Key" "#targetPosition"
+            "Value" "unitPosition(%TARGET)"
+            "Type" "FIELD_OBJECT"
+        }
+
+        "MoveUnit"
+        {
+            "Target"        "%SOURCE"
+            "Position"    "newPoint(1000, 1000, 0)"
+        }
+
+        "AttachEffect"
+        {
+            "EffectName" "ShadowStrikeTeleportFXMega"
+            "Target" "%sourcePosition"
+        }
+
+        "AttachEffect"
+        {
+            "EffectName" "ShadowStrikeTeleportFXMega"
+            "Target" "%targetPosition"
+        }
+
+        "MoveUnit"
+        {
+            "Target"        "%TARGET"
+            "Position"    "%sourcePosition"
+        }
+
+        "MoveUnit"
+        {
+            "Target"        "%SOURCE"
+            "Position"    "%targetPosition"
+        }
+        "ApplyModifier"
+        {
+            "ModifierName"  "asra_shadow_strike_extra_step_modifier"
+            "Target"        "%CASTER"
+            "Duration"      "1"
+        } 
+
+        "Conditional"
+        {
+            "Condition" "matchesTeam(unitGroup(%SOURCE), unitGroup(%TARGET), @TeamFilter(TEAM_ENEMY))"
+
+            "Actions" 
+            {
+
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "EffectName" "GenericSpellHitFXMega" 
+                    "Tags" "stringList(#MAGICAL, #TARGETED)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "expr(%damage)"
+                        }
+                    }
+                }
+            }
+        }
+    }
+    "Modifiers"
+    {
+        "asra_shadow_strike_extra_step_modifier"
+        
+        {
+
+            
+
+            "#OnAdded"
+            {
+                "SetStat"
+                {
+                    "Target" "%TARGET"
+                    "Stat" "#walkSpeedAvailable"
+                    "Value" "1"
+                }
+            }
+
+            "OnUnitLeavingNode"
+            {
+                "Conditional"
+                {
+                    "Condition" "equal(%TARGET, %UNIT)"
+
+                    "Actions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "asra_shadow_strike_extra_step_modifier"
+                            "Target"         "%TARGET"
+                        }
+                    }
+                }
+            }
+
+            "States"
+            {
+                "HAS_EXTRA_STEP" "1"
+            }
+        }
+    }
+}

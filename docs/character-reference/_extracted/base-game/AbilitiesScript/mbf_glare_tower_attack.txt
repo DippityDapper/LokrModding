@@ -1,0 +1,159 @@
+"mbf_glare_tower_attack"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "1000"
+    "AbilityCastMinRange" "0" 
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "1"
+    "AnimationID"   "Attack"
+    "CastFXId" "MBFGlareTowerCastFXMega"
+    "Icon" "GlareRay" 
+
+   
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage"  "stat(%CASTER, #attackDamage)"
+        }
+
+        
+    }
+
+    "OnAbilityStart"
+    {
+
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerBase)"
+            "Animation" "Attack"
+        }
+
+        "AttachEffect"
+        {
+            "EffectName" "ArcaneTowerSuperBeamCastFXMega"
+            "Target" "wrapContext(unitContext(%CASTER), %towerGem)"
+            "Dependant" "1"
+        }
+
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerGem)"
+            "Animation" "Attack"
+        }
+
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerPriest1)"
+            "Animation" "Attack"
+        }
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerPriest2)"
+            "Animation" "Attack"
+        }
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerPriest3)"
+            "Animation" "Attack"
+        }
+        "PlayActivityAnimation"
+        {
+            "Target" "wrapContext(unitContext(%CASTER), %towerPriest4)"
+            "Animation" "Attack"
+        }
+
+        "StartLogicTick"
+        {
+            "Time" "1.2"
+            "TickType" "PriorityCenter"
+            "Position" "cinematicPosition(#TowerGlareCameraCenter)"
+        }
+
+        "Delay"
+        {
+            "Time" "1.199"
+            "Actions"
+            {
+                "StartLogicTick"
+                {
+                    "Time" "1.5"
+                    "TickType" "PriorityCenter"
+                    "Position" "unitPosition(%TARGET)"
+                }
+            }
+        } 
+        
+        "ApplyModifier"
+        {
+            "ModifierName"    "camera_control_modifier"
+            "Target"         "%CASTER"
+            "Duration"      "1"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"             "pointAdd(unitPosition(%SOURCE), newPoint(0, 2, 0))"
+            "TargetPos"             "unitPosition(%TARGET, #Chest)"
+            "Model" "ArcaneTowerRayProjectile"
+
+            "Params" 
+            {
+                "damage" 
+                { 
+                    "type" "FIELD_FLOAT"
+                    "value" "expr(%damage)"
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "ArcaneTowerSuperBeamHitFXMega" 
+            "Tags" "stringList(#PROJECTILE, #TARGETED, #MAGICAL, #GLARE_TOWER_OR_CRYSTAL)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_MAGICAL"
+                    "Damage"        "%damage"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.3"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "20"  
+                    }
+                }
+            }
+        }
+    }
+}

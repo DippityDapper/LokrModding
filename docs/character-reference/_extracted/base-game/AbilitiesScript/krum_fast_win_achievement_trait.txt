@@ -1,0 +1,32 @@
+"krum_fast_win_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "krum_fast_win_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnUnitDiedGlobal"
+            {
+                "Conditional"
+                {
+                    "Condition" "equal(%DEAD, %TARGET) && safeEquals(stat(%TARGET, #downIteration), 1)"
+                    "Actions" 
+                    {
+                        "AchievementIncrement"
+                        {
+                            "Achievement" "#krum_fast_win"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

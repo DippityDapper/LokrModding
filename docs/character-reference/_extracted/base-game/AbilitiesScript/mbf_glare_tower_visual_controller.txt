@@ -1,0 +1,179 @@
+"mbf_glare_tower_visual_controller"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "mbf_glare_tower_visual_controller_modifier"
+        {
+            "Passive" "1"
+
+            "OnAdded"
+            {
+                "Delay"
+                {
+                    "Time" "0"
+                    "Actions"
+                    {
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#MBFGlareTowerBase"
+                            "Position" "unitPosition(%TARGET)"
+                            "UnitGroup" "unitGroup(%TARGET)"
+                            "IsAI" "1"
+                            "OnSpawn"
+                            {
+                                "SetToContext"
+                                {
+                                    "Context" "unitContext(%TARGET)"
+                                    "Key" "#towerBase"
+                                    "Value" "%UNIT"
+                                    "Type" "FIELD_OBJECT"
+                                }
+                            }
+                        }
+
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#MBFGlareTowerGem"
+                            "Position" "unitPosition(%TARGET)"
+                            "UnitGroup" "unitGroup(%TARGET)"
+                            "IsAI" "1"
+                            "OnSpawn"
+                            {
+                                "SetToContext"
+                                {
+                                    "Context" "unitContext(%TARGET)"
+                                    "Key" "#towerGem"
+                                    "Value" "%UNIT"
+                                    "Type" "FIELD_OBJECT"
+                                }
+                            }
+                        }
+
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#MBFGlareTowerMinionFront"
+                            "Position" "pointAdd(unitPosition(%TARGET), newPoint(-0.85, 0.43, 0))"
+                            "UnitGroup" "unitGroup(%TARGET)"
+                            "IsAI" "1"
+                            "CinematicIds" "stringList(#TowerCultist1)"
+                            "OnSpawn"
+                            {
+                                "SetToContext"
+                                {
+                                    "Context" "unitContext(%TARGET)"
+                                    "Key" "#towerPriest1"
+                                    "Value" "%UNIT"
+                                    "Type" "FIELD_OBJECT"
+                                }
+                            }
+                        }
+
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#MBFGlareTowerMinionFront"
+                            "Position" "pointAdd(unitPosition(%TARGET), newPoint(0.85, 0.43, 0))"
+                            "UnitGroup" "unitGroup(%TARGET)"
+                            "IsFlipped" "1"
+                            "IsAI" "1"
+                            "CinematicIds" "stringList(#TowerCultist2)"
+                            "OnSpawn"
+                            {
+                                "SetToContext"
+                                {
+                                    "Context" "unitContext(%TARGET)"
+                                    "Key" "#towerPriest2"
+                                    "Value" "%UNIT"
+                                    "Type" "FIELD_OBJECT"
+                                }
+                            }
+                        }
+
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#MBFGlareTowerMinionBack"
+                            "Position" "pointAdd(unitPosition(%TARGET), newPoint(-0.85, -0.29, 0))"
+                            "UnitGroup" "unitGroup(%TARGET)"
+                            "IsAI" "1"
+                            "CinematicIds" "stringList(#TowerCultist3)"
+                            "OnSpawn"
+                            {
+                                "SetToContext"
+                                {
+                                    "Context" "unitContext(%TARGET)"
+                                    "Key" "#towerPriest3"
+                                    "Value" "%UNIT"
+                                    "Type" "FIELD_OBJECT"
+                                }
+                            }
+                        }
+
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#MBFGlareTowerMinionBack"
+                            "Position" "pointAdd(unitPosition(%TARGET), newPoint(0.85, -0.29, 0))"
+                            "UnitGroup" "unitGroup(%TARGET)"
+                            "IsFlipped" "1"
+                            "IsAI" "1"
+                            "CinematicIds" "stringList(#TowerCultist4)"
+                            "OnSpawn"
+                            {
+                                "SetToContext"
+                                {
+                                    "Context" "unitContext(%TARGET)"
+                                    "Key" "#towerPriest4"
+                                    "Value" "%UNIT"
+                                    "Type" "FIELD_OBJECT"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            "OnUnitDiedGlobal"
+            {
+                "Conditional"
+                {
+                    "Condition" "equal(%DEAD, %TARGET)"
+
+                    "Actions" 
+                    {
+                        "KillUnit"
+                        {
+                            "Target"        "wrapContext(unitContext(%TARGET), %towerGem)"
+                        }
+
+                        "KillUnit"
+                        {
+                            "Target"        "wrapContext(unitContext(%TARGET), %towerBase)"
+                        }
+
+                        "#KillUnit"
+                        {
+                            "Target"        "wrapContext(unitContext(%TARGET), %towerPriest1)"
+                        }
+                        "#KillUnit"
+                        {
+                            "Target"        "wrapContext(unitContext(%TARGET), %towerPriest2)"
+                        }
+                        "#KillUnit"
+                        {
+                            "Target"        "wrapContext(unitContext(%TARGET), %towerPriest3)"
+                        }
+                        "#KillUnit"
+                        {
+                            "Target"        "wrapContext(unitContext(%TARGET), %towerPriest4)"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

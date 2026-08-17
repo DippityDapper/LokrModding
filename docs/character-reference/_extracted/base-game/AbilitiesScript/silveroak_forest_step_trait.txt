@@ -1,0 +1,23 @@
+"silveroak_forest_step_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+    "Icon"                  "ForestStep"
+
+     "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "silveroak_forest_step_trait_modifier"
+        {
+            "Passive" "1"
+
+            "States"
+            {
+                "IMMUNE_FOREST_FLOOR_EFFECTS" "1"
+            }
+        }
+    }
+}
+

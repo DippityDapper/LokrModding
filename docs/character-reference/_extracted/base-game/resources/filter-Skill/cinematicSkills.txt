@@ -1,0 +1,50 @@
+"cinematic_common_ranged_attack"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET | CINEMATIC"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "1000"
+    "AbilityCooldown"   "0"
+    "AbilityAPCost"     "0"
+    "AnimationID"   "Attack"
+    "Icon" "rangedArcher"
+
+   
+    "AbilitySpecial" 
+    {
+        
+    }
+
+
+    "OnAbilityAction"
+    {
+
+        "TrackingProjectile"
+        {
+            "Target"               "%TARGET"
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "unitPosition(%TARGET, #Chest)"
+            "Model" "SimpleArrowProjectile"
+
+            "Params" 
+            {
+               
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "AttachEffect"
+        {
+            "EffectName" "GenericHitFXMega"
+            "Target" "%TARGET"
+        }
+
+        "InvokeCallback"
+        {
+            "Callback" "wrapContext(abilityCinematicContext(%ABILITY), %onHit)"
+        }
+    }
+}

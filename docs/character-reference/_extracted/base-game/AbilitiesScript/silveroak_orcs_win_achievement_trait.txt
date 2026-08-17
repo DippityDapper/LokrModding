@@ -1,0 +1,19 @@
+"silveroak_orcs_win_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "silveroak_orcs_win_achievement_modifier"
+        {
+            "Passive" "1"
+
+            
+        }
+    }
+}
+

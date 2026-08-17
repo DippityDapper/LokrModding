@@ -1,0 +1,200 @@
+"tesla_chain_lightning"
+{
+    "AbilityBehavior"               "UNIT_TARGET"
+    "AbilityTeamFilter"             "TEAM_ENEMY"
+    "AbilityCastRange"              "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCastMinRange"           "stat(%CASTER, #rangedAttackMinRange)" 
+    "AbilityCooldown"               "3"
+    "AbilityAPCost"                 "2"
+    
+    "AnimationID"                   "ChainLighting"
+    "Icon"                          "ChainLightning"
+    "CastFXId"                      "TeslaSpellChargeFXMega"
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "damage"                "stat(%CASTER, #attackDamage) - 2"
+        }
+
+        "02"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "stunDuration"          "1"
+        }
+
+        "03"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "maxTargets"            "3"
+        }
+        "04"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "maxTargetsForTooltip"  "(%maxTargets)-1" 
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_teslaCombat_chainLightningProjectile"
+        }
+        
+        "CreateObjectList"
+        {
+            "Name"              "#hitUnits"
+        }
+
+        "TrackingProjectile"
+        {
+            "Target"                "%TARGET"
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "unitPosition(%TARGET, #Chest)"
+            "Model"                 "ChainLightningProjectile"
+
+            "Params" 
+            {
+                "damage" 
+                { 
+                    "type"          "FIELD_FLOAT"
+                    "value"         "expr(%damage)"
+                }
+
+                "stunDuration" 
+                {
+                    "type"          "FIELD_FLOAT"
+                    "value"         "%stunDuration"
+                }
+
+                "maxTargets" 
+                {
+                    "type"          "FIELD_FLOAT"
+                    "value"         "%maxTargets"
+                }
+
+                "firstHit" 
+                {
+                    "type"          "FIELD_FLOAT"
+                    "value"         "1"
+                }
+            }
+        }
+
+        "AddObjectToList" 
+        {
+            "List"                      "%hitUnits"
+            "Value"                     "%TARGET"
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+        "Hit"
+        {
+            "Target"                "%TARGET"
+            "EffectName"            "TeslaChainLightningHitFXMega"
+            "Tags"                  "stringList(#RAY, #MAGICAL)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_MAGICAL"
+                    "Damage"        "%damage"
+                }
+                
+            }
+            "Actions"
+            {
+                "Conditional"
+                {
+                    "Condition"     "%firstHit"
+
+                    "Actions" 
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "modifier_stunned"
+                            "Target"            "%HITTARGET"
+                            "Duration"          "%stunDuration"
+                            "Refresh"           "1"
+                        }
+                    }
+
+                }
+            }
+        }
+
+        "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"                "%TARGET"
+                "Radius"                "1"
+                "Teams"                 "TEAM_ENEMY"
+                "ExcludedUnits"         "%hitUnits"
+                "MaxTargets"            "%maxTargets - 1"
+            }
+
+            "IteratorName"              "#newTarget"
+            "IteratorIndexName"         "#index"
+        
+            "Actions"    
+            {
+                "Delay"
+                {
+                    "Time" "0.1 * %index"
+                    "Actions"
+                    {
+                        "Conditional"
+                        {
+                            "Condition"                     "listCount(%hitUnits) < %maxTargets"
+
+                            "Actions" 
+                            {
+                                "TrackingProjectile"
+                                {
+                                    "Target"                "%newTarget"
+                                    "SourcePos"             "unitPosition(%TARGET, #Chest)"
+                                    "TargetPos"             "unitPosition(%newTarget, #Chest)"
+                                    "Model"                 "ChainLightningProjectile"
+
+                                    "Params" 
+                                    {
+                                        "damage" 
+                                        { 
+                                            "type"          "FIELD_FLOAT"
+                                            "value"         "%damage"
+                                        }
+
+                                        "stunDuration" 
+                                        {
+                                            "type"          "FIELD_FLOAT"
+                                            "value"         "%stunDuration"
+                                        }
+
+                                        "maxTargets" 
+                                        {
+                                            "type"          "FIELD_FLOAT"
+                                            "value"         "%maxTargets"
+                                        }
+                                    }
+                                }
+
+                                "AddObjectToList" 
+                                {
+                                    "List"                      "%hitUnits"
+                                    "Value"                     "%newTarget"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

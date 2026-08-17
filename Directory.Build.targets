@@ -1,0 +1,26 @@
+<Project>
+
+  <!-- Copy every built plugin straight into the game's BepInEx/plugins/<AssemblyName>/ folder
+       for fast iteration. Shared across all LoKR plugin projects in this repo. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(IsTestProject)' != 'true'">
+    <ItemGroup>
+      <DeployFiles Include="$(OutputPath)$(AssemblyName).dll" />
+      <DeployFiles Include="$(OutputPath)$(AssemblyName).pdb" Condition="Exists('$(OutputPath)$(AssemblyName).pdb')" />
+      <PluginPlaceholderFiles Include="$(MSBuildProjectDirectory)\Placeholders\**\*" />
+      <PluginSidecarFiles Include="$(MSBuildProjectDirectory)\Sidecars\**\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(GameDir)\BepInEx\plugins\$(AssemblyName)" />
+    <Copy SourceFiles="@(DeployFiles)" DestinationFolder="$(GameDir)\BepInEx\plugins\$(AssemblyName)" SkipUnchangedFiles="false" />
+    <Copy
+      SourceFiles="@(PluginPlaceholderFiles)"
+      DestinationFiles="@(PluginPlaceholderFiles->'$(GameDir)\BepInEx\plugins\$(AssemblyName)\Placeholders\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="false"
+      Condition="'@(PluginPlaceholderFiles)' != ''" />
+    <Copy
+      SourceFiles="@(PluginSidecarFiles)"
+      DestinationFiles="@(PluginSidecarFiles->'$(GameDir)\BepInEx\plugins\$(AssemblyName)\Sidecars\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="false"
+      Condition="'@(PluginSidecarFiles)' != ''" />
+  </Target>
+
+</Project>

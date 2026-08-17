@@ -1,0 +1,53 @@
+"crafty_endturn_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+
+    "Icon" "LockNLoad"
+
+    "AbilitySpecial"
+    {
+       "01"
+        {
+            "var_type"            "FIELD_FLOAT"
+            "extraRange"            "2"
+        }
+    }
+
+    "Modifiers"
+    {
+        "crafty_endturn_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnEndTurnSkillCheck"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"    "crafty_endturn_trait_modifier_active"
+                    "Target"         "%TARGET"
+                    "Duration"  "0"
+                }
+            }
+        }
+
+        "crafty_endturn_trait_modifier_active"
+        {
+            "Icon" "LockNLoad"
+            "IconPriority" "25"
+
+            "OnTurnFinished"
+            {
+               "RemoveModifier"
+                {
+                    "ModifierName"    "crafty_endturn_trait_modifier_active"
+                    "Target"         "%TARGET"
+                }
+            }
+
+            "PropertiesAdd"
+            {
+                "rangedAttackRange" "%extraRange"
+            }
+        }
+    }
+}

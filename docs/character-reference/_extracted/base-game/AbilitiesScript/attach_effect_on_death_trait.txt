@@ -1,0 +1,26 @@
+"attach_effect_on_death_trait"
+{
+    "AbilityBehavior"       "PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "attach_effect_on_death_modifier"
+        {
+            "Passive" "1"
+
+            "OnRemoved"
+            {
+                "#AttachEffect"
+                {
+                    "EffectName"    "BloodDeathExplosionFXMega"
+                    "Target"        "unitPosition(%TARGET)"
+                }
+            }
+
+        }
+    }
+}

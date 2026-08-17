@@ -1,0 +1,60 @@
+"turn_marker_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "turn_marker_turnnumber"
+        {
+            "Passive" "1"
+
+            "#OnAdded"
+            {
+                "SetToContext"
+                {
+                    "Context" "encounterContext()"
+                    "Key" "#turnNumber"
+                    "Value" "1"
+                    "Type" "FIELD_INTEGER"
+                }
+            }
+
+            "OnTurnStarted"
+            {
+                "SetToContext"
+                {
+                    "Context" "encounterContext()"
+                    "Key" "#turnNumber"
+                    "Value" "wrapContext(encounterContext(), round(%turnNumber + 1))"
+                    "Type" "FIELD_INTEGER"
+                }
+
+                "AdventureSummaryIncrement"
+                {
+                    "Id" "#summary.turnsPlayed"
+                    "Increment" "1"
+                }
+            }
+        }
+
+
+        "turn_marker_cinematic_trigger"
+        {
+            "Passive" "1"
+
+            "OnTurnFinished"
+            {
+            	"QueueCinematic"
+                {
+                    "Cinematic" "#OnEndTurn"
+                    "Optional" "1"
+                }
+            }
+        }
+    }
+}
+

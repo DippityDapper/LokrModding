@@ -1,0 +1,206 @@
+
+
+do 
+	local quest = helper.QuestDefinition();
+	quest.id = 'SwarmEnemy'
+	
+	
+	quest.encounters = {}
+	quest.tags = {"EMERGENT", "TERRAIN_SILVEROAK"}
+
+
+	local theDialog =  dialogs.CreateDialog("intro",  
+						    {
+						        {
+						            type = DialogType.Dialog,
+						            narrator = || __N(1, "Swarm Enemy"),
+						            text = || __D(2, "A swarm of evil magic-infused mosquitoes tirelessly chases us through the forest."),
+						    		icon = || "Asst_Mosquitoes",
+						    		who = || "mapCinematicId",
+						            children = {
+								        {
+						    				type = DialogType.Custom,
+						    				subtype = "diceChallenge",
+						    				text = || __R(3, "Burn them!"),
+						    				challenge = {
+						    					requirements =  |t| t("ct_magic")
+						    					},
+						    				children = {
+												{
+										            type = DialogType.Dialog,
+										            condition = |d| d.challenge.result == "success",
+										            onEnter = function (d,n)
+													    	d.data.hero = d.challenge.heroesSuccess[0]
+													end,
+										            text = || __D(4, "We burned the mosquitoes with shining flames of magic fire. The remainder of the swarm backed away.\n\nWe gathered the charred remains of the mosquitoes to use as potion ingredients."),
+										            who = || "mapCinematicId",
+										            children = {
+												        {
+										    				type = DialogType.Custom,
+										    				subtype = "rewards",
+										    				rewards = || quest.results.burnSuccess,
+										    				rewardsParams = |d| {hero = d.data.hero, hard= cinematicMapHelper.CurrentNode().tags.Contains("hard"), normal= cinematicMapHelper.CurrentNode().tags.Contains("normal")},
+												    		onChoose = function(d,n)
+																cinematicMapHelper.Guild().context.SetInt("lastEmergent", (cinematicMapHelper.Guild().context.GetInt("stepCount")))
+															end,
+												    		exit = true
+														}
+												    }
+										        },
+										        {
+										            type = DialogType.Dialog,
+										            condition = |d| d.challenge.result == "failure",
+										            onEnter = function (d,n)
+													    	d.data.hero = d.challenge.heroesFailure[0]
+													end,
+										            text = || __D(5, "Our magic fire got out of control fast, and we ended up burning ourselves.\n\nWhile we survived the fiery heat, the mosquitoes weren't so lucky."),
+										            who = || "mapCinematicId",
+										            children = {
+												        {
+										    				type = DialogType.Custom,
+										    				subtype = "rewards",
+										    				rewards = || quest.results.burnFailure,
+										    				rewardsParams = |d| {hero = d.data.hero, hard= cinematicMapHelper.CurrentNode().tags.Contains("hard"), normal= cinematicMapHelper.CurrentNode().tags.Contains("normal")},
+												    		onChoose = function(d,n)
+																cinematicMapHelper.Guild().context.SetInt("lastEmergent", (cinematicMapHelper.Guild().context.GetInt("stepCount")))
+															end,
+												    		exit = true
+														}
+												    }
+										        }
+						    				}
+							    		},
+							    		{
+		                                    type = DialogType.Custom,
+		                                    subtype = "item",
+		                                    item = || "coffee",
+		                                    text = || __R(6, "Improvise an ointment."),
+										   	children = {
+												{
+													type = DialogType.Dialog,
+			                                    	text = || __D(7, "We used an energy potion as ointment to repel the mosquitoes. It was very effective."),
+										    		who = || "mapCinematicId",
+										    		children = {
+														{
+										    				type = DialogType.Custom,
+										    				subtype = "rewards",
+										    				rewards = || quest.results.useEnergyPotion,
+										    				rewardsParams = || {hard= cinematicMapHelper.CurrentNode().tags.Contains("hard"), normal= cinematicMapHelper.CurrentNode().tags.Contains("normal")},
+										    				onChoose = function(d,n)
+																cinematicMapHelper.Guild().context.SetInt("lastEmergent", (cinematicMapHelper.Guild().context.GetInt("stepCount")))
+															end,
+												    		exit = true
+														}
+										        	}
+												}
+									        }
+		                                },
+		                                {
+		                                    type = DialogType.Response,
+		                                    text = || __R(8, "Endure the pain."),
+										   	onEnter = function (d,n)
+		                                    	local resultsAvailable = {}
+
+		                                    	
+		                                    	table.insert(resultsAvailable, "a")
+	                                    		table.insert(resultsAvailable, "b")
+	                                    		table.insert(resultsAvailable, "c")
+
+		                                    	local randomOutcome = cinematicMapHelper.RandomItem(resultsAvailable)
+
+		                                    	d.data.outcome = randomOutcome
+		                                    end,
+										   	children = {
+												{
+													type = DialogType.Dialog,
+													condition = |d| d.data.outcome == "a",
+			                                    	text = || __D(9, "We kept running until the mosquitoes were satisfied and left. Their bites had a weakening effect on us."),
+										    		who = || "mapCinematicId",
+										    		children = {
+														{
+										    				type = DialogType.Custom,
+										    				subtype = "rewards",
+										    				rewards = || quest.results.a,
+										    				rewardsParams = || {hard= cinematicMapHelper.CurrentNode().tags.Contains("hard"), normal= cinematicMapHelper.CurrentNode().tags.Contains("normal")},
+												    		onChoose = function(d,n)
+																cinematicMapHelper.Guild().context.SetInt("lastEmergent", (cinematicMapHelper.Guild().context.GetInt("stepCount")))
+															end,
+												    		exit = true
+														}
+										        	}
+												},
+												{
+													type = DialogType.Dialog,
+													condition = |d| d.data.outcome == "b",
+			                                    	text = || __D(10, "We kept running until the mosquitoes were satisfied and left. Their bites had a weakening effect on us."),
+										    		who = || "mapCinematicId",
+										    		children = {
+														{
+										    				type = DialogType.Custom,
+										    				subtype = "rewards",
+										    				rewards = || quest.results.b,
+										    				rewardsParams = || {hard= cinematicMapHelper.CurrentNode().tags.Contains("hard"), normal= cinematicMapHelper.CurrentNode().tags.Contains("normal")},
+												    		onChoose = function(d,n)
+																cinematicMapHelper.Guild().context.SetInt("lastEmergent", (cinematicMapHelper.Guild().context.GetInt("stepCount")))
+															end,
+												    		exit = true
+														}
+										        	}
+												},
+												{
+													type = DialogType.Dialog,
+													condition = |d| d.data.outcome == "c",
+			                                    	text = || __D(11, "We kept running until the mosquitoes were satisfied and left. Their bites had a weakening effect on us."),
+										    		who = || "mapCinematicId",
+										    		children = {
+														{
+										    				type = DialogType.Custom,
+										    				subtype = "rewards",
+										    				rewards = || quest.results.c,
+										    				rewardsParams = || {hard= cinematicMapHelper.CurrentNode().tags.Contains("hard"), normal= cinematicMapHelper.CurrentNode().tags.Contains("normal")},
+												    		onChoose = function(d,n)
+																cinematicMapHelper.Guild().context.SetInt("lastEmergent", (cinematicMapHelper.Guild().context.GetInt("stepCount")))
+															end,
+												    		exit = true
+														}
+										        	}
+												}
+									        }
+		                                },
+						        	}
+						        }
+						    })
+
+	quest.results = {
+		burnFailure = cinematicMapHelper.Result(|params| {
+			{type="doDamage", amount = 2, targets = cinematicMapHelper.Party()},
+			}),
+		burnSuccess = cinematicMapHelper.Result(|params| {
+			{type="item", itemId = "coffee", amount = 1 },
+			{type="giveXP", amount = params.hard and config.rewards.starXp.eHigh() or (params.normal and config.rewards.starXp.eMid() or config.rewards.starXp.eLow())},
+			}),
+		useEnergyPotion = cinematicMapHelper.Result(|params| {
+			{type="giveXP", amount = params.hard and config.rewards.starXp.eHigh() or (params.normal and config.rewards.starXp.eMid() or config.rewards.starXp.eLow())},
+			{type="item", itemId = "coffee", amount = -1},
+			}),
+		a = cinematicMapHelper.Result(|params| {
+			
+			{type="applyModifier", category="energyMod", level =-1, duration = config.rewards.buffDuration.energy(), targets = cinematicMapHelper.PartyRandom(1)},
+			}),
+		b = cinematicMapHelper.Result(|params| {
+			{type="doDamage", amount = 1, targets = cinematicMapHelper.Party()},
+			}),
+		c = cinematicMapHelper.Result(|params| {
+			{type="unit.attribute", kind = "baseDamage", amount = -1, targets = cinematicMapHelper.PartyRandom(1)},
+			}),
+	}
+
+	quest.interruptByChance = || helper.PriorityAndSlots(3, 3)
+	
+	quest.AddCinematic("onReach", cinematicMapHelper.Cinematic({
+									cinematicMapHelper.ShowDialogInstance(theDialog),	
+								}))
+
+
+	helper.AddQuest(quest)
+end

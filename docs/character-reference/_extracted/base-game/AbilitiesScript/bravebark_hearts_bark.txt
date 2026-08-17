@@ -1,0 +1,119 @@
+"bravebark_hearts_bark"
+{
+    "AbilityBehavior"                   "UNIT_TARGET | POSITIVE_EFFECT"
+    "AbilityTeamFilter"                 "TEAM_FRIENDLY"
+
+    "AnimationID"                       "SpellCastE"
+    "Icon"                              "HeartsBark"
+    "CastFXId"                          "BravebarkHeartsBarkCastFXMega"
+
+    "AbilityCastRange"                  "0"
+    "AbilityCooldown"                   "3"
+    "AbilityAPCost"                     "1"
+
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "duration"                  "2"
+        }
+
+        "02"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "extraArmor"                "2"
+        }
+
+        "03"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "extraDamage"                "1"
+        }
+
+        "04"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "damageReduction"           "-1"
+        }
+        "20"
+        {
+            "var_type" "FIELD_STRING"
+            "iconDamageType"  "damagePhysical"
+        }
+    }
+
+    "OnAbilityAction"
+    {
+        "ApplyModifier"
+        {
+            "ModifierName"      "bravebark_hearts_bark_modifier"
+            "Target"            "%TARGET"
+            "Duration"          "%duration"
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"      "modifier_rooted"
+            "Target"            "%TARGET"
+            "Duration"          "%duration"
+        }
+    }
+
+    "Modifiers"
+    {
+        "bravebark_hearts_bark_modifier"
+        {
+            "EffectName" "BravebarkHeartsBarkStatusFXMega"
+
+            "Icon" "ReinforcedBark"
+            "IconPriority" "50"
+
+            "PropertiesAdd"
+            {
+                "extraDamage"       "%extraDamage"
+            }
+
+            "PropertiesAdd"
+            {
+                "armor_max"         "%extraArmor"
+            }
+
+            "OnAdded"
+            {
+                "GiveArmor"
+                {
+                    "Target"        "%TARGET"
+                    "ArmorAmount"   "%extraArmor"
+                }
+            }
+
+            "OnRemoved"
+            {
+                "GiveArmor"
+                {
+                    "Target"        "%TARGET"
+                    "ArmorAmount"   "0"
+                }
+            }
+
+            "OnHitPreProcessDamages"
+            {
+                "Conditional"
+                {
+                    "Condition" "hitDamageOfType(%HIT, @DamageType(DAMAGE_PHYSICAL)) > 0"
+
+                    "Actions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"              "DAMAGE_PHYSICAL"
+                            "Damage"            "%damageReduction"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

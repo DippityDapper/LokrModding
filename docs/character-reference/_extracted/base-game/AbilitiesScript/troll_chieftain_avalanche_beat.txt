@@ -1,0 +1,158 @@
+"troll_chieftain_avalanche_beat"
+{
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"   "2"
+    "AbilityAPCost"     "2"
+    "AnimationID"   "SpellCastB"
+    "CastFXId" "TrollAvalancheBeatCastFXMega"
+    "Icon" "AvalancheBeat"
+
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "aoeRadius"  "2"
+        }
+
+        "02"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "damage"  "ceil(stat(%CASTER, #attackDamage)/2)"
+        }
+
+        "03"
+        {
+            "var_type" "FIELD_EXPRESSION"        
+            "duration"  "1"
+        }
+        "04"
+        {
+            "var_type" "FIELD_FLOAT"        
+            "amountPiles"  "3"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "Times"
+        {
+            "Times" "%amountPiles"
+            "IteratorName" "#index"
+            "Actions"
+            {
+
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"      "unitPosition(%TARGET)"
+                        "Source"    "%CASTER"
+                        "Radius"     "expr(%aoeRadius)"
+                        "Teams"     "TEAM_ENEMY"
+                        "MaxTargets" "1"
+                        "Random" "1"
+                    }
+
+                    "IteratorName" "#newTarget"
+                
+                    "Actions"  
+                    {
+                        "TrackingProjectile"
+                        {
+                            "Target"               "%newTarget"
+                            "SourcePos"             "pointAdd(pointAdd(unitPosition(%newTarget), newPoint(1.5 * (%index + 1), 0, 0)), newPoint(0, 0, 5 + 3 * %index))"
+                            "TargetPos"             "unitPosition(%newTarget, #Chest)"
+                            "Model" "SnowPileProjectile"
+
+                            "Params" 
+                            {
+                                "damage" 
+                                {
+                                    "type" "FIELD_FLOAT"
+                                    "value" "expr(%damage)"
+                                }
+
+                                "shouldFreeze"
+                                {
+                                    "type" "FIELD_FLOAT"
+                                    "value" "safeEquals(%index, 2)"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "OnProjectileHitUnit"
+    {
+
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "TrollAvalancheBeatHitFXMega" 
+            "Tags" "stringList(#PROJECTILE, #AOE)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_PHYSICAL"
+                    "Damage"        "%damage"
+                }
+            }
+
+            "Actions"
+            {
+                "Conditional"
+                {
+                    "Condition" "%shouldFreeze && not(isOnState(%HITTARGET, #DEAD))"
+
+                    "Actions" 
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierTag"    "dot"
+                            "Target"         "%HITTARGET"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"  "modifier_new_freeze"
+                            "Target"        "%HITTARGET"
+                            "Duration"      "expr(%duration)"
+                            "Refresh"   "1"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "2.3"
+            "Considerations"
+            {
+
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+            }
+        }
+    }
+}

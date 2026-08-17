@@ -1,0 +1,74 @@
+"demonic_duplication"
+{
+    "AbilityBehavior"                   "POINT_TARGET | POSITIVE_EFFECT | NEEDS_CLEAR_TERRAIN"
+    "AbilityCastRange"                  "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"                   "4"
+    "AbilityPrewarmCooldown"            "1"
+    "AbilityAPCost"                     "2"
+    "AnimationID"                       "SpellCastA"
+    "Icon"                              "Duplication"
+    "CastFXId"                          "DemonicDuplicationCastFXMega"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "duration"                  "2"
+        }
+
+        "02"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "characterLevel"            "1"
+        }
+
+    }
+
+     "OnAbilityAction"
+    { 
+        "SpawnUnit"
+        {
+            "UnitName"                  "#DemonicDuplicate"
+            "Position"                  "%TARGET"
+            "UnitGroup"                 "unitGroup(%CASTER)"
+            "IsAI"                      "0"
+            "AddToInitiativeOrder"      "0"
+
+            "OnSpawn"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"      "modifier_summon_duplicate"
+                    "Target"            "%UNIT"
+                    "Duration"          "%duration"
+                }
+            }
+        }
+
+        "AttachEffect"
+        {
+            "EffectName"                "DemonicDuplicationSummonFXMega"
+            "Target"                    "%TARGET"
+        } 
+    }
+
+    "Modifiers"
+    {
+        "modifier_summon_duplicate"
+        {
+            "Icon"                      "Summoned"
+            "IconPriority"              "60"
+            "LocalizationId"            "generic_modifier_summoned"
+
+            "OnRemoved"
+            {
+
+                "KillUnit"
+                {
+                    "Target"            "%TARGET"
+                }
+            }
+        }
+    }
+}

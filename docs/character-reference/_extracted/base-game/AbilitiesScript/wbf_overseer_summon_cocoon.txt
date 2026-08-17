@@ -1,0 +1,209 @@
+
+
+
+
+
+
+
+"wbf_overseer_summon_cocoon"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET | DOESNT_CONSUME_MOVE | FAKE_ACTION"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    
+    "AnimationID"   "Attack"
+    "Icon" "cocoon_launch" 
+    "AbilityShowDetailFilter" "stat(%CASTER, #cocoons) > 0"
+
+    "AbilityCastRange" "999"
+    "AbilityCooldown"   "1"
+    "AbilityAPCost"     "1"
+
+    
+
+   
+    "AbilitySpecial" 
+    {
+
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "duration"  "1"
+        }
+
+
+        "02"
+        {
+            "var_type" "FIELD_FLOAT"
+            "aoeRadius"  "1"
+        }
+        
+        "03"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "cocoons"  "stat(%CASTER, #cocoons)"
+        }
+    }
+
+    "OnAbilityStart"
+    {
+        "Delay"
+        {
+            "Time" "0.8"
+            "Actions"
+            {
+                "PlaySound"
+                {
+                    "Sound" "#krl_sfx_combatWBF_cocoonSummon"
+                }
+            }
+        }
+    }
+
+    "OnAbilityAction" 
+    {
+        "ActOnHexas"
+        {
+            "Center" "unitHex(%TARGET)"
+            "Range" "%aoeRadius"
+            "IteratorName" "#hexa"
+            "IteratorIndexName" "#hexaIndex"
+            "RequireEmpty" "1"
+            "Max" "expr(%cocoons)"
+            "Random" "1"
+            
+            "Actions"    
+            {
+                "#TrackingProjectile"
+                {
+                    "SourcePos"             "unitPosition(%SOURCE, #Chest)"
+                    "TargetPos"             "hexPosition(%hexa)"
+                    "Model" "WBFCocoonProjectile"
+                }  
+
+                "Delay"
+                {
+                    "Time"          "0 + (%hexaIndex * 0.2)"
+                    "Actions"
+                    {
+                        "SpawnUnit"
+                        {
+                            "UnitName" "#WBFCocoon"
+                            "Position" "hexPosition(%hexa)"
+                            "UnitGroup" "@UnitGroup(BadSide)"
+
+                            "IsAI" "1"
+                            "Nick" "#Cocoon"
+                            "AddToInitiativeOrder" "1"
+                            
+                            "OnSpawn"
+                            {
+                                "LookAt"
+                                {
+                                    "Target" "%UNIT"
+                                    "LookAt" "unitPosition(%TARGET)"
+                                }
+
+                                "PlayActivityAnimation"
+                                {
+                                    "Target" "%UNIT"
+                                    "Animation" "Spawn"
+                                }
+
+                                "Delay"
+                                {
+                                    "Time" "0.7"
+                                    "Actions"
+                                    {
+                                        "PlaySound"
+                                        {
+                                            "Sound" "#krl_sfx_combatWBF_cocoonLanding"
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                }
+            }
+        }
+    }
+
+
+    "#OnProjectileHitUnit"
+    {
+        "#AttachEffect"
+        {
+            "EffectName" "BarbarianLeapInFXMega" 
+            "Target" "%TARGET"
+        }
+
+        "SpawnUnit"
+        {
+            "UnitName" "#WBFCocoon"
+            "Position" "%TARGET"
+            "UnitGroup" "@UnitGroup(BadSide)"
+
+            "IsAI" "1"
+            "Nick" "#Cocoon"
+            "AddToInitiativeOrder" "1"
+            
+            "OnSpawn"
+            {
+                "PlayActivityAnimation"
+                {
+                    "Target" "%UNIT"
+                    "Animation" "Spawn"
+                }
+            }
+        } 
+    }
+
+
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "90"
+            "Considerations"
+            {
+
+                "#Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+                "Priorizacion Random"
+                {
+                    "Curve" "Linear|0.01|1|0.99|0"
+                    "Consideration" "Random"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+
+                "shouldTrigger"
+                {
+                    "Curve" "Linear|1000|1|0|0.99"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "Min" "0"
+                        "Max" "1"
+                        "Stat" "#cocoons"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+
+
+}

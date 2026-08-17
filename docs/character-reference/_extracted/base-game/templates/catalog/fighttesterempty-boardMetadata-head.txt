@@ -1,0 +1,44 @@
+MonoBehaviour Base
+	PPtr<GameObject> m_GameObject
+		int m_FileID = 0
+		SInt64 m_PathID = -1471499874625189597
+	UInt8 m_Enabled = 1
+	PPtr<MonoScript> m_Script
+		int m_FileID = 0
+		SInt64 m_PathID = -6772448756576834612
+	string m_Name = ""
+	PPtr<$BoxCollider2D> backgroundLimits
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	PPtr<$GameObject> prefab
+		int m_FileID = 0
+		SInt64 m_PathID = 0
+	LevelBoardSave boardMetadata
+		int hexWidth = 16
+		int hexHeight = 20
+		LevelBoardSaveItem boardState
+			Array Array
+			int size = 101
+				[0]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -9
+						int r = 19
+						int s = -10
+					UInt8 walkable = 0
+				[1]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -8
+						int r = 19
+						int s = -11
+					UInt8 walkable = 0
+				[2]
+				LevelBoardSaveItem data
+					HexCoord coord
+						int q = -7
+						int r = 19
+						int s = -12
+					UInt8 walkable = 0
+				[3]
+				... (101 LevelBoardSaveItem entries; all walkable = 0)

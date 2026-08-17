@@ -1,0 +1,89 @@
+
+
+
+
+
+
+
+"dark_smite" 
+{
+     
+    
+    "AbilityBehavior"   "MELEE"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+
+    "AnimationID"   "SpecialAttack"
+    "CastFXId" "RuptureCastFXMega"
+    "Icon" "DarkSmite"
+
+    "AbilityCastRange" "stat(%CASTER, #meleeRange)"
+    "AbilityCooldown"   "3"
+    "AbilityAPCost"     "2"
+
+   
+
+    "AbilitySpecial"
+    {
+
+
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "totalDamage"  "stat(%CASTER, #attackDamage)-1"
+        }
+
+
+
+        "02"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "hitDamage"             "expr(%totalDamage)" 
+        } 
+
+        "03"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "heal" "expr(%hitDamage)/2"
+        }
+
+
+
+    }
+
+
+
+    "OnAbilityAction"
+    {
+        "Hit"
+        {
+            "Target" "%TARGET"
+            "EffectName" "RuptureHitFXMega" 
+            "Tags" "stringList(#MELEE, #TARGETED)"
+
+            "InitActions"
+            {
+                "AddDamage"
+                {
+                    "Type"          "DAMAGE_TRUE"
+                    "Damage"        "expr(%hitDamage)"
+                }
+            }
+
+            "Actions"
+            {
+                 "Heal"
+                {
+                    "Target"        "%HITSOURCE"
+                    "HealAmount"    "expr(%heal)"
+                }    
+                "AttachEffect"
+                {
+                    "EffectName" "HealingFXMega"
+                    "Target" "%HITSOURCE"
+                } 
+            }
+        }
+    }
+
+
+}

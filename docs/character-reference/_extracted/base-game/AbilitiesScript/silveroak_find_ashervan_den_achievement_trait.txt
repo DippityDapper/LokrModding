@@ -1,0 +1,26 @@
+"silveroak_find_ashervan_den_achievement_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "silveroak_find_ashervan_den_achievement_trait_modifier"
+        {
+            "Passive" "1"
+
+            "OnVictory"
+            {
+                
+                "AchievementIncrement"
+                {
+                    "Achievement" "#silveroak_find_ashervan_den"
+                }
+            }
+        }
+    }
+}
+

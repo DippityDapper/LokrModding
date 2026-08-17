@@ -1,0 +1,22 @@
+"escort_rooted"
+{
+    
+    
+    "AbilityBehavior"       "UNIT_TARGET | POSITIVE_EFFECT | PASSIVE"
+
+     "AbilitySpecial"
+    {
+       
+    }
+
+    "Modifiers"
+    {
+        "modifier_escort_rooted"
+        {
+             "States"
+            {
+                "ROOTED" "1"
+            }
+        }
+    }
+}

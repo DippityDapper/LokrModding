@@ -1,0 +1,9 @@
+<Project>
+
+  <!-- Copy this file to Directory.Build.local.props (gitignored) and point GameDir at your own
+       Steam install. Directory.Build.props imports Directory.Build.local.props when present. -->
+  <PropertyGroup>
+    <GameDir>C:\Path\To\Steam\steamapps\common\Legends of Kingdom Rush\</GameDir>
+  </PropertyGroup>
+
+</Project>

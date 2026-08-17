@@ -1,0 +1,85 @@
+"mbf_harbinger_death_monitor"
+{
+    "AbilityBehavior"       "UNIT_TARGET | PASSIVE"
+    
+
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage"  "3"
+        }
+    }
+
+    "Modifiers"
+    {
+        "mbf_harbinger_death_monitor_modifier"
+        {
+
+            "Passive" "1"
+
+            "OnHitPreResult"
+            {
+                "Conditional"
+                {
+                    "Condition" "safeEquals(stat(%TARGET, #health),0)"
+                    "Actions" 
+                    {
+                        "SetStat"
+                        {
+                            "Target" "%TARGET"
+                            "Stat" "#health"
+                            "Value" "1"
+                        }
+
+                        "ActOnTargets"
+                        {
+                            "Target"
+                            {
+                                "Center"      "%TARGET"
+                                "Radius"     "1000"
+                                "Teams"     "TEAM_FRIENDLY"
+                                "CustomFilter" "customUnitFilter(#theUnit, isOnState(%theUnit, #mbfCrystal))"
+                            }
+
+                            "IteratorName" "#newTarget"
+                        
+                            "Actions"    
+                            {
+                                "KillUnit"
+                                {
+                                    "Target"    "%newTarget"
+                                }
+                            }
+                        }
+
+                        "AttachEffect"
+                        {
+                            "EffectName" "MBFTeleportFXMega" 
+                            "Target" "unitPosition(%TARGET)"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "disable_unit_modifier"
+                            "Target"         "%SOURCE"
+                        }
+
+                        "MoveUnit"
+                        {
+                            "Target"        "%TARGET"
+                            "Position"    "newPoint(1000, 1000, 0)"
+                        }
+                              
+                        "QueueCinematic"
+                        {
+                            "Cinematic" "#HarbingerDied"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

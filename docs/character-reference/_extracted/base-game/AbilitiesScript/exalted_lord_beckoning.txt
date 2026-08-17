@@ -1,0 +1,61 @@
+"exalted_lord_beckoning"
+{
+    "AbilityBehavior"           "POINT_TARGET | POSITIVE_EFFECT | NEEDS_CLEAR_TERRAIN | FAKE_ACTION"
+    "AbilityCastRange"          "1"
+    "AbilityCooldown"           "3"
+    "AbilityAPCost"             "0"
+    "CastFXId"                  "ExaltedLordBeckoningCastFXMega"
+    "AnimationID"               "SpecialAttack"
+    "Icon"                      "Beckoning"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "duration"          "4"
+        }
+    }
+
+    "OnAbilityAction"
+    { 
+        "SpawnUnit"
+        {
+            "UnitName"                  "#CultistAcolyte"
+            "Position"                  "%TARGET"
+            "UnitGroup"                 "unitGroup(%CASTER)"
+            "IsAI"                      "isAI(%CASTER)"
+            "AddToInitiativeOrder"      "0"
+
+            "OnSpawn"
+            {
+                "AttachEffect"
+                {
+                    "EffectName"                "SummonCultistSmokeFXMega"
+                    "Target"                    "%UNIT"
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight"                    "20"
+            "Considerations"
+            {
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "expr(%AbilityCastRange)"  
+                    }
+                }
+            }
+        }
+    }
+
+}

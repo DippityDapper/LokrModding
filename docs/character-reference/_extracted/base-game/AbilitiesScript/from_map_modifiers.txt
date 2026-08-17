@@ -1,0 +1,74 @@
+"from_map_modifiers"
+{
+    
+    
+    "AbilityBehavior"       "PASSIVE"
+   
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+
+
+
+
+        "exhausted_from_map_modifier"
+        {
+            "Passive" "1"
+            "MapMapping" "exhausted"
+
+            "PropertiesAdd"
+            {
+                "walkSpeed" "-1"
+                "initiativeModifier" "2"
+            }
+
+            "States"
+            {
+                "WALKING_ENDS_TURN" "1"
+            }
+        }
+
+        "invigorated_from_map_modifier"
+        {
+            "Passive" "1"
+            "MapMapping" "invigorated"
+
+            "PropertiesAdd"
+            {
+                "walkSpeed" "1"
+                "initiativeModifier" "-2"
+            }
+
+            "States"
+            {
+                "FORCE_SIMPLE_ACTIONS" "1"
+            }
+        }
+
+
+        "blessed_from_map_modifier"
+        {
+            "Passive" "1"
+            "MapMapping" "blessed"
+
+            "PropertiesAdd"
+            {
+                "mapDiceGloriousDice" "1"
+            }
+        }
+
+        "cursed_from_map_modifier"
+        {
+            "Passive" "1"
+            "MapMapping" "cursed"
+
+            "PropertiesAdd"
+            {
+                "mapDiceDoomDice" "1"
+            }
+        }
+    }
+}

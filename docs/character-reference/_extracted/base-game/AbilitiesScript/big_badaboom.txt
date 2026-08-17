@@ -1,0 +1,174 @@
+"big_badaboom"
+{
+    "AbilityBehavior"           "POINT_TARGET | POSITIVE_EFFECT | NEEDS_CLEAR_TERRAIN"
+    "AbilityCastRange"          "stat(%CASTER, #rangedAttackRange)"
+    "AbilityCooldown"           "3"
+    "AbilityPrewarmCooldown"    "1"
+    "AbilityAPCost"             "2"
+
+    "AnimationID"               "SpellCastB"
+    "Icon"                      "BigBadaboom"
+    "CastFXId"                  "BigBadaboomCastFXMega"
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "bomb_timer"        "2"
+        }
+
+        "02"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "characterLevel"    "1"
+        }
+        "03"
+        {
+            "var_type"          "FIELD_FLOAT"
+            "bombRadius"        "1"
+        }
+        "04"
+        {
+            "var_type"          "FIELD_EXPRESSION"
+            "bombDamage"        "stat(%CASTER, #level)+3"
+        }
+
+    }
+
+
+    "OnAbilityAction"
+    { 
+        "PlaySound"
+        {
+            "Sound" "#krl_sfx_combatBombardier_badaboomProjectile"
+        }
+
+        "TrackingProjectile"
+        {
+            "SourcePos"             "unitPosition(%SOURCE, #CastPoint)"
+            "TargetPos"             "%TARGET"
+            "Model"                 "BombardierBadaboomProjectile"
+        }   
+    }
+
+    "OnProjectileHitUnit"
+    {   
+        "StopSound"
+        {
+            "Sound"         "#krl_sfx_combatBombardier_badaboomProjectile"
+        }
+
+        "AttachEffect"
+        {
+            "EffectName"            "BigBadaboomLandFXMega"
+            "Target"                "%TARGET"
+        }
+
+        "SetToContext"
+        {
+            "Context"               "currentContext()"
+            "Key"                   "#final_bomb_timer"
+            "Value"                 "randomI(1, 3)"
+            "Type"                  "FIELD_FLOAT"
+        }
+
+
+        "SpawnUnit"
+        {
+            "UnitName"              "#BadaboomBomb"
+            "Position"              "%TARGET"
+            "UnitGroup"             "@UnitGroup(OwnSide)"
+            "IsAI"                  "1"
+            "Nick"                  "#BigBadaboomBomb"
+            "AddToInitiativeOrder"  "1"
+            "OnSpawn"
+            {
+                "PlayActivityAnimation"
+                {
+                    "Target"        "%UNIT"
+                    "Animation"     "Spawn"
+                }
+
+                "SetStat"
+                {
+                    "Target"        "%UNIT"
+                    "Stat"          "#explodeDamage"
+                    "Value"         "expr(%bombDamage)"
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"  "damage_on_remove_modifier"
+                    "Target"        "%UNIT"
+                    "Duration"      "%final_bomb_timer"
+                    "Params"
+                    {
+                        "damage" {
+                            "type"  "FIELD_FLOAT"
+                            "value" "1"
+                        }
+                    }
+                }
+
+                "ApplyModifier"
+                {
+                    "ModifierName"    "big_badaboom_alert_one_turn_remaining_modifier"
+                    "Target"          "%UNIT"
+                    "Duration"        "%final_bomb_timer"
+                    "Params"
+                    {
+                        "remaining" {
+                            "type"      "FIELD_FLOAT"
+                            "value"     "1"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "Modifiers"
+    {
+        "big_badaboom_alert_one_turn_remaining_modifier"
+        {
+            "OnAdded"
+            {
+                "Conditional"
+                {
+                    "Condition" "not(modifierTurnsRemaining(%MODIFIERINSTANCE) > %remaining + 1)"
+                    "Actions"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "big_badaboom_alert_one_turn_remaining_visual_modifier"
+                            "Target"         "%TARGET"
+                        }
+                    }
+                }
+            }
+
+
+            "OnTurnStarted"
+            {
+                "Conditional"
+                {
+                    "Condition" "safeEquals(modifierTurnsRemaining(%MODIFIERINSTANCE), %remaining + 1)"
+                    "Actions"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"    "big_badaboom_alert_one_turn_remaining_visual_modifier"
+                            "Target"         "%TARGET"
+                        }
+                    }
+                }
+            }
+        }
+
+        "big_badaboom_alert_one_turn_remaining_visual_modifier"
+        {
+            "AnimationOverride" "Alert"
+        }
+    }
+}

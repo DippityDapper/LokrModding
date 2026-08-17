@@ -1,0 +1,204 @@
+"mbf_ulgukhai_snow_launch"
+{
+    
+    
+    "AbilityBehavior"   "UNIT_TARGET"
+    "AbilityTeamFilter" "TEAM_ENEMY"
+    "AbilityCastRange" "10"
+    "AbilityCastMinRange" "3" 
+    "AbilityCooldown"   "3"
+    "AbilityAPCost"     "2"
+    "AnimationID"   "SpellCastA"
+    
+    "Icon" "TaintedPull" 
+
+
+   
+    "AbilitySpecial" 
+    {
+        "01"
+        {
+            "var_type" "FIELD_EXPRESSION"
+            "damage"  "3"
+        }
+    }
+
+    "OnAbilityAction"
+    { 
+        "ActOnHexas"
+        {
+            "Center" "unitHex(%SOURCE)"
+            "Range" "1"
+            "IteratorName" "#hexa"
+            "RequireEmpty" "1"
+            "Max" "1"
+            "Random" "1"
+            
+            "Actions"    
+            {
+                "SetToContext"
+                {
+                    "Context" "currentContext()"
+                    "Key" "#targetPos"
+                    "Value" "hexPosition(%hexa)"
+                    "Type" "FIELD_OBJECT"
+                }
+            }
+        }
+    }
+
+    "OnAbilityCustomEvent"
+    {
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction2)"
+
+            "Actions" 
+            {
+                "AttachEffect"
+                {
+                    "EffectName" "MBFUlgukTentacleInFXMega" 
+                    "Target" "unitPosition(%TARGET)"
+                }
+
+                "PlayActivityAnimation"
+                {
+                    "Target" "%TARGET"
+                    "Animation" "TakeDamage"
+                }
+            }
+        }
+
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction3)"
+
+            "Actions" 
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"    "disable_unit_modifier"
+                    "Target"         "%TARGET"
+                }
+
+                "MoveUnit"
+                {
+                    "Target"        "%TARGET"
+                    "Position"    "newPoint(1000, 1000, 0)"
+                }
+            }
+        }
+
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction4)"
+
+            "Actions" 
+            {
+                "AttachEffect"
+                {
+                    "EffectName" "MBFUlgukTentacleOutFXMega" 
+                    "Target" "%targetPos"
+                }
+            }
+        }
+
+        "Conditional"
+        {
+            "Condition" "equal(%customEvent, #AbilityAction5)"
+
+            "Actions" 
+            {
+                "MoveUnit"
+                {
+                    "Target"      "%TARGET"
+                    "Position"    "%targetPos"
+                }
+
+                "RemoveModifier"
+                {
+                    "ModifierName"    "disable_unit_modifier"
+                    "Target"         "%TARGET"
+                }
+
+                
+                "Hit"
+                {
+                    "Target" "%TARGET"
+                    "EffectName" "GenericHitFXMega" 
+                    "Tags" "stringList(#AOE)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "expr(%damage)"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "100"
+            "Considerations"
+            {
+                "skip first turn"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#turnsPlayed"
+                        "Owner" "1"
+                    }
+                }
+
+                "is second action"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "UnitStat"
+                    "Params"
+                    {
+                        "ExactValue" "1"
+                        "Stat" "#actionsTaken"
+                        "Owner" "1"
+                    }
+                }
+
+                "there are enought free hexes arround the end point to move the affected units"
+                {
+                    "Curve" "Linear|1|1|0|0"
+                    "Consideration" "NumberOfFreeHexesAroundHex"
+                    "Params"
+                    {
+                        "Max" "1"
+                        "Owner" "1"
+                    }
+                }
+
+                "is alone"
+                {
+                    "Curve" "Linear|-1|1|1|0"
+                    "Consideration" "UnitsSurrounding"
+                    "Params"
+                    {
+                        "Max" "1"  
+                        "Min" "0" 
+                        "TeamFilter" "TEAM_ENEMY"
+                        "Range" "1"
+                        "Owner" "1"
+                    }
+                }
+            }
+        }
+    }
+}
+
+  

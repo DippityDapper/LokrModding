@@ -1,0 +1,58 @@
+"arenaDiversifier_bashed_heroes_trait"
+{
+    "AbilityBehavior"       "POSITIVE_EFFECT | PASSIVE"
+
+    "AbilitySpecial"
+    {
+    }
+
+    "Modifiers"
+    {
+        "arenaDiversifier_bashed_heroes_modifier"
+        {
+            "Passive" "1"
+
+            "OnStartFight"
+            {
+                "Conditional"
+                {
+                    "Condition" "isDiversifierActive(#bashed_heroes)"
+
+                    "Actions" 
+                    {
+                        "ActOnTargets"
+                        {
+                            "Target"
+                            {
+                                "Center"        "%TARGET"
+                                "Radius"        "9999"
+                                "Teams"         "TEAM_ALL"
+                                "CustomFilter"  "customUnitFilter(#theUnit, matchesGroup(unitGroup(%theUnit), @UnitGroup(GoodSide))"
+                            }
+                            "IteratorName" "#newTarget"
+                            "Actions"    
+                            {
+                                "RemoveHealth"
+                                {
+                                    "Target"                    "%newTarget"
+                                    "HealthToRemove"            "ceil(stat(%newTarget, #health_max)/3)"
+                                }
+                            }
+                        }
+                    }
+
+                    "ElseActions"
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "arenaDiversifier_bashed_heroes_modifier"
+                            "Target"          "%TARGET"
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}
+

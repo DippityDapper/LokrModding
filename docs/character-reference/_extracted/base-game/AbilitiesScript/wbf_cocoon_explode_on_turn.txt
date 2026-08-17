@@ -1,0 +1,254 @@
+"wbf_cocoon_explode_on_turn"
+{
+    
+    
+    "AbilityBehavior"       "UNIT_TARGET | POSITIVE_EFFECT"
+    "AbilityTeamFilter" "TEAM_FRIENDLY"
+
+    "AnimationID"   "Attack"
+    "Icon" "cocoon_explosion"
+
+    "AbilityCastRange" "0"
+    "AbilityCooldown"     "2"
+    "AbilityAPCost"       "1"
+
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "explodeRadius"         "stat(%CASTER, #explodeRadius)"
+        }
+
+        "02"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "explodeDamage"         "stat(%CASTER, #explodeDamage)"
+        }
+
+        "03"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "duration"              "stat(%CASTER, #dotDuration)"
+        }
+
+        "04"
+        {
+            "var_type"              "FIELD_EXPRESSION"
+            "floorDuration"         "stat(%CASTER, #floorDuration)"
+        }
+    }
+
+    "OnAbilityStart"
+    {
+        "Delay"
+        {
+            "Time" "0.7"
+            "Actions"
+            {
+                "PlaySound"
+                {
+                    "Sound" "#krl_sfx_combatWBF_cocoonExplosion"
+                }
+            }
+        }
+    }
+
+    "OnAbilityAction"
+    {   
+        "SetToContext"
+        {
+            "Context" "currentContext()"
+            "Key" "#damageToDo"
+            "Value" "expr(%explodeDamage)"
+            "Type" "FIELD_FLOAT"
+        }
+
+        "KillUnit"
+        {
+            "Target"        "%TARGET"
+            "InstaKill" "1"
+        }
+
+       "ActOnTargets"
+        {
+            "Target"
+            {
+                "Center"      "%TARGET"
+                "Radius"     "expr(%explodeRadius)"
+                "Teams"     "TEAM_ALL"
+                "ReferenceTeam" "unitGroup(%TARGET)"
+            }
+
+            "IteratorName" "#newTarget"
+        
+            "Actions"    
+            {
+                "Hit"
+                {
+                    "Target" "%newTarget"
+                    "EffectName" "RicochetHitFXMega" 
+                    "Tags" "stringList(#AOE)"
+
+                    "InitActions"
+                    {
+                        "AddDamage"
+                        {
+                            "Type"          "DAMAGE_PHYSICAL"
+                            "Damage"        "%damageToDo"
+                        }
+                    }
+
+                    "Actions"
+                    {
+                        "ApplyModifier"
+                        {
+                            "ModifierName"  "modifier_burning"
+                            "Target"        "%HITTARGET"
+                            "Duration"      "expr(%duration)"
+                            "Refresh"   "1"
+                        }
+
+                    }
+                }
+            }
+        }
+
+        
+        
+        "SpawnUnit"
+        {
+            "UnitName"              "#DummyUnit"
+            "Position"              "unitPosition(%TARGET)"
+            "UnitGroup"             "unitGroup(%TARGET)"
+            "IsAI"                  "0"
+            "Nick"                  "#cocoonfloorcontroller"
+            "InheritsInitiative"    "1"
+            "OnSpawn"
+            {
+                "ApplyModifier"
+                {
+                    "ModifierName"      "remove_another_unit_modifier"
+                    "Target"            "%UNIT"
+                    "Duration"          "expr(%floorDuration)"
+                    "Params"
+                    {
+                        "UNIT" 
+                        {
+                            "type"      "FIELD_OBJECT"
+                            "value"     "%UNIT"
+                        }
+                    }
+                }
+
+                "SetToContext"
+                {
+                    "Context"       "currentContext()"
+                    "Key"           "#controllerUnit"
+                    "Value"         "%UNIT"
+                    "Type"          "FIELD_OBJECT"
+                }
+            }
+        }
+
+        "ActOnHexas"
+        {
+            "Center"            "positionHex(unitPosition(%TARGET))"
+            "Range"             "expr(%explodeRadius)"
+            "IteratorName"      "#hexa"
+        
+            "Actions"    
+            {
+                "ActOnTargets"
+                {
+                    "Target"
+                    {
+                        "Center"    "hexPosition(%hexa)"
+                        "Radius"    "0"
+                        "Teams"     "TEAM_ALL"
+                        "Flags"     "INCLUDE_NON_TARGETABLE"
+                    }
+
+                    "IteratorName" "#newTarget"
+                
+                    "Actions"    
+                    {
+                        "RemoveModifier"
+                        {
+                            "ModifierTag"    "floor_effect"
+                            "Target"         "%newTarget"
+                        }
+                    }
+                }
+
+                "SpawnUnit"
+                {
+                    "UnitName"              "#DummyUnit"
+                    "Position"              "hexPosition(%hexa)"
+                    "UnitGroup"             "unitGroup(%TARGET)"
+                    "IsAI"                  "0"
+                    "Nick"                  "#CocoonFloor"
+                    "InheritsInitiative"    "1"
+                    "OnSpawn"
+                    {
+                        "SetState"
+                        {
+                            "Target"    "%UNIT"
+                            "State"     "#SKIP_TURN"
+                            "Value"     "1"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "fire_floor_tile_modifier"
+                            "Target"            "%UNIT"
+                        }
+
+                        "ApplyModifier"
+                        {
+                            "ModifierName"      "remove_another_unit_modifier"
+                            "Target"            "wrapContext(currentContext(), %controllerUnit)"
+                            "Params"
+                            {
+                                "UNIT" 
+                                {
+                                    "type" "FIELD_OBJECT"
+                                    "value" "%UNIT"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        "AttachEffect"
+        {
+            "EffectName" "FireballExplosionFXMega" 
+            "Target" "unitPosition(%TARGET)"
+        }
+    }
+
+
+    "AIConfigB"
+    {
+        "Selection" 
+        {
+            "Weight" "300"
+            "Considerations"
+            {
+                "Priorizacion Por Distance mas cercano"
+                {
+                    "Curve" "Linear|-0.1|1|1|0"
+                    "Consideration" "DistanceToTarget"
+                    "Params"
+                    {
+                        "MaxRange" "10"  
+                    }
+                }
+            }
+        }
+    }
+}
+

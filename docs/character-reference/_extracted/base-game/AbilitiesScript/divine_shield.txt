@@ -1,0 +1,81 @@
+
+
+
+
+
+
+
+"divine_shield"
+{
+    
+    
+    "AbilityBehavior"       "UNIT_TARGET | POSITIVE_EFFECT"
+    "AbilityTeamFilter" "TEAM_FRIENDLY"
+
+    "AnimationID"   "SpellCastB"
+    "CastFXId" "DivineShieldCastFXMega"
+    "Icon" "DivineShield"
+
+    "AbilityCastRange" "stat(%CASTER, #rangedAttackRange)+1"
+    "AbilityCooldown"      "2"
+    "AbilityAPCost"       "1"
+
+
+
+     "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type" "FIELD_FLOAT"
+            "damageReductionPercent" "100"
+        }
+    }
+
+
+    "OnAbilityAction"
+    {
+        "RemoveModifier"
+        {
+            "ModifierTag"    "shield"
+            "Target"         "%TARGET"
+        }
+
+        "ApplyModifier"
+        {
+            "ModifierName"    "modifier_divine_shield"
+            "Target"         "%TARGET"
+        }
+    }
+
+    "Modifiers"
+    {
+        "modifier_divine_shield"
+        {
+
+            "Tags" "shield"
+
+            "EffectName" "DivineShieldStatusFXMega"
+
+            "OnPreHit"
+            {
+                "Conditional"
+                {
+                    "Condition" "hitConnected(%HIT)"
+                    "Actions" 
+                    {
+                        "CancelHit"
+                        {
+
+                        }
+
+                        "RemoveModifier"
+                        {
+                            "ModifierName"    "modifier_divine_shield"
+                            "Target"         "%TARGET"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
