@@ -16,9 +16,12 @@ See also [roadmaps/README.md](../README.md).
 
 [LabSaveUx.cs](../../../LokrLab/Shell/LabSaveUx.cs) owns dirty chrome:
 
-- Animator `CaptureBeforeChange` and Ability form/card edits set
-  `session.IsDirty`. Properties and aliases still write through and do
-  not use the flag.
+- Animator `CaptureBeforeChange`, Ability form/card edits, and (since
+  2026-08-17) Character Properties field edits all set `session.IsDirty`
+  instead of writing through — see
+  [`CharacterProfileService.MarkDirtyAndRefresh`](../../../LokrLab/Character/Editor/General/CharacterProfileService.cs).
+  Aliases (`LabAliasesInspector`) still write through and do not use the
+  flag.
 - File → Save and Ctrl+S call the same write path as Animator Save /
   Ability Save, then clear dirty.
 - The LoKR Lab title on the menu bar (right of File / Edit / View / Help)
