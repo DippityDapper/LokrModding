@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phases 1–4 confirmed in-game 2026-08-17 (round-trip verdict: safe enough to proceed)  
+**Status:** Started — Phases 1–4 confirmed in-game 2026-08-17 (round-trip verdict: safe enough to proceed). Phase 5: ability overriding confirmed end-to-end (Gerald's sword damage formula, real gameplay); Fork and tooltip-token checks still open  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -367,11 +367,25 @@ in the confirm modal; does not block the copy.
 
 ### Phase 5 — In-game confirm protocol
 
-- Override Smash damage only → vanilla Sasquatch in Sandbox / a campaign
-  spot-check
-- Fork wired to one Lab hero → vanilla Sasquatch unchanged
-- Save → `ReloadLabContent(Abilities)` → no parse errors
-- Tooltip tokens (`{MinDamage}`) still resolve after loc edit
+**Status:** Ability overriding confirmed in-game 2026-08-17. Fork and
+tooltip-token checks still open.
+
+- [x] **Override confirmed end-to-end.** Copied Gerald's sword ability
+  as an Override, opened it from the library like any other ability
+  (no dedicated "Edit Vanilla Ability" button needed — Phase 2's
+  design already supports this), changed the min/max damage formula on
+  the Hit card, and saved. Took effect on the base-game Gerald in real
+  gameplay — confirms the full pipeline: copy (Phase 2) → structured
+  edit via the card editor → `AbilityKvIO.TrySave`/`TryBuildText`
+  round-trip (audited safe in Phase 3) → last-wins load → real combat
+  reflects it. Substitutes for the doc's original Sasquatch Smash
+  example; same claim, different ability.
+- [x] Save → `ReloadLabContent(Abilities)` → no parse errors (implied
+  by the above — the edited override loaded and applied cleanly).
+- [ ] Fork wired to one Lab hero → vanilla Sasquatch (or another
+  untouched ability) unchanged — not yet tested.
+- [ ] Tooltip tokens (`{MinDamage}`) still resolve after loc edit —
+  not yet tested.
 
 ---
 
