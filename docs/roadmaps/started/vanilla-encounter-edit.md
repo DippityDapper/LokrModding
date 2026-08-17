@@ -1,6 +1,6 @@
 # Vanilla Encounter Edit
 
-**Status:** Started — Phase 1 (import spike). Third round of same-day fixes 2026-08-17: second in-game test found host units double-spawning, fixed by suppressing the host room's own baked spawn/prop init — which incidentally unmasked a separate, pre-existing prop-loading bug (the host had been the only thing actually rendering props all along; the Lab's own prop-loading path, keyed off an editor-only `prefabName` string vanilla's runtime never reads, had likely never worked). Third test found props gone entirely; fixed by loading props via `prefabReference.name` (what the game itself actually instantiates) instead. Re-confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
+**Status:** Started — Phase 1 (import spike). Four rounds of same-day fixes 2026-08-17: second in-game test found host units double-spawning, fixed by suppressing the host room's own baked spawn/prop init — which incidentally unmasked a separate, pre-existing prop-loading bug (the host had been the only thing actually rendering props all along; the Lab's own prop-loading path, keyed off an editor-only `prefabName` string vanilla's runtime never reads, had likely never worked). Third test found props gone entirely; fixed by loading props via `prefabReference.name` instead. That same test also surfaced a real gap the host-spawn-suppress fix exposed: vanilla's ambient non-combat units (farmers, villagers) had no Lab equivalent at all — added a new "Decorative Units" concept (schema v14) alongside Combatants and Props. Re-confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Encounter
@@ -295,6 +295,36 @@ distinguishing the two: this patch only affects the Lab's own embed,
 not `LevelManager.CreateLevelFromFile` for a real campaign load, which
 Phase 5 still needs to hook separately).
 
+**New (third in-game test, 2026-08-17): decorative (non-combat) units —
+`combat_goblinraid`'s farmers.** After the host-spawn-suppress fix
+above, the user reported the room's ambient farmers had stopped
+appearing at all, correctly guessing they were units (exoskeleton rig)
+rather than static props, and that the Lab had nowhere to put them.
+Confirmed: vanilla's `EncounterData.spawnDataCinematicUnits` (a fourth
+spawn list, sibling to `spawnDataHeroes`/`spawnDataEnemies`) is exactly
+this — real `Unit` rigs with idle animation that `EncounterDefinition.CreateUnit`
+flags `NON_TARGETABLE` / `NOT_IN_INITIATIVE_BAR` / `IS_CINEMATIC` /
+`UnitGroup.CinematicSide` so they stand on the board but never join
+initiative. The same per-entry `isCinematic` config flag can *also*
+appear on individual `spawnDataHeroes`/`spawnDataEnemies` entries, not
+just the dedicated list — Phase 1's original `ImportSpawns` already
+detected this flag but only used it to drop the entry, undercounting
+`CinematicDropped`; both paths now route to the same place instead.
+
+Added `EncounterDecorationModel` (schema v14), `EncounterDecorationRules`,
+and `EncounterDecorations` (mirrors `EncounterPropModel`/`Rules`/`Props`,
+but spawns a real `Unit` via `SandboxRoster.SpawnAt` — the same rig-spawn
+path a combatant uses — rather than a static mesh, then applies the same
+four cinematic flags vanilla's own `CreateUnit` sets). Distinct from both
+`Props` (no rig, can't animate) and `Combatants` (joins initiative,
+counted for win/loss `CountSide`) — a new Node Tree "Decorations" folder,
+`File → Add Decorative Unit` (no catalogue; mints a blank row, edited via
+a unit-id combo field the same suggestions as a combatant's unit id
+use). The `ImportResult.CinematicDropped` counter is retired —
+everything that was being silently dropped is now imported as a
+decoration and counted in the new `CinematicImported` field instead.
+Not yet confirmed in-game.
+
 **Originally deferred, now covered above:** `props[]`, `tiles[]`, and
 `camera` were explicitly deferred to Phase 2/3 in the initial cut — the
 imported project kept `template` set to the vanilla name so host art
@@ -329,7 +359,11 @@ for variant-count warnings on rooms with more than one
 `EncounterBkgDefinition`; try a 20×24 room (e.g. from the "What
 fraction are 20×24" open question) to confirm the `AuthoredSize` fix
 still produces a correctly-sized live board instead of clipping at the
-old hardcoded 16×20.
+old hardcoded 16×20; import `combat_goblinraid` and confirm its farmers
+show up as rows under the new Decorations Node Tree folder, spawn on
+the board, stand idle (never join initiative or take a turn — check the
+initiative bar has no extra entries), and are editable (unit id, hex,
+facing) the same way a Prop is.
 
 In-game, read-only: load `combat_banditambush` the way
 `EncounterTerrainCatalog.LoadPrefab` already does. Read the encounter

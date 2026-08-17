@@ -20,6 +20,7 @@ namespace LokrModding.Tests.Lab
 			Assert.Empty(parsed.Tiles);
 			Assert.Empty(parsed.Terrains);
 			Assert.Empty(parsed.Props);
+			Assert.Empty(parsed.Decorations);
 			Assert.Null(parsed.Camera);
 			Assert.DoesNotContain("\"camera\"", json);
 			Assert.False(parsed.WalkableDefault);
@@ -28,7 +29,55 @@ namespace LokrModding.Tests.Lab
 			Assert.Contains("\"tiles\": []", json);
 			Assert.Contains("\"terrains\": []", json);
 			Assert.Contains("\"props\": []", json);
+			Assert.Contains("\"decorations\": []", json);
 			Assert.Contains("\"tilesDefault\": false", json);
+		}
+
+		[Fact]
+		public void DecorationsRoundTrip_KeepsUnitIdAndPlacement()
+		{
+			EncounterFileModel model = EncounterFileModel.CreateEmpty();
+			model.Template = "combat_goblinraid";
+			model.Decorations.Add(new EncounterDecorationModel
+			{
+				Id = "farmer_1",
+				UnitId = "Farmer",
+				Col = 8,
+				Row = 12,
+				Flipped = true
+			});
+			model.Decorations.Add(new EncounterDecorationModel
+			{
+				Id = "farmer_2",
+				UnitId = string.Empty
+			});
+
+			Assert.True(EncounterFileModel.TryParse(model.ToJson(), out EncounterFileModel parsed, out string error));
+			Assert.Null(error);
+			Assert.Equal(2, parsed.Decorations.Count);
+			Assert.Equal("farmer_1", parsed.Decorations[0].Id);
+			Assert.Equal("Farmer", parsed.Decorations[0].UnitId);
+			Assert.Equal(8, parsed.Decorations[0].Col);
+			Assert.Equal(12, parsed.Decorations[0].Row);
+			Assert.True(parsed.Decorations[0].Flipped);
+			Assert.Equal("farmer_2", parsed.Decorations[1].Id);
+			Assert.Equal(string.Empty, parsed.Decorations[1].UnitId);
+			Assert.Null(parsed.Decorations[1].Col);
+			Assert.Null(parsed.Decorations[1].Row);
+		}
+
+		[Fact]
+		public void ValidateDecoration_RejectsBadIdButAllowsEmptyUnitId()
+		{
+			Assert.Null(EncounterFileModel.ValidateDecoration(
+				new EncounterDecorationModel { Id = "farmer_1", UnitId = string.Empty },
+				new HashSet<string>()));
+			Assert.NotNull(EncounterFileModel.ValidateDecoration(
+				new EncounterDecorationModel { Id = "Bad Id!", UnitId = "Farmer" },
+				new HashSet<string>()));
+			Assert.NotNull(EncounterFileModel.ValidateDecoration(
+				new EncounterDecorationModel { Id = "farmer_1", UnitId = "Farmer" },
+				new HashSet<string> { "farmer_1" }));
 		}
 
 		[Fact]
@@ -189,7 +238,7 @@ namespace LokrModding.Tests.Lab
 			string json = empty.ToJson();
 			Assert.True(EncounterFileModel.TryParse(json, out EncounterFileModel parsed, out string error));
 			Assert.Null(error);
-			Assert.Equal(13, EncounterFileModel.CurrentSchemaVersion);
+			Assert.Equal(14, EncounterFileModel.CurrentSchemaVersion);
 			Assert.False(parsed.Exploration);
 			Assert.Equal(EncounterFileModel.DefaultAggroRadiusValue, parsed.DefaultAggroRadius);
 			Assert.Contains("\"exploration\": false", json);
