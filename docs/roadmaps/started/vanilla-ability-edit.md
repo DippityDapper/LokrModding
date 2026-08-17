@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phases 1–3 confirmed in-game 2026-08-17. Phase 3 verdict: round-trip is safe enough to proceed, one narrow gap flagged for before Phase 4/5  
+**Status:** Started — Phases 1–3 confirmed in-game 2026-08-17 (round-trip verdict: safe enough to proceed). Phase 4 (blast radius + confirm modal) code complete, in-game confirm pending  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -311,11 +311,59 @@ just the tool.
 
 ### Phase 4 — Blast radius (“Used by”)
 
-`AbilityUsage` only sees loaded `UnitDefinition` + Lab `character.json`.
-Extend the scan to extracted `RLHeroes_new.txt` and EnemiesDefinitions.
-Warn on global modifier id collisions (`ability_modifiers` is flat).
-Confirm modal for override save. Consider a blocklist (tutorial /
-progression ids).
+**Status:** Code complete 2026-08-17. In-game confirm pending.
+
+Same live-data pattern as Phases 1–2: extended the scan to
+`RLHeroes_new.txt`/`EnemiesDefinitions` via a **live read**, not the
+dev-only extract —
+[`VanillaUnitCatalog`](../../../LokrLab/Ability/Editor/VanillaUnitCatalog.cs)
+parses `Balance/UnitDefinitions` (the folder `UnityDefinitionsParser.LoadData`
+hardcodes; no private field to `Traverse` the way
+`AbilitiesDefinitions.abilitiesFolder` works) via
+`UnityDefinitionsParser.instance.ParseText` — already Harmony-patched
+to drop the duplicate-key crash — so it's always vanilla-only.
+
+New `AbilityUsage.BlastRadius(abilityId)` unions three sources: live
+`CharacterAPI.KnownUnitDefinitions`, the full `VanillaUnitCatalog`, and
+Lab `character.json` folders parsed structurally via
+`CharacterProfileSidecar` (not `ScanDiskCharacters`'s raw substring
+match, which false-positives on any string field that happens to equal
+the ability id). Deliberately a **new** method — `CharactersUsing`
+(the existing one) is left untouched, since
+`AbilitySandboxViewport` relies on its `used[0]` to pick the sandbox
+caster, and widening that in place would change caster selection.
+
+Modifier collisions: `VanillaAbilityImporter.FindModifierCollisions`
+checks every modifier id the ability's body defines or references
+against the engine's flat `AbilitiesDefinitions.ability_modifiers`
+table. **Real finding, not just plumbing:** this importer never
+rekeys modifier ids (only the ability's own top-level id changes for
+Fork — see `CollectModifierStems`'s own remarks), so a Fork copy that
+keeps a vanilla modifier id still globally replaces that same
+`ability_modifiers` entry at load — any *other* vanilla ability that
+`ApplyModifier`s that id gets the fork's edited version too, even
+though "vanilla is untouched" is the whole pitch of Fork. Surfaced as
+a sharper warning for Fork than for Override (where a modifier
+collision is expected — that's what last-wins means) in the new
+confirm modal, not silently fixed — actually rekeying modifier ids is
+a bigger change than this phase's "warn" scope asked for.
+
+Confirm modal added in front of both Copy buttons (`VanillaAbilityBrowserModal`
+— mirrors `ProjectBrowser`'s delete-confirm `pendingDelete` pattern):
+shows the blast radius, a tutorial-content flag (see below), and any
+modifier collisions before `VanillaAbilityImporter.TryImport` actually
+runs. Also fixed a stale explainer string left over from Phase 1
+("Neither is wired up yet") that no longer matched reality once Phase
+2 shipped Copy.
+
+Blocklist: implemented as a **soft signal, not a hard block**, matching
+the roadmap's "consider" framing. `VanillaUnitCatalog.IsFromTutorialAsset`
+flags a unit whose *source Resources asset name* contains "Tutorial"
+(e.g. `EnemiesDefinitions_Tutorial`) — a real, data-driven signal with
+no hardcoded id list, since `VanillaUnitCatalog` is the only place in
+this codebase that retains per-definition source-asset provenance
+(`CharacterAPI.KnownUnitDefinitions` doesn't). Shown as a warning line
+in the confirm modal; does not block the copy.
 
 ### Phase 5 — In-game confirm protocol
 
