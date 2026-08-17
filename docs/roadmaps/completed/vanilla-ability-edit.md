@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phases 1–4 confirmed in-game 2026-08-17 (round-trip verdict: safe enough to proceed). Phase 5: ability overriding confirmed end-to-end (Gerald's sword damage formula, real gameplay); Fork and tooltip-token checks still open  
+**Status:** Complete — Phases 1–5 confirmed in-game 2026-08-17. Override create/edit/save/revert all confirmed end-to-end (Gerald's sword damage formula, real gameplay); Fork and tooltip-token checks accepted as an intentionally lower-priority gap, not blocking (see Phase 5)  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -367,8 +367,10 @@ in the confirm modal; does not block the copy.
 
 ### Phase 5 — In-game confirm protocol
 
-**Status:** Ability overriding confirmed in-game 2026-08-17. Fork and
-tooltip-token checks still open.
+**Status:** Complete. Ability overriding confirmed end-to-end in-game
+2026-08-17, including delete-to-revert. Fork and tooltip-token checks
+were not separately exercised — accepted as a deliberate scope call
+(see below), not an oversight.
 
 - [x] **Override confirmed end-to-end.** Copied Gerald's sword ability
   as an Override, opened it from the library like any other ability
@@ -382,10 +384,22 @@ tooltip-token checks still open.
   example; same claim, different ability.
 - [x] Save → `ReloadLabContent(Abilities)` → no parse errors (implied
   by the above — the edited override loaded and applied cleanly).
+- [x] **Delete-to-revert confirmed.** Deleting the override folder
+  reverts Gerald's ability back to the base-game formula — mirrors the
+  Character track's own "Remove the Lab folder → vanilla Gerald
+  returns" confirm, and validates the Override-copy delete fix made
+  earlier on this same track (`AbilityListPanel.DeleteAbilityFolder`).
 - [ ] Fork wired to one Lab hero → vanilla Sasquatch (or another
-  untouched ability) unchanged — not yet tested.
+  untouched ability) unchanged — not separately tested. Lower risk
+  than it sounds: Fork's block-key rekey is the same code path already
+  exercised implicitly (Override skips the rekey, Fork's copy button
+  runs it) every time a Fork copy was made in Phases 2 and 4's
+  testing; what's untested is specifically whether a *forked* copy,
+  once wired to a Lab hero, leaves an unrelated vanilla ability alone.
 - [ ] Tooltip tokens (`{MinDamage}`) still resolve after loc edit —
-  not yet tested.
+  not separately tested. `VanillaAbilityImporter.WriteLocalization`
+  pulls real loc strings (not placeholder text) on copy, so this is
+  likely fine, but wasn't watched for directly in the Gerald test.
 
 ---
 

@@ -40,7 +40,7 @@ Hub docs at this level: [phasing.md](phasing.md), [vision-and-extensibility.md](
 | **Editor redesign** | **Phase 9 complete** — Ability Library project type; Phase 10 is [Encounter Creator](started/encounter-creator.md) | [editor-redesign.md](started/editor-redesign.md) |
 | **Encounter Creator** | **Started** — Phases 1–17 confirmed in-game 2026-08-17 (LokrLab 0.12.104) | [encounter-creator.md](started/encounter-creator.md) |
 | **Vanilla Character Edit** | **Complete** — Phases 1–5 all confirmed in-game 2026-08-17 | [vanilla-character-edit.md](completed/vanilla-character-edit.md) |
-| **Vanilla Ability Edit** | **Started** — Phases 1–4 confirmed in-game 2026-08-17; round-trip safe enough to proceed | [vanilla-ability-edit.md](started/vanilla-ability-edit.md) |
+| **Vanilla Ability Edit** | **Complete** — Phases 1–5 confirmed in-game 2026-08-17 | [vanilla-ability-edit.md](completed/vanilla-ability-edit.md) |
 | **Vanilla Encounter Edit** | **Not started** — research | [vanilla-encounter-edit.md](not-started/vanilla-encounter-edit.md) |
 | **LokrLab suite merge** | **Complete** — confirmed in-game 2026-08-15 | [lab-suite-merge.md](completed/lab-suite-merge.md) |
 | **Issue resolution tests** | **Started** — Pass 1–2 code done; in-game checklist partial (party stow / inventory confirmed; sanitize 4-hero and vanilla-trio steps not run) | [issue-resolution-in-game-tests.md](started/issue-resolution-in-game-tests.md) |
@@ -68,6 +68,7 @@ Hub docs at this level: [phasing.md](phasing.md), [vision-and-extensibility.md](
 | [test-suite.md](completed/test-suite.md) | xUnit suite, plugin-by-plugin coverage, `unresolved-tested/` issue folder |
 | [base-game-html-docs.md](completed/base-game-html-docs.md) | Fill all 1631 Base Game Reference HTML pages (Pass A/B/C complete) |
 | [vanilla-character-edit.md](completed/vanilla-character-edit.md) | Open / override shipped heroes; Phases 1–5 (Loader last-wins, extract, Lab UX, all in-game confirms) all done 2026-08-17 |
+| [vanilla-ability-edit.md](completed/vanilla-ability-edit.md) | Open / override / fork shipped abilities; Phases 1–5 (browser, copy-into-library, fidelity audit, blast radius, in-game confirm) all done 2026-08-17 |
 | [archive/](completed/archive/) | Historical implementation plans (shipped) |
 
 ---
@@ -80,7 +81,6 @@ Hub docs at this level: [phasing.md](phasing.md), [vision-and-extensibility.md](
 | [character-lab-loader-pre-redesign-audit.md](started/character-lab-loader-pre-redesign-audit.md) | Pre-UI-redesign bug/architecture audit (Lab + Loader) |
 | [editor-redesign.md](started/editor-redesign.md) | `LokrLab`: dockable Godot-style editor shell generalized into a project-type framework (Character, Ability Library, Encounter, …) — node tree, inspector/workspace/bottom-panel/menu registries, SimpleUI docking primitives. Phase 0–9 complete; Phase 10 is [encounter-creator.md](started/encounter-creator.md) |
 | [encounter-creator.md](started/encounter-creator.md) | Own project type; target is a visual map editor. Phase 13 terrain catalog in 0.12.64; Phase 12 confirmed in-game |
-| [vanilla-ability-edit.md](started/vanilla-ability-edit.md) | Open / override shipped abilities; research-first, Phases 1–4 confirmed in-game 2026-08-17 (browser, copy-into-library, fidelity audit, blast radius) |
 | [issue-resolution-in-game-tests.md](started/issue-resolution-in-game-tests.md) | In-game test checklist for the 2026-08-15 unresolved-issue campaign |
 
 ---

@@ -23,6 +23,6 @@ top of that card, not a rewrite of Ability Lab.
 
 Before Adventures, research vanilla edit for all three labs:
 [vanilla-character-edit.md](../completed/vanilla-character-edit.md),
-[vanilla-ability-edit.md](../started/vanilla-ability-edit.md),
+[vanilla-ability-edit.md](../completed/vanilla-ability-edit.md),
 [vanilla-encounter-edit.md](vanilla-encounter-edit.md).
 

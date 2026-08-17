@@ -49,8 +49,8 @@ order — [priorities.md](completed/full-port/priorities.md) gives its own prior
 8. **Vanilla asset edit** — before Custom Adventures.
    [vanilla-character-edit.md](completed/vanilla-character-edit.md) is
    **complete** (Phases 1–5 all confirmed in-game 2026-08-17).
-   [vanilla-ability-edit.md](started/vanilla-ability-edit.md) is
-   **started** (Phases 1–4 confirmed in-game 2026-08-17 (browser, copy-into-library, fidelity audit, blast radius)).
+   [vanilla-ability-edit.md](completed/vanilla-ability-edit.md) is
+   **complete** (Phases 1–5 confirmed in-game 2026-08-17).
    [vanilla-encounter-edit.md](not-started/vanilla-encounter-edit.md)
    stays research. Custom scripting and Custom Adventures stay on
    [extensions.md](not-started/extensions.md) (quest / map authoring,
