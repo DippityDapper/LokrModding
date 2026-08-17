@@ -14,7 +14,7 @@ them as that hero — or forks them safely.
 `UnityDefinitionsParserPatches` and `HeroRosterManagerPatches` so Lab
 last-wins, the same way abilities already last-write.
 
-Sibling tracks: [vanilla-ability-edit.md](../not-started/vanilla-ability-edit.md),
+Sibling tracks: [vanilla-ability-edit.md](../started/vanilla-ability-edit.md),
 [vanilla-encounter-edit.md](../not-started/vanilla-encounter-edit.md).
 See also [legacy-pack-port.md](../completed/legacy-pack-port.md),
 [character-importer.md](../../../LokrLab/docs/character/character-importer.md),

@@ -40,7 +40,7 @@ Hub docs at this level: [phasing.md](phasing.md), [vision-and-extensibility.md](
 | **Editor redesign** | **Phase 9 complete** — Ability Library project type; Phase 10 is [Encounter Creator](started/encounter-creator.md) | [editor-redesign.md](started/editor-redesign.md) |
 | **Encounter Creator** | **Started** — Phases 1–17 confirmed in-game 2026-08-17 (LokrLab 0.12.104) | [encounter-creator.md](started/encounter-creator.md) |
 | **Vanilla Character Edit** | **Complete** — Phases 1–5 all confirmed in-game 2026-08-17 | [vanilla-character-edit.md](completed/vanilla-character-edit.md) |
-| **Vanilla Ability Edit** | **Not started** — research | [vanilla-ability-edit.md](not-started/vanilla-ability-edit.md) |
+| **Vanilla Ability Edit** | **Started** — Phase 1 (read-only reference browser) in progress | [vanilla-ability-edit.md](started/vanilla-ability-edit.md) |
 | **Vanilla Encounter Edit** | **Not started** — research | [vanilla-encounter-edit.md](not-started/vanilla-encounter-edit.md) |
 | **LokrLab suite merge** | **Complete** — confirmed in-game 2026-08-15 | [lab-suite-merge.md](completed/lab-suite-merge.md) |
 | **Issue resolution tests** | **Started** — Pass 1–2 code done; in-game checklist partial (party stow / inventory confirmed; sanitize 4-hero and vanilla-trio steps not run) | [issue-resolution-in-game-tests.md](started/issue-resolution-in-game-tests.md) |
@@ -80,6 +80,7 @@ Hub docs at this level: [phasing.md](phasing.md), [vision-and-extensibility.md](
 | [character-lab-loader-pre-redesign-audit.md](started/character-lab-loader-pre-redesign-audit.md) | Pre-UI-redesign bug/architecture audit (Lab + Loader) |
 | [editor-redesign.md](started/editor-redesign.md) | `LokrLab`: dockable Godot-style editor shell generalized into a project-type framework (Character, Ability Library, Encounter, …) — node tree, inspector/workspace/bottom-panel/menu registries, SimpleUI docking primitives. Phase 0–9 complete; Phase 10 is [encounter-creator.md](started/encounter-creator.md) |
 | [encounter-creator.md](started/encounter-creator.md) | Own project type; target is a visual map editor. Phase 13 terrain catalog in 0.12.64; Phase 12 confirmed in-game |
+| [vanilla-ability-edit.md](started/vanilla-ability-edit.md) | Open / override shipped abilities; research-first, Phase 1 read-only reference browser in progress |
 | [issue-resolution-in-game-tests.md](started/issue-resolution-in-game-tests.md) | In-game test checklist for the 2026-08-15 unresolved-issue campaign |
 
 ---
@@ -89,7 +90,6 @@ Hub docs at this level: [phasing.md](phasing.md), [vision-and-extensibility.md](
 | Doc | Contents |
 |-----|----------|
 | [extensions.md](not-started/extensions.md) | Custom scripting (Lua card shipped; later plugin unblocked), Custom Adventures (after Encounter Creator + vanilla-edit research) |
-| [vanilla-ability-edit.md](not-started/vanilla-ability-edit.md) | Open / override shipped abilities (last-wins already; refine load if needed) |
 | [vanilla-encounter-edit.md](not-started/vanilla-encounter-edit.md) | Reconstruct shipped rooms; optional guarded campaign load override |
 
 ---

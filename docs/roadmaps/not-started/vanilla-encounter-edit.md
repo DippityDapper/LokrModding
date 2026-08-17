@@ -22,7 +22,7 @@ here. [Custom Adventures](extensions.md) is still quest chains / maps,
 not “one room override.”
 
 Sibling tracks: [vanilla-character-edit.md](../completed/vanilla-character-edit.md),
-[vanilla-ability-edit.md](vanilla-ability-edit.md). Builds on
+[vanilla-ability-edit.md](../started/vanilla-ability-edit.md). Builds on
 [encounter-creator.md](../started/encounter-creator.md) Phases 1–17
 (confirmed in-game 2026-08-17).
 

@@ -17,8 +17,9 @@ See [phasing.md](phasing.md) — core v1 (items 1–5) is complete. **Item 6:
 confirmed in-game 2026-08-17. **Item 8:** vanilla asset edit.
 [Character](completed/vanilla-character-edit.md) is complete (Phases
 1–5 all confirmed in-game 2026-08-17).
-[Ability](not-started/vanilla-ability-edit.md) and
-[encounter](not-started/vanilla-encounter-edit.md) stay research.
+[Ability](started/vanilla-ability-edit.md) is started (Phase 1 read-only
+reference browser in progress).
+[Encounter](not-started/vanilla-encounter-edit.md) stays research.
 Custom scripting (later plugin) and Custom Adventures stay on
 [extensions.md](not-started/extensions.md).
 
