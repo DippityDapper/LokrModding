@@ -1,7 +1,7 @@
 # Animator Play is laggy, and gets worse with more frames
 
 Area: LokrLab Character Animator (`RigEditorScene`, `AnimationTimelinePanel`)
-Status: unresolved
+Status: resolved
 
 As of 2026-08-17: pressing Play on a clip in the Animator workstation is
 noticeably laggy, and the lag scales with the clip's frame count — even a
@@ -116,3 +116,7 @@ running game.
 workstation; confirm it runs smoothly with no stutter, and that editing
 (add/delete/move frame, switching clips, Copy/Paste/Override frame) still
 updates the chip strip correctly afterward.
+
+## Resolved (2026-08-17)
+
+Confirmed in the running game: framerate during Play is far better.
