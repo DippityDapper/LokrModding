@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phases 1–3 confirmed in-game 2026-08-17 (round-trip verdict: safe enough to proceed). Phase 4 (blast radius + confirm modal) code complete, in-game confirm pending  
+**Status:** Started — Phases 1–4 confirmed in-game 2026-08-17 (round-trip verdict: safe enough to proceed)  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -311,7 +311,7 @@ just the tool.
 
 ### Phase 4 — Blast radius (“Used by”)
 
-**Status:** Code complete 2026-08-17. In-game confirm pending.
+**Status:** Complete — confirmed in-game 2026-08-17.
 
 Same live-data pattern as Phases 1–2: extended the scan to
 `RLHeroes_new.txt`/`EnemiesDefinitions` via a **live read**, not the
