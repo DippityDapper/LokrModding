@@ -1,6 +1,6 @@
 # Vanilla Encounter Edit
 
-**Status:** Started — Phase 1 (import spike). Second in-game test 2026-08-17 confirmed floor/walkable/camera/props fixes worked but found host units double-spawning; fixed same day, re-confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
+**Status:** Started — Phase 1 (import spike). Third round of same-day fixes 2026-08-17: second in-game test found host units double-spawning, fixed by suppressing the host room's own baked spawn/prop init — which incidentally unmasked a separate, pre-existing prop-loading bug (the host had been the only thing actually rendering props all along; the Lab's own prop-loading path, keyed off an editor-only `prefabName` string vanilla's runtime never reads, had likely never worked). Third test found props gone entirely; fixed by loading props via `prefabReference.name` (what the game itself actually instantiates) instead. Re-confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Encounter
@@ -107,7 +107,7 @@ source (see Phase 1's "Corrections to this doc's original assumptions"):
 | `spawnDataEnemies` (`unitGroup` config key decides side) | `source="unit"` | High |
 | `spawnDataCinematicUnits` | — | No — no Lab equivalent, drop |
 | `boardMetadata` (on `EncounterBkgDefinition`, a separately-randomized sibling) | `overrides[]` | High — sparse impassable-list semantics match Lab's `walkableDefault:true` exactly |
-| `TemplateObjectData` (`encounterObjs`) — has both a PPtr **and** a serialized `prefabName` string | `props[]` names | Medium — try `prefabName` first, PPtr is a fallback, not the only path |
+| `TemplateObjectData` (`encounterObjs`) — has both a PPtr **and** a serialized `prefabName` string | `props[]` names | High for the parent prop (use `prefabReference.name` — vanilla's own runtime never reads `prefabName`, it's editor-only and often blank); nested `TemplateObjectDataChild` sub-decorations are not imported (PPtr-only, no name field) |
 | Tilemap | `tiles[]` / `terrains[]` | `terrains[]` free via existing `EncounterTerrainCatalog` scan; per-cell `tiles[]` likely skippable when `template` is kept (host already paints the floor) |
 | `encounterLimits` | `camera` | Low as a direct read — it's all zeros on a cold prefab (assigned at runtime from a runtime-created `BoxCollider2D`); must be recomputed from `EncounterBkgDefinition`'s mesh/`TileTestController`, or skipped in favor of deriving `camera` from the imported board extent |
 | `CheckCanSpawn` (quest / `variant-chance` / darkness / quest-context gates) | — | No direct Lab equivalent; raw prefab read is a strict *superset* of what any one playthrough sees — decide per-spawn whether to import gated-but-inactive entries |
@@ -120,11 +120,13 @@ source (see Phase 1's "Corrections to this doc's original assumptions"):
 
 ### Phase 1 — Import spike (one room)
 
-**Status:** First in-game test (2026-08-17) found four real bugs, all
-root-caused against decompiled source and fixed same day — see "First
-in-game test: four bugs found and fixed" below. Both open questions
-resolved against decompiled source (below). Re-test pending; nothing
-below is confirmed until the user re-runs the picker in-game.
+**Status:** Three rounds of in-game testing on 2026-08-17, each finding
+real bugs, all root-caused against decompiled source and fixed same
+day — see "First in-game test: four bugs found and fixed", "Confirmed
+and fixed (second in-game test)", and the props follow-up inside bug 4,
+below. Both open questions resolved against decompiled source (below).
+Re-test pending; nothing below is confirmed until the user re-runs the
+picker in-game.
 
 **Implementation.** [`VanillaEncounterImporter`](../../../LokrLab/Encounter/VanillaEncounterImporter.cs)
 reads `EncounterTemplate.encounterDefinitions[0]` /
@@ -223,14 +225,43 @@ Lab's editor. All four were real, all four are now fixed in
    → `EncounterEntitiesGenerator.InstantiateObject`, not the spawn-team
    instantiation). Now imported as unsnapped, free-placed
    `EncounterPropModel` rows (`X`/`Y` = the struct's raw `xPos`/`yPos`,
-   `Flipped` = `flipX`, `PrefabName` = `prefabName` lowercased) — these
-   are already in the same room-local frame `spawnPos` uses, so no hex
-   conversion or pad math applies to them, matching the precedent set
-   for spawns. Nested `TemplateObjectDataChild` sub-decorations (a
-   prop's own attached extras) are **not** imported — they carry only a
-   `GameObject` reference, no prefab-name string, so there's nothing to
-   write into `PrefabName`; entries that have children are counted and
-   flagged in the warning list instead of silently losing detail.
+   `Flipped` = `flipX`) — these are already in the same room-local frame
+   `spawnPos` uses, so no hex conversion or pad math applies to them,
+   matching the precedent set for spawns. Nested
+   `TemplateObjectDataChild` sub-decorations (a prop's own attached
+   extras) are **not** imported — they carry only a `GameObject`
+   reference, no prefab-name string, so there's nothing to write into
+   `PrefabName`; entries that have children are counted and flagged in
+   the warning list instead of silently losing detail.
+
+   **Follow-up bug, same day: imported props stopped rendering
+   entirely** once bug 4 shipped alongside the host-spawn-suppress fix
+   below — the editor listed them (that part worked), but nothing
+   appeared on the board. Root cause: `PrefabName` was read from
+   `TemplateObjectData.prefabName`, and grepping vanilla's own runtime
+   confirmed that string is **never read anywhere** — only
+   `EncounterEntitiesGenerator.InstantiateObject`'s use of
+   `prefabReference` (a direct object reference, not a name lookup)
+   actually spawns a prop in real gameplay. The string field is
+   editor-only and evidently often blank or stale, so `EncounterPropCatalog.Load`
+   (which looks a name up in the `scenario` bundle) had nothing
+   reliable to search for. Fixed by preferring
+   `prefabReference.name` — the actual asset name the game itself
+   instantiates — over the string field, and by loading the `scenario`
+   bundle before reading `encounterObjs` so a cross-bundle reference has
+   a chance to resolve rather than reading null off a `templates`-only
+   load. Also widened `EncounterPropCatalog.Load` to fall back to the
+   `templates` bundle when a name isn't in the curated `scenario` deco
+   catalog, since some room-specific dressing is embedded directly in
+   `templates` rather than the shared deco set — and added a
+   `LogWarning` (previously only a transient status label) naming the
+   prefab whenever a prop still can't be loaded, so a future miss is
+   diagnosable from the log instead of another round of guessing.
+   Editing an imported prop needed no separate fix — the Node Tree/
+   inspector (`EncounterNodes.ContributeProps`/`DrawProp`) is already
+   fully data-driven off `EncounterFileModel.Props`, the same path
+   manually-added props use, so once a prop is in that list it's
+   editable for free.
 
 Also fixed two smaller bugs found during the same investigation:
 `CinematicDropped` was being **overwritten** by a final assignment
@@ -287,10 +318,14 @@ before (bug 2 — the fix changed which `Layout` origin spawns use;
 moved); confirm the Sandbox camera clamps to something sane once
 armed, not left free-floating (bug 3 — check Sandbox, Setup is expected
 to stay unclamped); confirm the props the user saw in-game now show up
-as rows in the Lab's Props list and are individually selectable/editable
-(bug 4); check the log for how many props had children dropped and
-whether that list looks complete against what's visible in the room;
-check the log for variant-count warnings on rooms with more than one
+as rows in the Lab's Props list, are individually selectable/editable,
+and actually render on the board again (bug 4 and its same-day
+follow-up — check `LogOutput.log` for `Could not load prop` warnings if
+any are still missing, which will name the exact prefab that failed);
+check the log for how many props had children dropped, how many were
+unresolved (no prefabReference and no prefabName), and whether that
+list looks complete against what's visible in the room; check the log
+for variant-count warnings on rooms with more than one
 `EncounterBkgDefinition`; try a 20×24 room (e.g. from the "What
 fraction are 20×24" open question) to confirm the `AuthoredSize` fix
 still produces a correctly-sized live board instead of clipping at the
