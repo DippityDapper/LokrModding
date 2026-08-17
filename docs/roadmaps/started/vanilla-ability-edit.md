@@ -196,6 +196,17 @@ worked but wasn't the intent). `ResolveTargetLibrary` now returns null
 and the copy buttons show a status message telling the author to open
 the target library first.
 
+**File → Browse Vanilla Abilities... is now gated on a library being
+open** (`isVisible: IsLibraryOpen`, the same guard "New Ability"
+already uses), also changed 2026-08-17. It was reachable from the
+Project Browser before any project was open at all — matching Character's
+always-visible "Edit Vanilla Hero...", which works because extracting
+*is* creating the project. Ability's copy needs a pre-existing target
+library to copy into, so once `ResolveTargetLibrary` stopped
+auto-creating one, that always-visible entry became a dead end: browse,
+then every Copy button just refuses. Gating the whole entry means it
+only ever appears somewhere Copy can actually succeed.
+
 **Suspected gap, disproven in-game:** worried the Ability Library
 browser's node tree (built from folder names,
 `AbilityLabPaths.EnumerateAbilitiesIn`, not each folder's parsed block
