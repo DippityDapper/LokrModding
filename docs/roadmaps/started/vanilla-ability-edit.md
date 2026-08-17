@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phase 1 (read-only reference browser) confirmed in-game 2026-08-17  
+**Status:** Started — Phase 1 confirmed in-game; Phase 2 (copy-into-library pipeline) code complete, in-game confirm pending  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -149,20 +149,59 @@ with compiled fallbacks in `AbilityHoverCopy.LoadDefaults`).
 
 ### Phase 2 — Copy-into-library pipeline
 
-Copy `_extracted/base-game/AbilitiesScript/<id>.txt` into
-`AbilityLabPaths.AbilityDefinitionPath`. Branch:
+**Status:** Code complete 2026-08-17. In-game confirm pending.
 
-- Fork: mint `slug_token`, rekey with `AbilityIdentityRekey` patterns.
-- Override: mint `slug_token` folder; keep vanilla block key; warn that
-  this is global.
+Same source correction as Phase 1: copies from `VanillaAbilityCatalog`'s
+live-read cache (`VanillaAbilityCatalog.FindSourceText`), not the
+dev-only `_extracted/base-game/AbilitiesScript/<id>.txt`.
+[`VanillaAbilityImporter`](../../../LokrLab/Ability/Editor/VanillaAbilityImporter.cs)
+writes the vanilla KV block text back out close to verbatim (not a
+`TryLoad`→`AbilityFileModel`→`TryBuildText` round-trip, which is lossy —
+see Phase 3, and the class's own remarks) into a newly minted
+`slug_token` folder in both modes:
 
-Pull `SKILL_<id>_*` and referenced `COMBAT_MODIFIER_*` into
-`localization_en_US.txt`. Vanilla `Icon` string still resolves from the
-bundle unless the author adds `icons/<Icon>.png`.
+- **Fork:** rewrites the block key and, if present, an explicit
+  `LocalizationId` field to the minted id, so `SKILL_<mintedId>_*`
+  resolves independently of vanilla.
+- **Override:** keeps the vanilla block key untouched inside
+  `ability.txt`; only the *folder* is a minted `slug_token`, so two
+  overrides (or an override sitting next to an unrelated ability) never
+  collide on disk. Confirmed no "warn this is global" UI yet — that's
+  Phase 4's confirm modal, not built here.
 
-Reuse `AbilityKvIO.TryLoad`, `LegacyModImporter` loc copy. If override
-needs a load-path flag (`project.json` / folder convention), add it
-on `AbilityLabContentLoader` rather than a second importer.
+Localization: pulls `SKILL_<id or LocalizationId>_*` and every
+referenced `COMBAT_MODIFIER_<id>_*` (modifier ids from
+`Body.Modifiers` and `ApplyModifier`/`RemoveModifier`'s `ModifierName`
+field) from the **live merged `LocalizationManager.instance.DatabaseClone`**
+table (not the dev-only extract either) into `localization_en_US.txt`.
+Vanilla `Icon` string is left untouched — confirmed it already resolves
+from the bundle unless the author later adds `icons/<Icon>.png`
+(`PortraitPatches.LoadSkillIcon_Patch`).
+
+Drive-by fix bundled with this: `AbilityEventNames.AllModifierEvents`
+was missing `OnSpawn` (present in `DefaultModifierEvents`, so the
+add-event menu already offered it) — silently rejected any `TrySave` of
+the ~13 vanilla files whose modifiers use it. Found while scoping this
+pipeline; unrelated to the raw-text-copy approach above but affects the
+same files, so fixed alongside it.
+
+Exposed via **Copy into Library (Override / Fork)** buttons on the
+Phase 1 browser's detail view — not a File → "Edit Vanilla Ability..."
+menu entry, since Phase 3 gates that until round-trip fidelity is
+measured. Targets the open library if one is open, else the first
+existing library, else mints a new "Vanilla Imports" library.
+
+**Known gap, not attempted here:** the Ability Library browser's node
+tree is built from folder names (`AbilityLabPaths.EnumerateAbilitiesIn`),
+not each folder's parsed block key. An Override copy's folder name
+(minted) and its `ability.txt` block key (vanilla) intentionally
+diverge, so it is not guaranteed to be reachable via the existing "Open"
+navigation yet — the copy is still a correct, working override at the
+game's load level (confirmed by the pre-existing hand-written-override
+precedent in "What works today"), just not necessarily browsable in the
+Lab UI. Left for Phase 4/5, the same way Character's equivalent id-split
+took real, dedicated engineering (`VanillaOverrideRules`,
+`RLHeroesGenerator`) across multiple phases rather than a one-line fix.
 
 ### Phase 3 — Round-trip fidelity audit
 
