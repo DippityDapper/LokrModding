@@ -9,3 +9,4 @@ __pycache__/
 *.pyc
 _tmp_fxdump/
 Directory.Build.local.props
+dist/

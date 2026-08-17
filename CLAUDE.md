@@ -79,6 +79,7 @@ Every plugin folder has a `docs/` directory with consistent sections:
 - **`roadmaps/`** — Planning docs grouped by status (`completed/`, `started/`, `not-started/`)
 - **`capabilities-and-gaps.md`** — What works, what doesn't
 - **`mods-folder-structure.md`** — On-disk layout
+- **`git-and-releases.md`** — Repo layout (hub + submodules), fresh-clone setup, `scripts/release-plugin.sh`
 - **`issues/`** — Project issues (`unresolved/`, `unresolved-tested/`,
  `resolved/`); process in `docs/issues/README.md`. Do not move an issue
  to `resolved/` until the fix is confirmed in the running game. A
@@ -194,6 +195,18 @@ dotnet clean LokrModding.sln
 # Unit tests (Unity-free helpers; not an in-game confirm)
 dotnet test LokrModding.sln
 ```
+
+### Cutting a release
+
+```bash
+scripts/release-plugin.sh <PluginName>
+```
+
+Builds that plugin in Release config, packages the deploy layout into
+`dist/<PluginName>-v<version>.zip`, and publishes a GitHub Release on that
+plugin's own repo. See [`docs/git-and-releases.md`](docs/git-and-releases.md)
+for the repo layout (this solution is 10 private repos — a hub with 9
+submodules, one per plugin plus `docs/api`) and full release-script details.
 
 ### Running/Testing
 1. `dotnet build` already deploys each plugin's DLL/PDB straight into
@@ -336,6 +349,7 @@ need a comment on the same commit, not a later pass.
 | **Base-game reference** | Any plugin's `docs/cross-references.md` |
 | **Capabilities & gaps** | `docs/capabilities-and-gaps.md` |
 | **Code documentation standards** | `docs/code-documentation-standards.md` |
+| **Git repo layout & releases** | `docs/git-and-releases.md` |
 | **Original mod analysis** | `../lokr-modding/docs/README.md` (historical reference) |
 
 ## Project Status & Stability

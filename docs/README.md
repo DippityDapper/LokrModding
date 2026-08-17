@@ -11,6 +11,7 @@ Complete documentation for the modular BepInEx plugin architecture that powers m
 - **[mods-folder-structure.md](mods-folder-structure.md)** — `Mods/` category layout (RLHeroes, Characters, Abilities, …)
 - **[code-documentation-standards.md](code-documentation-standards.md)** — XML doc comment rules and how/when to rebake generated `docs/api/` HTML
 - **[issues/](issues/README.md)** — open, unit-tested-but-unconfirmed, and resolved project issues (`unresolved/`, `unresolved-tested/`, `resolved/`)
+- **[git-and-releases.md](git-and-releases.md)** — repo layout (hub + submodules), fresh-clone setup, and `scripts/release-plugin.sh`
 
 ## Plugin documentation
 
