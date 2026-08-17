@@ -1,6 +1,6 @@
 # Vanilla Encounter Edit
 
-**Status:** Started — Phase 1 research complete 2026-08-17 (both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source). Implementation not started  
+**Status:** Started — Phase 1 (import spike) code complete 2026-08-17, in-game confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Encounter
@@ -120,8 +120,69 @@ source (see Phase 1's "Corrections to this doc's original assumptions"):
 
 ### Phase 1 — Import spike (one room)
 
-**Status:** Research complete 2026-08-17 — both open questions below
-resolved against decompiled source. Implementation not started.
+**Status:** Code complete 2026-08-17. In-game confirm pending — see
+verify list below. Both open questions resolved against decompiled
+source (below).
+
+**Implementation.** [`VanillaEncounterImporter`](../../../LokrLab/Encounter/VanillaEncounterImporter.cs)
+reads `EncounterTemplate.encounterDefinitions[0]` /
+`.encounterBkgDefinitions[0]` off a `templates`-bundle prefab (reusing
+`EncounterTerrainCatalog.LoadPrefab`, promoted to `internal` — never
+instantiates the prefab, never starts a fight embed), converts
+`spawnPos`/`boardMetadata` room-local cube coords to live board
+`OffsetCoord` via a freshly-constructed `Layout` (the same hex-size
+constant `LevelManager.CreateLevelFromFile` hardcodes — no live
+`Stage`/`HexBoard` needed, since none exists during a cold read-only
+inspect) plus the confirmed `col+=4, row+=2` pad shortcut, and writes a
+brand-new `EncounterFileModel` project: `spawnDataHeroes` →
+`source="spawn"`/GoodSide, `spawnDataEnemies` → `source="unit"` with
+side from the `unitGroup` config key, `boardMetadata`'s impassable
+cells → `overrides[]`, terrains merged for free via the existing
+`EncounterTerrainCatalog.EnsureHostTerrains`. Cinematic spawns dropped
+(no Lab equivalent); `CheckCanSpawn`-gated entries (`notInQuest`,
+`variant-chance`, `variant-quest-context`) are imported anyway and
+counted, not filtered (filtering is impossible at import time — see
+Phase 1's research notes below). Out-of-bounds conversions are dropped
+and counted, never silently clamped.
+
+Also fixed a real pre-existing bug found during research:
+`EncounterPlacementRules.AuthoredSize` was hardcoded to 16×20 for every
+template except one special case — wrong for the ~182 shipped rooms
+(30%) actually sized 20×24. Added `RegisterAuthoredSize`, called by the
+importer with the real `hexWidth`/`hexHeight` it just read, so
+`AuthoredSize`'s existing callers (board sizing, placement clamping,
+warnings) get the correct live size for any template that's been
+imported at least once, without needing to change.
+
+**Triggered via File → Import Vanilla Encounter...**
+([`VanillaEncounterImportModal`](../../../LokrLab/Encounter/VanillaEncounterImportModal.cs))
+— a name picker (reusing `EncounterTerrainCatalog.ListStages()`), no
+separate detail/preview step before committing (unlike the Ability
+track's browser) since importing always creates a brand-new project
+rather than touching anything existing, so there's no override
+blast-radius concern to show first. Registered with no `isVisible`
+guard, reachable from the Project Browser. Full loss-list counts
+(cinematic dropped, gated, out of bounds, variant-count warnings)
+logged; a summary shown in the modal's status label.
+
+**Not attempted in this pass:** `props[]`, `tiles[]`, and `camera` are
+all explicitly deferred to Phase 2/3 per this doc's own phase
+boundaries — the imported project keeps `template` set to the vanilla
+name, so host art (including the floor) renders without needing a tile
+import, and `camera` is skippable in v1 since vanilla's own
+`encounterLimits` is unusable anyway (see the corrections below).
+
+**In-game verify needed** (nothing here has been run against the live
+game yet): pick `combat_banditambush` from the picker; confirm hero and
+enemy spawns land on plausible hexes (the hex-math constants are
+transcribed from decompiled source, not yet checked against a real
+board); confirm impassable overrides match the vanilla room's actual
+walkable/blocked layout; confirm the imported project opens in Setup
+and plays correctly in Sandbox; check the log for variant-count
+warnings on rooms with more than one `EncounterBkgDefinition`; try a
+20×24 room (e.g. from the "What fraction are 20×24" open question) to
+confirm the `AuthoredSize` fix actually produces a correctly-sized live
+board instead of clipping at the old hardcoded 16×20.
 
 In-game, read-only: load `combat_banditambush` the way
 `EncounterTerrainCatalog.LoadPrefab` already does. Read the encounter
