@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phase 1 confirmed in-game; Phase 2 (copy-into-library pipeline) code complete, in-game confirm pending  
+**Status:** Started — Phases 1–2 confirmed in-game 2026-08-17  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -149,7 +149,7 @@ with compiled fallbacks in `AbilityHoverCopy.LoadDefaults`).
 
 ### Phase 2 — Copy-into-library pipeline
 
-**Status:** Code complete 2026-08-17. In-game confirm pending.
+**Status:** Complete — confirmed in-game 2026-08-17 (Gerald's sword ability, both Override and Fork).
 
 Same source correction as Phase 1: copies from `VanillaAbilityCatalog`'s
 live-read cache (`VanillaAbilityCatalog.FindSourceText`), not the
@@ -191,17 +191,21 @@ menu entry, since Phase 3 gates that until round-trip fidelity is
 measured. Targets the open library if one is open, else the first
 existing library, else mints a new "Vanilla Imports" library.
 
-**Known gap, not attempted here:** the Ability Library browser's node
-tree is built from folder names (`AbilityLabPaths.EnumerateAbilitiesIn`),
-not each folder's parsed block key. An Override copy's folder name
-(minted) and its `ability.txt` block key (vanilla) intentionally
-diverge, so it is not guaranteed to be reachable via the existing "Open"
-navigation yet — the copy is still a correct, working override at the
-game's load level (confirmed by the pre-existing hand-written-override
-precedent in "What works today"), just not necessarily browsable in the
-Lab UI. Left for Phase 4/5, the same way Character's equivalent id-split
-took real, dedicated engineering (`VanillaOverrideRules`,
-`RLHeroesGenerator`) across multiple phases rather than a one-line fix.
+**Suspected gap, disproven in-game:** worried the Ability Library
+browser's node tree (built from folder names,
+`AbilityLabPaths.EnumerateAbilitiesIn`, not each folder's parsed block
+key) would not reliably navigate to an Override copy, since its folder
+name (minted) and `ability.txt` block key (vanilla) intentionally
+diverge. Tested directly: both the Override and Fork copies showed up
+in the Assassin library browser, and Open correctly loaded the Override
+copy's content — so this is not a live bug for at least this case. Left
+as a documented risk rather than deleted outright, since only one
+ability was tested; revisit if a future copy doesn't open correctly.
+
+Copies land in whichever library is currently open in the Lab
+(`ResolveTargetLibrary`'s first preference) — confirmed working as
+designed when the user copied into an already-open Assassin library
+rather than a dedicated one.
 
 ### Phase 3 — Round-trip fidelity audit
 
