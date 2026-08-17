@@ -1,6 +1,6 @@
 # Vanilla Encounter Edit
 
-**Status:** Started — Phase 1 (import spike) code complete 2026-08-17, in-game confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
+**Status:** Started — Phase 1 (import spike). Second in-game test 2026-08-17 confirmed floor/walkable/camera/props fixes worked but found host units double-spawning; fixed same day, re-confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Encounter
@@ -242,13 +242,27 @@ call, since that registration is in-memory only and doesn't survive a
 reload — `EncounterGrowRules.Normalize`/`ExpandAuthoredSizeIntoOverrides`
 is the file format's own durable mechanism for this.
 
-**Still unverified, flagged not fixed:** whether importing a populated
-host template causes vanilla's own enemies to spawn a second time
-alongside the imported combatants when that template is later loaded
-live (the importer only ever reads the prefab, never touches how
-vanilla itself spawns from it) — this is the same risk Phase 3's "Host
-strategy" open question already tracks, not a new one, but the first
-in-game test didn't confirm it either way.
+**Confirmed and fixed (second in-game test, 2026-08-17): the host's own
+baked-in units were double-spawning.** The risk flagged above turned
+out real: loading an imported project's `template` room through vanilla
+`LevelManager` still ran that same room's own
+`EncounterDefinition.InitializeEncounter` (enemies, cinematic units,
+hero placement) and `InitializeObjects` (props) — on top of
+`EncounterRoster.Spawn` placing the Lab's own imported copy of the same
+data, landing both sets on the same hexes. Fixed in
+[`EncounterHostSpawnSuppressPatch`](../../../LokrLab/Encounter/Patches/EncounterHostSpawnSuppressPatch.cs)
+(two Harmony prefixes, one per vanilla method, both gated on
+`EmbeddedFightHost.EncounterOwnsEmbed` — true only for Encounter
+Setup/Sandbox, never a campaign fight) that skip the vanilla call
+entirely so only the Lab's own roster spawns. This also protects any
+hand-authored (non-imported) project that happens to point `template`
+at a room with baked spawn data, not just imported ones. Not yet
+re-confirmed in-game after this fix — this is the same underlying
+mechanism Phase 3's "Host strategy" open question already tracks for
+the eventual campaign-load hook (see the note at the top of this doc
+distinguishing the two: this patch only affects the Lab's own embed,
+not `LevelManager.CreateLevelFromFile` for a real campaign load, which
+Phase 5 still needs to hook separately).
 
 **Originally deferred, now covered above:** `props[]`, `tiles[]`, and
 `camera` were explicitly deferred to Phase 2/3 in the initial cut — the
@@ -261,8 +275,10 @@ deferral, was the actual break) and asked for camera now instead of
 later (bug 3). `tiles[]` (custom terrain painting beyond the host's own
 floor) is still deferred to Phase 2 as originally planned.
 
-**In-game re-verify needed** (the four fixes above are code-complete
-and unit-tested but have not run against the live game yet): pick
+**In-game re-verify needed** (the fixes above are code-complete and
+unit-tested but have not run against the live game yet): confirm each
+combatant/prop appears exactly once on the board, not doubled (the
+host-spawn-suppress fix); pick
 `combat_banditambush` from the picker again; confirm the floor renders
 and unblocked hexes are actually walkable in Setup (bug 1); confirm
 hero and enemy spawns land on plausible hexes, not one hex off from
