@@ -1,6 +1,6 @@
 # Vanilla Ability Edit
 
-**Status:** Started — Phase 1 (read-only reference browser) code complete, in-game confirm pending  
+**Status:** Started — Phase 1 (read-only reference browser) confirmed in-game 2026-08-17  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Ability + LokrCharacterLoader
@@ -112,7 +112,7 @@ Non-goals: a second ability VM; editing `Mods/*/Lua/` script files
 
 ### Phase 1 — Reference browser (read-only)
 
-**Status:** Code complete 2026-08-17. In-game confirm pending.
+**Status:** Complete — confirmed in-game 2026-08-17.
 
 Correction to the original plan: [`abilities.html`](../../api/character-reference/abilities.html)
 is a hand-maintained schema page, not a real catalog — the actual
@@ -145,12 +145,7 @@ row (`ability.vanilla.Browse`, `ability.vanilla.OverrideVsFork` in
 [`LokrLab/Sidecars/ability-hover.md`](../../../LokrLab/Sidecars/ability-hover.md),
 with compiled fallbacks in `AbilityHoverCopy.LoadDefaults`).
 
-**In-game verify:** File → Browse Vanilla Abilities... lists shipped
-ids; search filters; opening `sasquatch_smash` (the hard case — opaque
-`ActOnHexas`/`AddAsAffected`) shows its opaque action types with raw KV
-readable; a simple ability (e.g. a basic melee swing) shows a clean
-event list with no opaque cards; hover strip shows the override-vs-fork
-copy.
+**In-game verify:** confirmed 2026-08-17.
 
 ### Phase 2 — Copy-into-library pipeline
 

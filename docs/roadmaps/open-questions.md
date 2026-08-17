@@ -18,7 +18,7 @@ confirmed in-game 2026-08-17. **Item 8:** vanilla asset edit.
 [Character](completed/vanilla-character-edit.md) is complete (Phases
 1–5 all confirmed in-game 2026-08-17).
 [Ability](started/vanilla-ability-edit.md) is started (Phase 1 read-only
-reference browser in progress).
+reference browser confirmed in-game 2026-08-17).
 [Encounter](not-started/vanilla-encounter-edit.md) stays research.
 Custom scripting (later plugin) and Custom Adventures stay on
 [extensions.md](not-started/extensions.md).
