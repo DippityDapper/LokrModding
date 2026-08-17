@@ -1,6 +1,6 @@
 # Vanilla Encounter Edit
 
-**Status:** Started — Phase 1 (import spike). Four rounds of same-day fixes 2026-08-17: second in-game test found host units double-spawning, fixed by suppressing the host room's own baked spawn/prop init — which incidentally unmasked a separate, pre-existing prop-loading bug (the host had been the only thing actually rendering props all along; the Lab's own prop-loading path, keyed off an editor-only `prefabName` string vanilla's runtime never reads, had likely never worked). Third test found props gone entirely; fixed by loading props via `prefabReference.name` instead. That same test also surfaced a real gap the host-spawn-suppress fix exposed: vanilla's ambient non-combat units (farmers, villagers) had no Lab equivalent at all — added a new "Decorative Units" concept (schema v14) alongside Combatants and Props. Re-confirm pending. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
+**Status:** Started — Phase 1 (import spike) confirmed in-game 2026-08-17 after four rounds of same-day fixes: second in-game test found host units double-spawning, fixed by suppressing the host room's own baked spawn/prop init — which incidentally unmasked a separate, pre-existing prop-loading bug (the host had been the only thing actually rendering props all along; the Lab's own prop-loading path, keyed off an editor-only `prefabName` string vanilla's runtime never reads, had likely never worked). Third test found props gone entirely; fixed by loading props via `prefabReference.name` instead. That same test also surfaced a real gap the host-spawn-suppress fix exposed: vanilla's ambient non-combat units (farmers, villagers) had no Lab equivalent at all — added a new "Decorative Units" concept (schema v14) alongside Combatants and Props. Fourth in-game test confirmed the fix (`combat_goblinraid` farmers now import, spawn, stay out of initiative, and are editable) — user confirmed "This worked" with no further issues reported. Both open questions resolved; several of this doc's original technical assumptions corrected against decompiled source  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Encounter
@@ -120,13 +120,15 @@ source (see Phase 1's "Corrections to this doc's original assumptions"):
 
 ### Phase 1 — Import spike (one room)
 
-**Status:** Three rounds of in-game testing on 2026-08-17, each finding
-real bugs, all root-caused against decompiled source and fixed same
-day — see "First in-game test: four bugs found and fixed", "Confirmed
-and fixed (second in-game test)", and the props follow-up inside bug 4,
-below. Both open questions resolved against decompiled source (below).
-Re-test pending; nothing below is confirmed until the user re-runs the
-picker in-game.
+**Status:** Confirmed in-game 2026-08-17, after four rounds of same-day
+testing that each found real bugs, all root-caused against decompiled
+source and fixed the same day — see "First in-game test: four bugs
+found and fixed", "Confirmed and fixed (second in-game test)", the
+props follow-up inside bug 4, and "New (third in-game test):
+decorative (non-combat) units", below. Both open questions resolved
+against decompiled source (below). Fourth test confirmed the
+decorations fix with no further issues; user's exact words were "This
+worked."
 
 **Implementation.** [`VanillaEncounterImporter`](../../../LokrLab/Encounter/VanillaEncounterImporter.cs)
 reads `EncounterTemplate.encounterDefinitions[0]` /
@@ -287,12 +289,12 @@ data, landing both sets on the same hexes. Fixed in
 Setup/Sandbox, never a campaign fight) that skip the vanilla call
 entirely so only the Lab's own roster spawns. This also protects any
 hand-authored (non-imported) project that happens to point `template`
-at a room with baked spawn data, not just imported ones. Not yet
-re-confirmed in-game after this fix — this is the same underlying
-mechanism Phase 3's "Host strategy" open question already tracks for
-the eventual campaign-load hook (see the note at the top of this doc
-distinguishing the two: this patch only affects the Lab's own embed,
-not `LevelManager.CreateLevelFromFile` for a real campaign load, which
+at a room with baked spawn data, not just imported ones. Confirmed
+in-game (third test, 2026-08-17): no more duplicates. This is the same
+underlying mechanism Phase 3's "Host strategy" open question already
+tracks for the eventual campaign-load hook (see the note at the top of
+this doc distinguishing the two: this patch only affects the Lab's own
+embed, not `LevelManager.CreateLevelFromFile` for a real campaign load, which
 Phase 5 still needs to hook separately).
 
 **New (third in-game test, 2026-08-17): decorative (non-combat) units —
@@ -323,7 +325,7 @@ a unit-id combo field the same suggestions as a combatant's unit id
 use). The `ImportResult.CinematicDropped` counter is retired —
 everything that was being silently dropped is now imported as a
 decoration and counted in the new `CinematicImported` field instead.
-Not yet confirmed in-game.
+Confirmed in-game (fourth test, 2026-08-17): "This worked."
 
 **Originally deferred, now covered above:** `props[]`, `tiles[]`, and
 `camera` were explicitly deferred to Phase 2/3 in the initial cut — the
@@ -336,34 +338,27 @@ deferral, was the actual break) and asked for camera now instead of
 later (bug 3). `tiles[]` (custom terrain painting beyond the host's own
 floor) is still deferred to Phase 2 as originally planned.
 
-**In-game re-verify needed** (the fixes above are code-complete and
-unit-tested but have not run against the live game yet): confirm each
-combatant/prop appears exactly once on the board, not doubled (the
-host-spawn-suppress fix); pick
-`combat_banditambush` from the picker again; confirm the floor renders
-and unblocked hexes are actually walkable in Setup (bug 1); confirm
-hero and enemy spawns land on plausible hexes, not one hex off from
-before (bug 2 — the fix changed which `Layout` origin spawns use;
-`boardMetadata` overrides were already correct and shouldn't have
-moved); confirm the Sandbox camera clamps to something sane once
-armed, not left free-floating (bug 3 — check Sandbox, Setup is expected
-to stay unclamped); confirm the props the user saw in-game now show up
-as rows in the Lab's Props list, are individually selectable/editable,
-and actually render on the board again (bug 4 and its same-day
-follow-up — check `LogOutput.log` for `Could not load prop` warnings if
-any are still missing, which will name the exact prefab that failed);
-check the log for how many props had children dropped, how many were
-unresolved (no prefabReference and no prefabName), and whether that
-list looks complete against what's visible in the room; check the log
-for variant-count warnings on rooms with more than one
-`EncounterBkgDefinition`; try a 20×24 room (e.g. from the "What
-fraction are 20×24" open question) to confirm the `AuthoredSize` fix
-still produces a correctly-sized live board instead of clipping at the
-old hardcoded 16×20; import `combat_goblinraid` and confirm its farmers
-show up as rows under the new Decorations Node Tree folder, spawn on
-the board, stand idle (never join initiative or take a turn — check the
-initiative bar has no extra entries), and are editable (unit id, hex,
-facing) the same way a Prop is.
+**Confirmed in-game (2026-08-17), across `combat_banditambush` and
+`combat_goblinraid`:** floor renders and unblocked hexes are walkable
+in Setup (bug 1); hero/enemy spawns land on plausible hexes (bug 2);
+Sandbox camera clamps once armed (bug 3); props show up as rows in the
+Lab's Props list, are individually selectable/editable, and render on
+the board (bug 4 and its same-day follow-up); each combatant/prop
+appears exactly once, not doubled (host-spawn-suppress fix);
+`combat_goblinraid`'s farmers show up under the new Decorations folder,
+spawn on the board, stay out of initiative, and are editable
+(decorative units). User's own words each round: "This worked."
+
+**Still open, not yet explicitly re-tested:** a 20×24 room (e.g. from
+the "What fraction are 20×24" open question) to confirm the
+`AuthoredSize` fix produces a correctly-sized live board instead of
+clipping at the old hardcoded 16×20 — `combat_banditambush` and
+`combat_goblinraid` were not confirmed as 20×24 rooms, so this specific
+edge case is still unverified; and the `LogOutput.log` loss-list counts
+(EncounterDefinition/Bkg variant warnings, props with dropped children,
+unresolved props) have not been reviewed against what's actually in
+either tested room, so there's no confirmation the reported counts are
+complete rather than just non-crashing.
 
 In-game, read-only: load `combat_banditambush` the way
 `EncounterTerrainCatalog.LoadPrefab` already does. Read the encounter
