@@ -188,8 +188,13 @@ same files, so fixed alongside it.
 Exposed via **Copy into Library (Override / Fork)** buttons on the
 Phase 1 browser's detail view — not a File → "Edit Vanilla Ability..."
 menu entry, since Phase 3 gates that until round-trip fidelity is
-measured. Targets the open library if one is open, else the first
-existing library, else mints a new "Vanilla Imports" library.
+measured. Targets the currently open library only — no longer falls
+back to "the first library that happens to exist" or silently mints one
+(changed 2026-08-17 after the first pass did exactly that: both a
+Fork and an Override copy landed in whatever library was open, which
+worked but wasn't the intent). `ResolveTargetLibrary` now returns null
+and the copy buttons show a status message telling the author to open
+the target library first.
 
 **Suspected gap, disproven in-game:** worried the Ability Library
 browser's node tree (built from folder names,
@@ -202,10 +207,20 @@ copy's content — so this is not a live bug for at least this case. Left
 as a documented risk rather than deleted outright, since only one
 ability was tested; revisit if a future copy doesn't open correctly.
 
-Copies land in whichever library is currently open in the Lab
-(`ResolveTargetLibrary`'s first preference) — confirmed working as
-designed when the user copied into an already-open Assassin library
-rather than a dedicated one.
+**Delete bug found and fixed 2026-08-17:** deleting an Override copy
+from its own editor ("Delete" button, `AbilityEditorPanel.OnDeleteClicked`)
+silently no-opped. It deleted via
+`AbilityListPanel.DeleteAbility(current.Id)`, which re-derives the
+folder from the id through `AbilityLabPaths.FindLibraryFolderForAbility`
+— an id→folder-name lookup that assumes they're equal, true for every
+Lab-authored ability but not for an Override copy (folder name is
+minted, block key stays vanilla, by design). The lookup found nothing
+and returned early. Fixed by deleting from
+`AbilityFileModel.SourceFilePath`'s own directory instead (added
+`AbilityListPanel.DeleteAbilityFolder`) — exact, no re-derivation, works
+for both modes. `Save` was already safe (`TrySave` prefers
+`SourceFilePath` over an id-based path); this was specifically a Delete
+bug.
 
 ### Phase 3 — Round-trip fidelity audit
 
