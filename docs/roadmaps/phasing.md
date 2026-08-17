@@ -51,8 +51,9 @@ order — [priorities.md](completed/full-port/priorities.md) gives its own prior
    **complete** (Phases 1–5 all confirmed in-game 2026-08-17).
    [vanilla-ability-edit.md](completed/vanilla-ability-edit.md) is
    **complete** (Phases 1–5 confirmed in-game 2026-08-17).
-   [vanilla-encounter-edit.md](not-started/vanilla-encounter-edit.md)
-   stays research. Custom scripting and Custom Adventures stay on
+   [vanilla-encounter-edit.md](started/vanilla-encounter-edit.md) is
+   **started** (Phase 1 import-spike research in progress). Custom
+   scripting and Custom Adventures stay on
    [extensions.md](not-started/extensions.md) (quest / map authoring,
    not one-room override).
 

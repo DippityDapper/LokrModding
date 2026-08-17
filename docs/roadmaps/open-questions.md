@@ -19,7 +19,8 @@ confirmed in-game 2026-08-17. **Item 8:** vanilla asset edit.
 1–5 all confirmed in-game 2026-08-17).
 [Ability](completed/vanilla-ability-edit.md) is complete (Phases 1–5
 confirmed in-game 2026-08-17).
-[Encounter](not-started/vanilla-encounter-edit.md) stays research.
+[Encounter](started/vanilla-encounter-edit.md) is started (Phase 1
+import-spike research in progress).
 Custom scripting (later plugin) and Custom Adventures stay on
 [extensions.md](not-started/extensions.md).
 

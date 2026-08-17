@@ -1,6 +1,6 @@
 # Vanilla Encounter Edit
 
-**Status:** Not started — research first  
+**Status:** Started — Phase 1 (import spike) research in progress  
 **Raised:** 2026-08-17  
 **Last updated:** 2026-08-17  
 **Owner:** LokrLab Encounter

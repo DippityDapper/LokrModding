@@ -15,7 +15,7 @@ The dependency order matters: Custom Adventures depends on Encounter
 Creator (v1 done) **and** on vanilla encounter import being solid
 enough to remix a room. **One-room campaign override** (guarded load
 hook when a Lab project claims `combat_banditambush`) lives on
-[vanilla-encounter-edit.md](vanilla-encounter-edit.md), not here.
+[vanilla-encounter-edit.md](../started/vanilla-encounter-edit.md), not here.
 Adventures is quest chains / maps. Custom Scripting can start now that
 the [Ability Lab overhaul](../completed/ability-lab-overhaul.md) is
 complete (Lua card + `RegisterActionCard`). It is a later plugin on
@@ -24,5 +24,5 @@ top of that card, not a rewrite of Ability Lab.
 Before Adventures, research vanilla edit for all three labs:
 [vanilla-character-edit.md](../completed/vanilla-character-edit.md),
 [vanilla-ability-edit.md](../completed/vanilla-ability-edit.md),
-[vanilla-encounter-edit.md](vanilla-encounter-edit.md).
+[vanilla-encounter-edit.md](../started/vanilla-encounter-edit.md).
 

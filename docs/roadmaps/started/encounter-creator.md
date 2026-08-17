@@ -1393,7 +1393,7 @@ After Phase 17:
 
 - `stuff` bundle deco names, if any are missing from `scenario`.
 - **Vanilla room import / remix / load override** is a new research
-  track: [vanilla-encounter-edit.md](../not-started/vanilla-encounter-edit.md).
+  track: [vanilla-encounter-edit.md](../started/vanilla-encounter-edit.md).
   Reconstruct a `templates` prefab into `encounter.json`, play it in
   Sandbox, then (if locked) a **guarded** campaign load hook so that
   room name uses Lab JSON. Do not write prefabs back. Do not globally

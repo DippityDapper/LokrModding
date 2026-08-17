@@ -12,7 +12,7 @@ ability in the card editor and choosing **override** (same id, global)
 vs **fork** (new id, vanilla untouched).
 
 Sibling tracks: [vanilla-character-edit.md](../completed/vanilla-character-edit.md),
-[vanilla-encounter-edit.md](../not-started/vanilla-encounter-edit.md). Catalog already
+[vanilla-encounter-edit.md](../started/vanilla-encounter-edit.md). Catalog already
 exists from the [Ability Lab overhaul](../completed/ability-lab-overhaul.md)
 Phase 1 extract.
 
